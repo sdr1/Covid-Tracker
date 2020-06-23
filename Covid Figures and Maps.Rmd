@@ -447,7 +447,7 @@ plot_usmap(data = CDC_total %>%
 
 ```
 
-## Ratio of Positive Tests to Negative Tests in the Last Two Weeks
+## Positive Tests Over Negative Tests in the Last Two Weeks
 
 ```{r ratio, echo = F, warning = F,cache = T, message = F, fig.width = 11, fig.height = 8.5}
 covid_tracking_data %>% 
@@ -469,7 +469,8 @@ covid_tracking_data %>%
     plot.title = element_text(size=14, face="bold"),
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=10, face="bold")
+    strip.text.x = element_text(size=10, face="bold"),
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
   )
 
 ```

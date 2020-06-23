@@ -1,0 +1,16 @@
+base
+usmap
+ggplot2
+tidyverse
+tibble
+tidyr
+readr
+purrr
+dplyr
+stringr
+forcats
+data.table
+lubridate
+tigris
+dslabs
+gridExtra
