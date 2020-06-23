@@ -1,0 +1,226 @@
+---
+title: "Smalller Covid Figures and Maps"
+author: "Steven Rashin"
+date: "6/22/2020"
+output: html_document
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = F,cache = T, message = F)
+library(usmap)
+library(ggplot2)
+library(tidyverse)
+library(dplyr)
+library(data.table)
+library(tidyr)
+library(lubridate)
+library(tigris)
+library(dslabs)
+library(grid)
+library(gridExtra)
+
+setwd("/Users/stevenrashin/Dropbox/covid data/")
+```
+
+## Data Sources
+
+Data for this report comes from:
+
+* The CDC Homepage <https://www.cdc.gov/covid-data-tracker/index.html#county-map> and <https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/>, specifically:
+    + Confirmed COVID Cases <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_confirmed_usafacts.csv>
+    + Covid Deaths <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_deaths_usafacts.csv>
+    + County Population <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_county_population_usafacts.csv>
+* Covidtracker.com data (used by Johns Hopkins <https://coronavirus.jhu.edu/us-map>) <https://covidtracking.com/api/v1/states/daily.csv>
+
+## Overall Covid Cases
+
+```{r cars, echo = F, warning = F,cache = T, message = F,fig.width = 11, fig.height = 8.5}
+### CDC linked data ###
+CDC_cases <- fread('https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_confirmed_usafacts.csv')
+CDC_deaths <- fread('https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_deaths_usafacts.csv')
+
+### Population Data ###
+population_data <- fread("https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_county_population_usafacts.csv")
+
+population_data_by_state <- population_data %>%
+  group_by(State) %>%
+  summarize(population = sum(population,na.rm = T))
+
+#CDC_deaths_by_race_and_state <- fread('https://data.cdc.gov/api/views/ks3g-spdg/rows.csv?accessType=DOWNLOAD')
+
+### Reshape data to long, tidyreshape is easy so use that! ###
+long_cases <- pivot_longer(CDC_cases, cols=5:length(CDC_cases), names_to = "Date", values_to = "Cases")
+long_cases$Date <- lubridate::mdy(long_cases$Date)
+
+long_deaths <- pivot_longer(CDC_deaths, cols=5:length(CDC_deaths), names_to = "Date", values_to = "Deaths")
+long_deaths$Date <- lubridate::mdy(long_deaths$Date)
+long_deaths$`County Name` <- NULL
+
+CDC_total <- merge(long_cases, long_deaths, by = c("countyFIPS" ,"State","stateFIPS","Date"))
+
+CDC_total <- CDC_total %>% 
+  mutate(Week = lubridate::week(Date),
+         Day = lubridate::yday(Date),
+         Month = lubridate::month(Date))
+
+
+rm(CDC_cases, CDC_deaths, long_cases, long_deaths,any_dupes_CDC_cases, any_dupes_CDC_deaths)
+
+### COVID tracking data from https://covidtracking.com/data/download ###
+#confirmed_cases_covid_tracker <- fread("https://covidtracking.com/api/v1/us/daily.csv")
+covid_tracking_data <- fread("https://covidtracking.com/api/v1/states/daily.csv")
+
+#Rename variables as necessary to make it easy to compare between data sets
+covid_tracking_data$Date <- lubridate::ymd(covid_tracking_data$date)
+covid_tracking_data$State <- covid_tracking_data$state
+
+#### Plot New Cases BY STATE with week long kernal smoother ####
+# trend line modified from https://rafalab.github.io/dsbook/smoothing.html
+# note that kernl = normal prodices better plots than kernel = box as some states (e.g. MS) don't produce data
+# for days at a time and normal smooths this out more than box
+# also, if you want to do loess, use the following code loess(new_cases ~ Day, degree=1, span = 14)$y
+# for a one week average, the normal kernel does better than a loess
+
+CDC_w_trendline <- CDC_total %>% 
+  #filter(State == "MA") %>%
+  group_by(State, stateFIPS, Date, Day, Week) %>%
+  arrange(State, Date, countyFIPS) %>%
+  summarise(total_cases_by_day = sum(Cases),
+            total_deaths_by_day = sum(Deaths)) %>%
+  ungroup() %>% 
+  group_by(State) %>%
+  mutate(new_cases = total_cases_by_day - dplyr::lag(total_cases_by_day, default = 0),
+         new_deaths = total_deaths_by_day - dplyr::lag(total_deaths_by_day, default = 0)) %>%
+  mutate( smooth_new_cases = ksmooth(Day, new_cases, kernel = "normal", bandwidth = 7)$y,
+          smooth_total_cases = ksmooth(Day, total_cases_by_day, kernel = "normal", bandwidth = 7)$y,
+          smooth_deaths = ksmooth(Day, new_deaths, kernel = "normal", bandwidth = 7)$y,
+          smooth_total_deaths = ksmooth(Day, total_deaths_by_day, kernel = "normal", bandwidth = 7)$y)  %>%
+  ungroup() 
+
+covid_tracking_data_w_trendline <- covid_tracking_data %>% filter(State %in% state.abb) %>%
+  mutate(Week = lubridate::week(Date),
+         Day = lubridate::yday(Date)) %>%
+  arrange(State, Date)  %>% 
+  group_by(State) %>%
+  mutate( smooth_new_cases = ksmooth(Day, positiveIncrease, kernel = "normal", bandwidth = 7)$y,
+          smooth_total_cases = ksmooth(Day, positive, kernel = "normal", bandwidth = 7)$y,
+          smooth_deaths = ksmooth(Day, deathIncrease, kernel = "normal", bandwidth = 7)$y,
+          smooth_total_deaths = ksmooth(Day, death, kernel = "normal", bandwidth = 7)$y) %>%
+  ungroup() 
+
+
+### Overall Cases in USA ###
+CDC <- CDC_w_trendline %>%
+  ungroup() %>% #filter(State %in% c("MA","NY") & Week > 20) %>%
+  group_by(Date) %>%
+  summarise(total_cases_by_day = sum(total_cases_by_day),
+            total_deaths_by_day = sum(total_deaths_by_day)) %>%
+  ggplot(aes(x = Date, y = total_cases_by_day)) +
+  geom_point(size = 1, alpha = .5) + 
+  geom_point(mapping = aes(x = Date, y = total_deaths_by_day),
+             size = 1, alpha = .5, shape = 2, color = "darkred") +
+  theme_minimal() +
+  scale_y_continuous(label = scales::comma) +
+  xlab("Date") + ylab("Total Cases/Deaths") + 
+  ggtitle("CDC") +
+  theme(
+    plot.title = element_text(size=14, face="bold",hjust = 0.5),
+    axis.title.x = element_text(size=14, face="bold"),
+    axis.title.y = element_text(size=14, face="bold"),
+    strip.text.x = element_text(size=10, face="bold")
+  )
+
+CDC
+```
+
+## Covid Cases in MA in the Last Two Weeks 
+```{r MA Cases,echo = F, warning = F,cache = T, message = F, fig.width = 13, fig.height = 8.5}
+# New cases by state by day, log scale, with week long trend line
+# use log scale otherwhise NY and MA overwhelm other states
+CDC_w_trendline %>% filter(State == "MA" & Week %in% c(max(Week), max(Week)-1)) %>%
+  ggplot(aes(x = Date, y = new_cases)) +
+  geom_point(size = 1, alpha = .5) + 
+  geom_line(aes(Date, smooth_new_cases), color="darkblue") +
+  scale_y_continuous(label = scales::number_format(accuracy = 1)) +
+  theme_minimal() +
+  xlab("Date") + ylab("New Cases Per Day") +
+  theme(
+    plot.title = element_text(size=14, face="bold"),
+    axis.title.x = element_text(size=14, face="bold"),
+    axis.title.y = element_text(size=14, face="bold"),
+    strip.text.x = element_text(size=10, face="bold")
+  )
+```
+
+## Latest Cases in Boston Area
+
+```{r MA Local,echo = F, warning = F,cache = T, message = F, fig.width = 13, fig.height = 8.5}
+
+Latest_Near_Me <- 
+CDC_total %>% filter(countyFIPS %in% c(25017,25021, 25025) & 
+                       Week %in% c((max(Week)-3):max(Week) )) %>% 
+  ungroup () %>%
+  group_by(countyFIPS) %>%
+  arrange(Date) %>%
+  mutate(`New Cases` = Cases - dplyr::lag(Cases, default = 0),
+         `New Deaths` = Deaths - dplyr::lag(Deaths, default = 0)) %>% 
+  filter(Date %in% c((max(Date)-7):max(Date) )) %>%
+  arrange(`County Name`, desc(Date)) %>% 
+  ungroup() 
+
+knitr::kable(Latest_Near_Me %>% select(Date,`County Name`, Cases, Deaths, `New Cases`, `New Deaths`)) 
+
+```
+
+## New Covid Cases By State: Log Scale Cases
+
+```{r,echo = F, warning = F,cache = T, message = F, fig.width = 13, fig.height = 8.5}
+# New cases by state by day, log scale, with week long trend line
+# use log scale otherwhise NY and MA overwhelm other states
+CDC_w_trendline %>% #filter(State == "OK") %>%
+  ggplot(aes(x = Date, y = new_cases)) +
+  geom_point(size = 1, alpha = .5) + 
+  geom_line(aes(Date, smooth_new_cases), color="darkblue") +
+  scale_y_continuous(label = scales::number_format(accuracy = 1),trans='log10') +
+  facet_wrap(~ State) + #, scales = "free") + # free scales scales each state individually
+  theme_minimal() +
+  xlab("Date") + ylab("New Cases Per Day") +
+  theme(
+    plot.title = element_text(size=14, face="bold"),
+    axis.title.x = element_text(size=14, face="bold"),
+    axis.title.y = element_text(size=14, face="bold"),
+    strip.text.x = element_text(size=10, face="bold")
+  )
+```
+
+## Latest County Case Map
+```{r,echo = F, warning = F,cache = T, message = F, fig.width = 13, fig.height = 8.5}
+# Overall level on the most recent day
+usmap::plot_usmap("counties", labels = F, include = state.abb,
+                  data = CDC_total %>% 
+                    filter(countyFIPS > 10 & # & Date == max(Date),
+                             State %in% state.abb &
+                           Date == max(Date)) %>%
+                    dplyr::rename(fips = countyFIPS, 
+                                  abbr = State) %>%
+                    select(fips, Date, Cases), 
+                  values = "Cases") + 
+  scale_fill_continuous(low = "blue", high = "red",name = "Covid Cases", label = scales::comma) + #trans = "log10",
+  theme(legend.position = "right") + 
+  facet_wrap(~ Date)  + 
+  theme_void() + xlab("") + ylab("") +
+  theme(
+    plot.title = element_text(size=14, face="bold"),
+    axis.title.x = element_text(size=14, face="bold"),
+    axis.title.y = element_text(size=14, face="bold"),
+    strip.text.x = element_text(size=14, face="bold")
+  )
+
+```
+
+
+```
+
+
+
