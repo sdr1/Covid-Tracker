@@ -1,7 +1,7 @@
 ---
 title: "Covid Figures and Maps"
 author: "Steven Rashin"
-date: "6/22/2020"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: html_document
 ---
 
@@ -72,8 +72,7 @@ CDC_total <- CDC_total %>%
          Day = lubridate::yday(Date),
          Month = lubridate::month(Date))
 
-
-rm(CDC_cases, CDC_deaths, long_cases, long_deaths,any_dupes_CDC_cases, any_dupes_CDC_deaths)
+rm(CDC_cases, CDC_deaths, long_cases, long_deaths)
 
 ### COVID tracking data from https://covidtracking.com/data/download ###
 #confirmed_cases_covid_tracker <- fread("https://covidtracking.com/api/v1/us/daily.csv")
@@ -131,7 +130,7 @@ CDC <- CDC_w_trendline %>%
   theme_minimal() +
   scale_y_continuous(label = scales::comma) +
   xlab("Date") + ylab("Total Cases/Deaths") + 
-  ggtitle("CDC") +
+  ggtitle(c(paste("CDC Data As Of", as.Date(max(CDC_w_trendline$Date))))) +
   theme(
     plot.title = element_text(size=14, face="bold",hjust = 0.5),
     axis.title.x = element_text(size=14, face="bold"),
@@ -140,7 +139,9 @@ CDC <- CDC_w_trendline %>%
   )
 
 CDC
+
 ```
+
 
 ## Covid Cases in MA in the Last Two Weeks 
 ```{r MA Cases,echo = F, warning = F,cache = T, message = F, fig.width = 13, fig.height = 8.5}
