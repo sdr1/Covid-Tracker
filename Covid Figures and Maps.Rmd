@@ -37,7 +37,7 @@ Data for this report comes from:
 
 ## Overall Covid Cases In The USA
 
-```{r cars, echo = F, warning = F,cache = T, message = F,fig.width = 11, fig.height = 8.5}
+```{r cars, echo = F, warning = F,cache = F, message = F,fig.width = 11, fig.height = 8.5}
 ### CDC linked data ###
 CDC_cases <- fread('https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_confirmed_usafacts.csv')
 CDC_deaths <- fread('https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_deaths_usafacts.csv')
@@ -118,27 +118,6 @@ covid_tracking_data_w_trendline <- covid_tracking_data %>% filter(State %in% sta
   ungroup() 
 
 
-### Overall Cases in USA ###
-# CDC <- CDC_w_trendline %>%
-#   ungroup() %>% #filter(State %in% c("MA","NY") & Week > 20) %>%
-#   group_by(Date) %>%
-#   summarise(total_cases_by_day = sum(total_cases_by_day),
-#             total_deaths_by_day = sum(total_deaths_by_day)) %>%
-#   ggplot(aes(x = Date, y = total_cases_by_day)) +
-#   geom_point(size = 1, alpha = .5) + 
-#   geom_point(mapping = aes(x = Date, y = total_deaths_by_day),
-#              size = 1, alpha = .5, shape = 2, color = "darkred") +
-#   theme_minimal() +
-#   scale_y_continuous(label = scales::comma) +
-#   xlab("Date") + ylab("Total Cases/Deaths") + 
-#   ggtitle(c(paste("CDC Data As Of", as.Date(max(CDC_w_trendline$Date))))) +
-#   theme(
-#     plot.title = element_text(size=14, face="bold",hjust = 0.5),
-#     axis.title.x = element_text(size=14, face="bold"),
-#     axis.title.y = element_text(size=14, face="bold"),
-#     strip.text.x = element_text(size=10, face="bold")
-#   )
-
 NE.abrv <- c("CT","ME","MA","NH","RI","VT","NJ","NY","PA")
 MW.abrv <- c("IN","IL","MI","OH","WI","IA","KS","MN","MO","NE",
              "ND","SD")
@@ -213,10 +192,10 @@ local %>%
   geom_point(size = 1, alpha = .5) + 
   geom_line(aes(Date, smooth_new_cases), color="darkblue") +
   scale_y_continuous(label = scales::number_format(accuracy = 1)) +
-  theme_minimal() +
+  theme_minimal() + ggtitle(c(paste("Cases Up To", max(local$Date)))) +
   xlab("Date") + ylab("New Cases Per Day") +
   theme(
-    plot.title = element_text(size=14, face="bold"),
+    plot.title = element_text(size=14, face="bold",hjust = 0.5),
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
     strip.text.x = element_text(size=10, face="bold")
@@ -233,9 +212,9 @@ CDC_w_trendline %>% filter(State == "MA" & Week %in% c(max(Week), max(Week)-1)) 
   geom_line(aes(Date, smooth_new_cases), color="darkblue") +
   scale_y_continuous(label = scales::number_format(accuracy = 1)) +
   theme_minimal() +
-  xlab("Date") + ylab("New Cases Per Day") +
+  xlab("Date") + ylab("New Cases Per Day") + ggtitle(c(paste("Cases Up To", max(CDC_w_trendline$Date)))) +
   theme(
-    plot.title = element_text(size=14, face="bold"),
+    plot.title = element_text(size=14, face="bold",hjust = 0.5),
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
     strip.text.x = element_text(size=10, face="bold")
@@ -244,7 +223,7 @@ CDC_w_trendline %>% filter(State == "MA" & Week %in% c(max(Week), max(Week)-1)) 
 
 ## Latest Cases in Boston Area
 
-```{r MA Local,echo = F, warning = F,cache = T, message = F, fig.width = 13, fig.height = 8.5}
+```{r MA Local,echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
 
 Latest_Near_Me <- 
 CDC_total %>% filter(countyFIPS %in% c(25017,25021, 25025) & 
@@ -284,7 +263,7 @@ CDC_w_trendline %>% #filter(State == "OK") %>%
 ```
 
 ## Latest County Case Map
-```{r,echo = F, warning = F,cache = T, message = F, fig.width = 13, fig.height = 8.5}
+```{r,echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
 # Overall level on the most recent day
 usmap::plot_usmap("counties", labels = F, include = state.abb,
                   data = CDC_total %>% 
@@ -309,7 +288,7 @@ usmap::plot_usmap("counties", labels = F, include = state.abb,
 ```
 
 ## Latest County Death Map
-```{r deaths_by_county,echo = F, warning = F,cache = T, message = F, fig.width = 13, fig.height = 8.5}
+```{r deaths_by_county,echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
 # Overall level on the most recent day
 # Deaths by county
 usmap::plot_usmap("counties", labels = F, include = state.abb,
@@ -324,12 +303,11 @@ usmap::plot_usmap("counties", labels = F, include = state.abb,
   scale_fill_continuous(low = "blue", high = "red",name = "COVID Deaths", label = scales::comma) + #trans = "log10",
   theme(legend.position = "right") + 
   theme_void() + xlab("") + ylab("") 
-ggsave("deaths_by_county.pdf", width = 11, height = 8.5)
 ```
 
 
 ## Top 5 Counties: Today and The First of Each Month
-```{r top counties,echo = F, warning = F,cache = T, message = F, fig.width = 13, fig.height = 8.5}
+```{r top counties,echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
 
 # Top 5 counties by first of the month
 Top5Counties <- CDC_total %>% 
@@ -625,7 +603,28 @@ covid_tracker <- covid_tracking_data_w_trendline  %>%
   theme_minimal() +
   scale_y_continuous(label = scales::comma) +
   xlab("Date") + ylab("Total Cases/Deaths") + 
-  ggtitle("Covidtracking.com") +
+  ggtitle(c(paste("Covidtracking.com Through",max(covid_tracking_data_w_trendline$Date)))) + 
+  theme(
+    plot.title = element_text(size=14, face="bold",hjust = 0.5),
+    axis.title.x = element_text(size=14, face="bold"),
+    axis.title.y = element_text(size=14, face="bold"),
+    strip.text.x = element_text(size=10, face="bold")
+  )
+
+### Overall Cases in USA ###
+CDC <- CDC_w_trendline %>%
+  ungroup() %>% #filter(State %in% c("MA","NY") & Week > 20) %>%
+  group_by(Date) %>%
+  summarise(total_cases_by_day = sum(total_cases_by_day),
+            total_deaths_by_day = sum(total_deaths_by_day)) %>%
+  ggplot(aes(x = Date, y = total_cases_by_day)) +
+  geom_point(size = 1, alpha = .5) +
+  geom_point(mapping = aes(x = Date, y = total_deaths_by_day),
+             size = 1, alpha = .5, shape = 2, color = "darkred") +
+  theme_minimal() +
+  scale_y_continuous(label = scales::comma) +
+  xlab("Date") + ylab("Total Cases/Deaths") +
+  ggtitle(c(paste("CDC Through", as.Date(max(CDC_w_trendline$Date))))) +
   theme(
     plot.title = element_text(size=14, face="bold",hjust = 0.5),
     axis.title.x = element_text(size=14, face="bold"),
@@ -664,7 +663,7 @@ difference_plot <- difference_in_counts %>%
   theme_minimal() +
   scale_y_continuous(label = scales::comma) +
   xlab("Date") + ylab("Difference in US Cases/Deaths") + 
-  ggtitle("Difference") +
+  ggtitle("CDC Minus Covidtracking.com") +
   theme(
     plot.title = element_text(size=14, face="bold",hjust = 0.5),
     axis.title.x = element_text(size=14, face="bold"),
