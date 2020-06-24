@@ -34,7 +34,7 @@ Data for this report comes from:
 
 
 
-## Overall Covid Cases
+## Overall Covid Cases In The USA
 
 ```{r cars, echo = F, warning = F,cache = T, message = F,fig.width = 11, fig.height = 8.5}
 ### CDC linked data ###
@@ -142,6 +142,30 @@ CDC
 
 ```
 
+## Covid Cases in Somerville, MA in the Last Two Weeks
+```{r Somerville, echo = F, warning = F,cache = T, message = F, fig.width = 13, fig.height = 8.5}
+local <- fread("https://somerville-dashboardcovid.trial.opendatasoft.com/explore/dataset/daily-c19-case-counts/download/?format=csv&timezone=America/New_York&lang=en&use_labels_for_header=true&csv_separator=%2C")
+local$Date <- lubridate::ymd(gsub(pattern = "T.{1,}$", replacement = "", x = local$Date))
+local %>% 
+    mutate(new_cases = Positive - dplyr::lag(Positive, default = 0),
+         new_deaths = Fatalities - dplyr::lag(Fatalities, default = 0),
+         Day = lubridate::yday(Date),
+         Week = lubridate::week(Date)) %>%
+    mutate( smooth_new_cases = ksmooth(Day, new_cases, kernel = "normal", bandwidth = 7)$y) %>%
+  filter(Week %in% c(max(Week), max(Week)-1)) %>%
+  ggplot(aes(x = Date, y = new_cases)) +
+  geom_point(size = 1, alpha = .5) + 
+  geom_line(aes(Date, smooth_new_cases), color="darkblue") +
+  scale_y_continuous(label = scales::number_format(accuracy = 1)) +
+  theme_minimal() +
+  xlab("Date") + ylab("New Cases Per Day") +
+  theme(
+    plot.title = element_text(size=14, face="bold"),
+    axis.title.x = element_text(size=14, face="bold"),
+    axis.title.y = element_text(size=14, face="bold"),
+    strip.text.x = element_text(size=10, face="bold")
+  )
+```
 
 ## Covid Cases in MA in the Last Two Weeks 
 ```{r MA Cases,echo = F, warning = F,cache = T, message = F, fig.width = 13, fig.height = 8.5}
@@ -248,7 +272,7 @@ ggsave("deaths_by_county.pdf", width = 11, height = 8.5)
 ```
 
 
-## Top 5 Counties 
+## Top 5 Counties: Today and The First of Each Month
 ```{r top counties,echo = F, warning = F,cache = T, message = F, fig.width = 13, fig.height = 8.5}
 
 # Top 5 counties by first of the month
@@ -356,7 +380,7 @@ CDC_w_trendline  %>%
 ```
 
 ## Cases as a Percentage of State Population
-```{r, echo = F, warning = F,cache = T, message = F, fig.width = 11, fig.height = 8.5}
+```{r, echo = F, warning = F,cache = T, message = F, fig.width = 13, fig.height = 8.5}
 # Total cases by state, as a percentage of state population
 CDC_w_trendline %>% #filter(State == "AK") %>%
   left_join(population_data_by_state, by = "State") %>%
@@ -376,28 +400,6 @@ CDC_w_trendline %>% #filter(State == "AK") %>%
   )
 
 
-```
-
-## Cases By State Over Time
-
-```{r,, echo = F, warning = F,cache = T, message = F, fig.width = 11, fig.height = 8.5}
-# Cases over time
-plot_usmap(data = CDC_total %>% 
-             dplyr::rename(state = State) %>%
-             filter(Date > "2020-02-01" & 
-                      grepl("-01$", Date)) %>%
-             group_by(state, Date) %>%
-             summarise(Cases = sum(Cases, na.rm = T)), values = "Cases", color = "black") + 
-  scale_fill_continuous(low = "blue", high = "red",name = "Covid Cases", label = scales::comma) +
-  theme(legend.position = "right") + 
-  facet_wrap(~ Date) + 
-  theme_void() + xlab("") + ylab("") +
-  theme(
-    plot.title = element_text(size=14, face="bold"),
-    axis.title.x = element_text(size=14, face="bold"),
-    axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=14, face="bold")
-  )
 ```
 
 ## Northeast Cases By Month
@@ -424,6 +426,30 @@ usmap::plot_usmap("counties", labels = F, include = c(.northeast_region), color 
   )
 
 ```
+
+
+## Cases By State Over Time
+
+```{r,, echo = F, warning = F,cache = T, message = F, fig.width = 11, fig.height = 8.5}
+# Cases over time
+plot_usmap(data = CDC_total %>% 
+             dplyr::rename(state = State) %>%
+             filter(Date > "2020-02-01" & 
+                      grepl("-01$", Date)) %>%
+             group_by(state, Date) %>%
+             summarise(Cases = sum(Cases, na.rm = T)), values = "Cases", color = "black") + 
+  scale_fill_continuous(low = "blue", high = "red",name = "Covid Cases", label = scales::comma) +
+  theme(legend.position = "right") + 
+  facet_wrap(~ Date) + 
+  theme_void() + xlab("") + ylab("") +
+  theme(
+    plot.title = element_text(size=14, face="bold"),
+    axis.title.x = element_text(size=14, face="bold"),
+    axis.title.y = element_text(size=14, face="bold"),
+    strip.text.x = element_text(size=14, face="bold")
+  )
+```
+
 
 ## Deaths By State Over Time
 
@@ -476,7 +502,7 @@ covid_tracking_data %>%
 
 ```
 
-## Deeper into the Hospitalization Data
+## Currently Hospitalized Patients
 
 ```{r icu, echo = F, warning = F,cache = T, message = F, fig.width = 11, fig.height = 8.5}
 covid_tracking_data %>% 
@@ -498,7 +524,11 @@ covid_tracking_data %>%
     axis.title.y = element_text(size=14, face="bold"),
     strip.text.x = element_text(size=10, face="bold")
   )
+```
 
+## Patients Currently on Ventilators 
+
+```{r vent, echo = F, warning = F,cache = T, message = F, fig.width = 11, fig.height = 8.5}
 covid_tracking_data %>% 
   filter(State %in% state.abb) %>%
   mutate( Day = lubridate::yday(Date),
