@@ -18,6 +18,7 @@ library(tigris)
 library(dslabs)
 library(grid)
 library(gridExtra)
+library(cowplot)
 
 setwd("/Users/stevenrashin/Dropbox/covid data/")
 ```
@@ -31,7 +32,7 @@ Data for this report comes from:
     + Covid Deaths <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_deaths_usafacts.csv>
     + County Population <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_county_population_usafacts.csv>
 * Covidtracker.com data (used by Johns Hopkins <https://coronavirus.jhu.edu/us-map>) <https://covidtracking.com/api/v1/states/daily.csv>
-
+* Somerville City data <https://somerville-dashboardcovid.trial.opendatasoft.com/pages/citysdashboard/>
 
 
 ## Overall Covid Cases In The USA
@@ -118,19 +119,73 @@ covid_tracking_data_w_trendline <- covid_tracking_data %>% filter(State %in% sta
 
 
 ### Overall Cases in USA ###
-CDC <- CDC_w_trendline %>%
+# CDC <- CDC_w_trendline %>%
+#   ungroup() %>% #filter(State %in% c("MA","NY") & Week > 20) %>%
+#   group_by(Date) %>%
+#   summarise(total_cases_by_day = sum(total_cases_by_day),
+#             total_deaths_by_day = sum(total_deaths_by_day)) %>%
+#   ggplot(aes(x = Date, y = total_cases_by_day)) +
+#   geom_point(size = 1, alpha = .5) + 
+#   geom_point(mapping = aes(x = Date, y = total_deaths_by_day),
+#              size = 1, alpha = .5, shape = 2, color = "darkred") +
+#   theme_minimal() +
+#   scale_y_continuous(label = scales::comma) +
+#   xlab("Date") + ylab("Total Cases/Deaths") + 
+#   ggtitle(c(paste("CDC Data As Of", as.Date(max(CDC_w_trendline$Date))))) +
+#   theme(
+#     plot.title = element_text(size=14, face="bold",hjust = 0.5),
+#     axis.title.x = element_text(size=14, face="bold"),
+#     axis.title.y = element_text(size=14, face="bold"),
+#     strip.text.x = element_text(size=10, face="bold")
+#   )
+
+NE.abrv <- c("CT","ME","MA","NH","RI","VT","NJ","NY","PA")
+MW.abrv <- c("IN","IL","MI","OH","WI","IA","KS","MN","MO","NE",
+             "ND","SD")
+S.abrv <- c("DE","DC","FL","GA","MD","NC","SC","VA","WV","AL",
+            "KY","MS","TN","AR","LA","OK","TX")
+W.abrv <- c("AZ","CO","ID","NM","MT","UT","NV","WY","AK","CA",
+            "HI","OR","WA")
+region.list <- list(
+  Northeast=NE.abrv,
+  Midwest=MW.abrv,
+  South=S.abrv,
+  West=W.abrv)
+
+CDC_w_trendline$Region <- sapply(CDC_w_trendline$State, function(x) names(region.list)[grep(x,region.list)])
+
+CDC_cases <- CDC_w_trendline %>%
   ungroup() %>% #filter(State %in% c("MA","NY") & Week > 20) %>%
-  group_by(Date) %>%
+  group_by(Date, Region) %>%
   summarise(total_cases_by_day = sum(total_cases_by_day),
             total_deaths_by_day = sum(total_deaths_by_day)) %>%
-  ggplot(aes(x = Date, y = total_cases_by_day)) +
-  geom_point(size = 1, alpha = .5) + 
-  geom_point(mapping = aes(x = Date, y = total_deaths_by_day),
-             size = 1, alpha = .5, shape = 2, color = "darkred") +
+  ggplot(aes(x = Date, y = total_cases_by_day, fill = Region)) +
+  geom_area() +
   theme_minimal() +
+  scale_fill_brewer() +
   scale_y_continuous(label = scales::comma) +
-  xlab("Date") + ylab("Total Cases/Deaths") + 
-  ggtitle(c(paste("CDC Data As Of", as.Date(max(CDC_w_trendline$Date))))) +
+  xlab("Date") + ylab("Total Cases") + 
+  ggtitle(c(paste("Total Cases: CDC Data As Of", as.Date(max(CDC_w_trendline$Date))))) +
+  theme(
+    plot.title = element_text(size=14, face="bold",hjust = 0.5),
+    axis.title.x = element_text(size=14, face="bold"),
+    axis.title.y = element_text(size=14, face="bold"),
+    strip.text.x = element_text(size=10, face="bold"),
+    legend.position = "none"
+  )
+
+CDC_deaths <- CDC_w_trendline %>%
+  ungroup() %>% #filter(State %in% c("MA","NY") & Week > 20) %>%
+  group_by(Date, Region) %>%
+  summarise(total_cases_by_day = sum(total_cases_by_day),
+            total_deaths_by_day = sum(total_deaths_by_day)) %>%
+  ggplot(aes(x = Date, y = total_deaths_by_day, fill = Region)) +
+  geom_area() +
+  theme_minimal() +
+  scale_fill_brewer() +
+  scale_y_continuous(label = scales::comma) +
+  xlab("Date") + ylab("Total Deaths") + 
+  ggtitle(c(paste("Total Deaths"))) +
   theme(
     plot.title = element_text(size=14, face="bold",hjust = 0.5),
     axis.title.x = element_text(size=14, face="bold"),
@@ -138,7 +193,8 @@ CDC <- CDC_w_trendline %>%
     strip.text.x = element_text(size=10, face="bold")
   )
 
-CDC
+plot_grid(CDC_cases, CDC_deaths, ncol=2)
+#CDC
 
 ```
 
