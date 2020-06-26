@@ -178,7 +178,7 @@ plot_grid(CDC_cases, CDC_deaths, ncol=2)
 ```
 
 ## Covid Cases in Somerville, MA in the Last Two Weeks
-```{r Somerville, echo = F, warning = F,cache = T, message = F, fig.width = 13, fig.height = 8.5}
+```{r Somerville, echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
 local <- fread("https://somerville-dashboardcovid.trial.opendatasoft.com/explore/dataset/daily-c19-case-counts/download/?format=csv&timezone=America/New_York&lang=en&use_labels_for_header=true&csv_separator=%2C")
 local$Date <- lubridate::ymd(gsub(pattern = "T.{1,}$", replacement = "", x = local$Date))
 local %>% 
@@ -203,7 +203,7 @@ local %>%
 ```
 
 ## Covid Cases in MA in the Last Two Weeks 
-```{r MA Cases,echo = F, warning = F,cache = T, message = F, fig.width = 13, fig.height = 8.5}
+```{r MA Cases,echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
 # New cases by state by day, log scale, with week long trend line
 # use log scale otherwhise NY and MA overwhelm other states
 CDC_w_trendline %>% filter(State == "MA" & Week %in% c(max(Week), max(Week)-1)) %>%
@@ -243,7 +243,7 @@ knitr::kable(Latest_Near_Me %>% select(Date,`County Name`, Cases, Deaths, `New C
 
 ## New Covid Cases By State: Log Scale Cases
 
-```{r,echo = F, warning = F,cache = T, message = F, fig.width = 13, fig.height = 8.5}
+```{r,echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
 # New cases by state by day, log scale, with week long trend line
 # use log scale otherwhise NY and MA overwhelm other states
 CDC_w_trendline %>% #filter(State == "OK") %>%
@@ -329,7 +329,7 @@ knitr::kable(Top5Counties %>% select(Date, abbr,`County Name`, Cases, Deaths) %>
 ```
 
 ## Total Covid Cases By State: Free Scale Cases
-```{r,echo = F, warning = F,cache = T, message = F, fig.width = 15, fig.height = 8.5}
+```{r,echo = F, warning = F,cache = F, message = F, fig.width = 15, fig.height = 8.5}
 # New cases by state by day, log scale, with week long trend line
 # use log scale otherwhise NY and MA overwhelm other states
 CDC_w_trendline %>% #filter(State == "OK") %>%
@@ -349,7 +349,7 @@ CDC_w_trendline %>% #filter(State == "OK") %>%
 
 ## Hospitalizations By State
 
-```{r hospitalizations,echo = F, warning = F,cache = T, message = F, fig.width = 13, fig.height = 8.5}
+```{r hospitalizations,echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
 covid_tracking_data %>% 
   filter(State %in% state.abb) %>%
   mutate( Day = lubridate::yday(Date),
@@ -375,7 +375,7 @@ covid_tracking_data %>%
 
 ## Week to Week Changes in COVID Cases
 
-```{r week-to-week,echo = F, warning = F,cache = T, message = F, fig.width = 13, fig.height = 8.5}
+```{r week-to-week,echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
 # Week-to-week percentage change in cases: (new week - prior week) / prior week
 CDC_w_trendline  %>% 
   group_by(State, Week) %>%
@@ -414,7 +414,7 @@ CDC_w_trendline  %>%
 ```
 
 ## Cases as a Percentage of State Population
-```{r, echo = F, warning = F,cache = T, message = F, fig.width = 13, fig.height = 8.5}
+```{r, echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
 # Total cases by state, as a percentage of state population
 CDC_w_trendline %>% #filter(State == "AK") %>%
   left_join(population_data_by_state, by = "State") %>%
@@ -437,7 +437,7 @@ CDC_w_trendline %>% #filter(State == "AK") %>%
 ```
 
 ## Northeast Cases By Month
-```{r New Northeast, echo = F, warning = F,cache = T, message = F, fig.width = 11, fig.height = 8.5}
+```{r New Northeast, echo = F, warning = F,cache = F, message = F, fig.width = 11, fig.height = 8.5}
 #Plot New England on the first of each month
 usmap::plot_usmap("counties", labels = F, include = c(.northeast_region), color = "black",
                   data = CDC_total %>%
@@ -464,7 +464,7 @@ usmap::plot_usmap("counties", labels = F, include = c(.northeast_region), color 
 
 ## Cases By State Over Time
 
-```{r,, echo = F, warning = F,cache = T, message = F, fig.width = 11, fig.height = 8.5}
+```{r,, echo = F, warning = F,cache = F, message = F, fig.width = 11, fig.height = 8.5}
 # Cases over time
 plot_usmap(data = CDC_total %>% 
              dplyr::rename(state = State) %>%
@@ -487,7 +487,7 @@ plot_usmap(data = CDC_total %>%
 
 ## Deaths By State Over Time
 
-```{r deaths by state,  echo = F, warning = F,cache = T, message = F, fig.width = 11, fig.height = 8.5}
+```{r deaths by state,  echo = F, warning = F,cache = F, message = F, fig.width = 11, fig.height = 8.5}
 plot_usmap(data = CDC_total %>% 
              dplyr::rename(state = State) %>%
              filter(Date > "2020-02-01" & 
@@ -510,7 +510,7 @@ plot_usmap(data = CDC_total %>%
 
 ## Positive Tests Over Negative Tests in the Last Two Weeks
 
-```{r ratio, echo = F, warning = F,cache = T, message = F, fig.width = 11, fig.height = 8.5}
+```{r ratio, echo = F, warning = F,cache = F, message = F, fig.width = 11, fig.height = 8.5}
 covid_tracking_data %>% 
   filter(State %in% state.abb) %>%
   mutate( Day = lubridate::yday(Date),
@@ -538,7 +538,7 @@ covid_tracking_data %>%
 
 ## Currently Hospitalized Patients
 
-```{r icu, echo = F, warning = F,cache = T, message = F, fig.width = 11, fig.height = 8.5}
+```{r icu, echo = F, warning = F,cache = F, message = F, fig.width = 11, fig.height = 8.5}
 covid_tracking_data %>% 
   filter(State %in% state.abb) %>%
   mutate( Day = lubridate::yday(Date),
@@ -562,7 +562,7 @@ covid_tracking_data %>%
 
 ## Patients Currently on Ventilators 
 
-```{r vent, echo = F, warning = F,cache = T, message = F, fig.width = 11, fig.height = 8.5}
+```{r vent, echo = F, warning = F,cache = F, message = F, fig.width = 11, fig.height = 8.5}
 covid_tracking_data %>% 
   filter(State %in% state.abb) %>%
   mutate( Day = lubridate::yday(Date),
@@ -589,7 +589,7 @@ covid_tracking_data %>%
 
 See the difference between <https://covidtracking.com/api/v1/states/daily.csv> and <https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/>
 
-```{r differences, echo = F, warning = F,cache = T, message = F, fig.width = 11, fig.height = 8.5}
+```{r differences, echo = F, warning = F,cache = F, message = F, fig.width = 11, fig.height = 8.5}
 covid_tracker <- covid_tracking_data_w_trendline  %>%
   ungroup() %>% #filter(State %in% c("MA","NY") & Week > 20) %>%
   group_by(Date) %>%
