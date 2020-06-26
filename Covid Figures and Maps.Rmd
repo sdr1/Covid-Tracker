@@ -19,6 +19,7 @@ library(dslabs)
 library(grid)
 library(gridExtra)
 library(cowplot)
+library(plotly)
 
 setwd("/Users/stevenrashin/Dropbox/covid data/")
 ```
@@ -136,35 +137,35 @@ CDC_w_trendline$Region <- sapply(CDC_w_trendline$State, function(x) names(region
 CDC_cases <- CDC_w_trendline %>%
   ungroup() %>% #filter(State %in% c("MA","NY") & Week > 20) %>%
   group_by(Date, Region) %>%
-  summarise(total_cases_by_day = sum(total_cases_by_day),
+  summarise(`Cumulative Cases` = sum(total_cases_by_day),
             total_deaths_by_day = sum(total_deaths_by_day)) %>%
-  ggplot(aes(x = Date, y = total_cases_by_day, fill = Region)) +
+  ggplot(aes(x = Date, y = `Cumulative Cases`, fill = Region)) +
   geom_area() +
   theme_minimal() +
   scale_fill_brewer() +
   scale_y_continuous(label = scales::comma) +
   xlab("Date") + ylab("Total Cases") + 
-  ggtitle(c(paste("Total Cases: CDC Data As Of", as.Date(max(CDC_w_trendline$Date))))) +
+  #ggtitle(c(paste("Total Cases: CDC Data As Of", as.Date(max(CDC_w_trendline$Date))))) +
   theme(
     plot.title = element_text(size=14, face="bold",hjust = 0.5),
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
     strip.text.x = element_text(size=10, face="bold"),
-    legend.position = "none"
+    #legend.position = "none"
   )
 
 CDC_deaths <- CDC_w_trendline %>%
   ungroup() %>% #filter(State %in% c("MA","NY") & Week > 20) %>%
   group_by(Date, Region) %>%
   summarise(total_cases_by_day = sum(total_cases_by_day),
-            total_deaths_by_day = sum(total_deaths_by_day)) %>%
-  ggplot(aes(x = Date, y = total_deaths_by_day, fill = Region)) +
+            `Cumulative Deaths` = sum(total_deaths_by_day)) %>%
+  ggplot(aes(x = Date, y = `Cumulative Deaths`, fill = Region)) +
   geom_area() +
   theme_minimal() +
   scale_fill_brewer() +
   scale_y_continuous(label = scales::comma) +
   xlab("Date") + ylab("Total Deaths") + 
-  ggtitle(c(paste("Total Deaths"))) +
+  #ggtitle(c(paste("Total Deaths"))) +
   theme(
     plot.title = element_text(size=14, face="bold",hjust = 0.5),
     axis.title.x = element_text(size=14, face="bold"),
@@ -172,8 +173,34 @@ CDC_deaths <- CDC_w_trendline %>%
     strip.text.x = element_text(size=10, face="bold")
   )
 
-plot_grid(CDC_cases, CDC_deaths, ncol=2)
 #CDC
+
+a <- list(
+  text = c(paste("Total Cases To", as.Date(max(CDC_w_trendline$Date)))),
+  xref = "paper",
+  yref = "paper",
+  yanchor = "bottom",
+  xanchor = "center",
+  align = "center",
+  x = 0.5,
+  y = 1,
+  showarrow = FALSE
+)
+
+b <- list(
+  text = "Total Deaths",
+  xref = "paper",
+  yref = "paper",
+  yanchor = "bottom",
+  xanchor = "center",
+  align = "center",
+  x = 0.5,
+  y = 1,
+  showarrow = FALSE
+)
+
+subplot(style(ggplotly(CDC_cases)  %>% layout(annotations = a), showlegend = F), 
+        style(ggplotly(CDC_deaths)  %>% layout(annotations = b), showlegend = T),nrows = 1)
 
 ```
 
