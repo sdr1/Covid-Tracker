@@ -18,12 +18,16 @@ Data for this report comes from:
     + Covid Deaths <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_deaths_usafacts.csv>
     + County Population <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_county_population_usafacts.csv>
 * Covidtracker.com data (used by Johns Hopkins <https://coronavirus.jhu.edu/us-map>) <https://covidtracking.com/api/v1/states/daily.csv>
+* World Health Organization <https://covid19.who.int/>
 * Somerville City data <https://somerville-dashboardcovid.trial.opendatasoft.com/pages/citysdashboard/>
 
 
 ## Overall Covid Cases In The USA
 
 ![](Covid-Figures-and-Maps_files/figure-html/cars-1.png)<!-- -->
+
+## US Cases as a Percentage of World Cases
+![](Covid-Figures-and-Maps_files/figure-html/US v World-1.png)<!-- -->
 
 ## Covid Cases in Somerville, MA in the Last Two Weeks
 ![](Covid-Figures-and-Maps_files/figure-html/Somerville-1.png)<!-- -->
