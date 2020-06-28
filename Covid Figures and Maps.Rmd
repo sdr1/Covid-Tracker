@@ -153,6 +153,7 @@ CDC_cases <- CDC_w_trendline %>%
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
     strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=14, face="bold"),
     legend.position = "none"
   )
 
@@ -172,7 +173,8 @@ CDC_deaths <- CDC_w_trendline %>%
     plot.title = element_text(size=14, face="bold",hjust = 0.5),
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=10, face="bold")
+    strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=14, face="bold")
   )
 
 #CDC
@@ -209,7 +211,25 @@ grid.arrange(CDC_cases, CDC_deaths, nrow = 1)
 
 ## Covid Cases in Somerville, MA in the Last Two Weeks
 ```{r Somerville, echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
-local <- fread("https://somerville-dashboardcovid.trial.opendatasoft.com/explore/dataset/daily-c19-case-counts/download/?format=csv&timezone=America/New_York&lang=en&use_labels_for_header=true&csv_separator=%2C")
+# from https://somerville-dashboardcovid.trial.opendatasoft.com/explore/dataset/daily-c19-case-counts/information/
+
+
+try_url <- function(url){
+      tryCatch(
+        expr = {
+          local <- fread(url)
+          return(local)
+        },
+        error = function(e){
+            message('"ERROR Out of Date Data / Using Last Saved DATA"')
+            local <- read.csv("/Users/stevenrashin/Documents/GitHub/Covid-Tracker/daily-c19-case-counts.csv",stringsAsFactors = F)
+            return(local)
+        }
+    )
+}
+
+local <- try_url("https://somerville-dashboardcovid.trial.opendatasoft.com/explore/dataset/daily-c19-case-counts/download/?format=csv&timezone=America/New_York&lang=en&use_labels_for_header=true&csv_separator=%2C")
+
 local$Date <- lubridate::ymd(gsub(pattern = "T.{1,}$", replacement = "", x = local$Date))
 local %>% 
     mutate(new_cases = Positive - dplyr::lag(Positive, default = 0),
@@ -228,7 +248,8 @@ local %>%
     plot.title = element_text(size=14, face="bold",hjust = 0.5),
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=10, face="bold")
+    strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=14, face="bold")
   )
 ```
 
@@ -247,7 +268,8 @@ CDC_w_trendline %>% filter(State == "MA" & Week %in% c(max(Week), max(Week)-1)) 
     plot.title = element_text(size=14, face="bold",hjust = 0.5),
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=10, face="bold")
+    strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=14, face="bold")
   )
 ```
 
@@ -288,7 +310,9 @@ CDC_w_trendline %>% #filter(State == "OK") %>%
     plot.title = element_text(size=14, face="bold"),
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=10, face="bold")
+    strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=10, face="bold")
+
   )
 ```
 
@@ -312,7 +336,7 @@ usmap::plot_usmap("counties", labels = F, include = state.abb,
     plot.title = element_text(size=14, face="bold"),
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=14, face="bold")
+    strip.text.x = element_text(size=14, face="bold"),
   )
 
 ```
@@ -373,7 +397,9 @@ CDC_w_trendline %>% #filter(State == "OK") %>%
     plot.title = element_text(size=14, face="bold"),
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=10, face="bold")
+    strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=10, face="bold")
+
   )
 ```
 
@@ -398,7 +424,9 @@ covid_tracking_data %>%
     plot.title = element_text(size=14, face="bold"),
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=10, face="bold")
+    strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=10, face="bold")
+
   )
 
 ```
@@ -436,6 +464,7 @@ CDC_w_trendline  %>%
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
     strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=10, face="bold"),
     legend.position = "none"
   ) +
   coord_cartesian(ylim = c(-0.25,0.25)) +
@@ -460,7 +489,9 @@ CDC_w_trendline %>% #filter(State == "AK") %>%
     plot.title = element_text(size=14, face="bold"),
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=10, face="bold")
+    strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=10, face="bold")
+
   )
 
 
@@ -533,14 +564,14 @@ plot_usmap(data = CDC_total %>%
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
     strip.text.x = element_text(size=14, face="bold")
-  )
+    )
 
 
 ```
 
 ## Positive Tests Over Negative Tests in the Last Two Weeks
 
-```{r ratio, echo = F, warning = F,cache = F, message = F, fig.width = 11, fig.height = 8.5}
+```{r ratio, echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 10}
 covid_tracking_data %>% 
   filter(State %in% state.abb) %>%
   mutate( Day = lubridate::yday(Date),
@@ -553,7 +584,7 @@ covid_tracking_data %>%
   geom_point(size = 1, alpha = .5) + 
   #geom_line(aes(Date, smooth_ratio), color="darkblue") +
   scale_y_continuous(label = scales::percent_format(accuracy = 0.1)) +
-  facet_wrap(~ State, scales = "free") + # free scales scales each state individually
+  facet_wrap(~ State) + # free scales scales each state individually
   theme_minimal() +
   xlab("Date") + ylab("Ratio of Positive to Negative Tests") +
   theme(
@@ -561,14 +592,15 @@ covid_tracking_data %>%
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
     strip.text.x = element_text(size=10, face="bold"),
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
+    axis.text = element_text(size=10, face="bold"),
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
   )
 
 ```
 
 ## Currently Hospitalized Patients
 
-```{r icu, echo = F, warning = F,cache = F, message = F, fig.width = 11, fig.height = 8.5}
+```{r icu, echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 10}
 covid_tracking_data %>% 
   filter(State %in% state.abb) %>%
   mutate( Day = lubridate::yday(Date),
@@ -586,13 +618,14 @@ covid_tracking_data %>%
     plot.title = element_text(size=14, face="bold"),
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=10, face="bold")
+    strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=10, face="bold")
   )
 ```
 
 ## Patients Currently on Ventilators 
 
-```{r vent, echo = F, warning = F,cache = F, message = F, fig.width = 11, fig.height = 8.5}
+```{r vent, echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 10}
 covid_tracking_data %>% 
   filter(State %in% state.abb) %>%
   mutate( Day = lubridate::yday(Date),
@@ -610,7 +643,8 @@ covid_tracking_data %>%
     plot.title = element_text(size=14, face="bold"),
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=10, face="bold")
+    strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=10, face="bold")
   )
 
 ```
@@ -638,7 +672,9 @@ covid_tracker <- covid_tracking_data_w_trendline  %>%
     plot.title = element_text(size=14, face="bold",hjust = 0.5),
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=10, face="bold")
+    strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=14, face="bold")
+
   )
 
 ### Overall Cases in USA ###
@@ -659,7 +695,8 @@ CDC <- CDC_w_trendline %>%
     plot.title = element_text(size=14, face="bold",hjust = 0.5),
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=10, face="bold")
+    strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=14, face="bold")
   )
 
 
@@ -698,7 +735,8 @@ difference_plot <- difference_in_counts %>%
     plot.title = element_text(size=14, face="bold",hjust = 0.5),
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=10, face="bold")
+    strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=14, face="bold")
   )
 
 #### Show Data is Different ####

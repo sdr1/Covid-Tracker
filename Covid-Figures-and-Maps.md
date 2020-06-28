@@ -1,7 +1,7 @@
 ---
 title: "Covid Figures and Maps"
 author: "Steven Rashin"
-date: "June 26, 2020"
+date: "June 28, 2020"
 output: 
   html_document:
     keep_md: yes
@@ -36,30 +36,30 @@ Data for this report comes from:
 
 Date         County Name         Cases   Deaths   New Cases   New Deaths
 -----------  -----------------  ------  -------  ----------  -----------
+2020-06-27   Middlesex County    23859     1849          73           10
+2020-06-26   Middlesex County    23786     1839          45           14
 2020-06-25   Middlesex County    23741     1825          44            5
 2020-06-24   Middlesex County    23697     1820          50            8
 2020-06-23   Middlesex County    23647     1812          38            3
 2020-06-22   Middlesex County    23609     1809          35            2
 2020-06-21   Middlesex County    23574     1807          30            6
 2020-06-20   Middlesex County    23544     1801          80           10
-2020-06-19   Middlesex County    23464     1791          57            3
-2020-06-18   Middlesex County    23407     1788          61            7
+2020-06-27   Norfolk County       9125      927          25            0
+2020-06-26   Norfolk County       9100      927          18            3
 2020-06-25   Norfolk County       9082      924          26            1
 2020-06-24   Norfolk County       9056      923          14            4
 2020-06-23   Norfolk County       9042      919          32            5
 2020-06-22   Norfolk County       9010      914          16            2
 2020-06-21   Norfolk County       8994      912          11            4
 2020-06-20   Norfolk County       8983      908          21            1
-2020-06-19   Norfolk County       8962      907          27            2
-2020-06-18   Norfolk County       8935      905          27            2
+2020-06-27   Suffolk County      19764     1004          57            7
+2020-06-26   Suffolk County      19707      997          43            7
 2020-06-25   Suffolk County      19664      990          36            6
 2020-06-24   Suffolk County      19628      984          27            8
 2020-06-23   Suffolk County      19601      976          34            0
 2020-06-22   Suffolk County      19567      976          16            0
 2020-06-21   Suffolk County      19551      976          23            3
 2020-06-20   Suffolk County      19528      973          35            2
-2020-06-19   Suffolk County      19493      971          16            8
-2020-06-18   Suffolk County      19477      963          43            4
 
 ## New Covid Cases By State: Log Scale Cases
 
@@ -76,11 +76,11 @@ Date         County Name         Cases   Deaths   New Cases   New Deaths
 
 Date         State   County Name           Cases   Deaths
 -----------  ------  -------------------  ------  -------
-2020-06-25   CA      Los Angeles County    91467     3246
-2020-06-25   IL      Cook County           88650     4500
-2020-06-25   NY      Queens County         64987     6580
-2020-06-25   NY      Kings County          59206     7001
-2020-06-25   NY      Bronx County          47294     4662
+2020-06-27   CA      Los Angeles County    95371     3285
+2020-06-27   IL      Cook County           89407     4536
+2020-06-27   NY      Queens County         65175     6600
+2020-06-27   NY      Kings County          59420     7020
+2020-06-27   NY      Bronx County          47456     4675
 2020-06-01   IL      Cook County           78495     3658
 2020-06-01   NY      Queens County         62094     6271
 2020-06-01   NY      Kings County          56053     6742
