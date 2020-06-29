@@ -41,6 +41,8 @@ Data for this report comes from:
 
 ## Overall Covid Cases In The USA
 
+Regions are defined as follows: Northeast (CT, ME, MA, NH, RI, VT, NJ, NY, PA), Midwest (IN, IL, MI, OH, WI, IA, KS, MN, MO, NE, ND, SD), South (AL, AR, DC, DE, FL, GA, KY, LA, MD, MS, NC, OK, SC, TN, TX, VA, WV) and West (AZ, CO, ID,  NM, MT, UT, NV, WY,AK,CA,HI,OR,WA).
+
 ```{r cars, echo = F, warning = F,cache = F, message = F,fig.width = 11, fig.height = 8.5}
 ### CDC linked data ###
 CDC_cases <- fread('https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_confirmed_usafacts.csv')
@@ -250,7 +252,7 @@ grid.arrange(New_Cases, CDC_cases, New_Deaths, CDC_deaths, nrow = 2, ncol = 2)
 
 ```
 
-## US Cases as a Percentage of World Cases
+## US Cases Compared to World Cases
 ```{r US v World, echo = F, warning = F,cache = F, message = F,fig.width = 11, fig.height = 8.5}
 
 try_url <- function(url){
@@ -285,7 +287,7 @@ global %>%
   scale_fill_brewer() +
   scale_y_continuous(label = scales::comma) +
   xlab("Date") + ylab("Cases") + 
-  ggtitle(c(paste("US as % of World Cases"))) +
+  ggtitle(c(paste("US Cases Compared To World Cases"))) +
   theme(
     plot.title = element_text(size=14, face="bold",hjust = 0.5),
     axis.title.x = element_text(size=14, face="bold"),
