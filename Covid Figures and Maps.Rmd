@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = F,cache = T, message = F)
+knitr::opts_chunk$set(echo = TRUE, warning = F,cache = F, message = F)
 library(usmap)
 library(ggplot2)
 library(tidyverse)
@@ -24,26 +24,7 @@ library(cowplot)
 library(plotly)
 
 setwd("/Users/stevenrashin/Dropbox/covid data/")
-```
 
-## Data Sources
-
-Data for this report comes from:
-
-* The CDC Homepage <https://www.cdc.gov/covid-data-tracker/index.html#county-map> and <https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/>, specifically:
-    + Confirmed COVID Cases <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_confirmed_usafacts.csv>
-    + Covid Deaths <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_deaths_usafacts.csv>
-    + County Population <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_county_population_usafacts.csv>
-* Covidtracker.com data (used by Johns Hopkins <https://coronavirus.jhu.edu/us-map>) <https://covidtracking.com/api/v1/states/daily.csv>
-* World Health Organization <https://covid19.who.int/>
-* Somerville City data <https://somerville-dashboardcovid.trial.opendatasoft.com/pages/citysdashboard/>
-
-
-## Overall Covid Cases In The USA
-
-Regions are defined as follows: Northeast (CT, ME, MA, NH, RI, VT, NJ, NY, PA), Midwest (IN, IL, MI, OH, WI, IA, KS, MN, MO, NE, ND, SD), South (AL, AR, DC, DE, FL, GA, KY, LA, MD, MS, NC, OK, SC, TN, TX, VA, WV) and West (AZ, CO, ID,  NM, MT, UT, NV, WY,AK,CA,HI,OR,WA).
-
-```{r cars, echo = F, warning = F,cache = F, message = F,fig.width = 11, fig.height = 8.5}
 ### CDC linked data ###
 CDC_cases <- fread('https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_confirmed_usafacts.csv')
 CDC_deaths <- fread('https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_deaths_usafacts.csv')
@@ -138,6 +119,37 @@ region.list <- list(
   West=W.abrv)
 
 CDC_w_trendline$Region <- sapply(CDC_w_trendline$State, function(x) names(region.list)[grep(x,region.list)])
+
+```
+
+## Data Sources
+
+Data for this report comes from:
+
+* The CDC Homepage <https://www.cdc.gov/covid-data-tracker/index.html#county-map> and <https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/>, specifically:
+    + Confirmed COVID Cases <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_confirmed_usafacts.csv>
+    + Covid Deaths <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_deaths_usafacts.csv>
+    + County Population <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_county_population_usafacts.csv>
+* Covidtracker.com data (used by Johns Hopkins <https://coronavirus.jhu.edu/us-map>) <https://covidtracking.com/api/v1/states/daily.csv>
+* World Health Organization <https://covid19.who.int/>
+* Somerville City data <https://somerville-dashboardcovid.trial.opendatasoft.com/pages/citysdashboard/>
+
+## Headline Numbers 
+As of `r format(max(CDC_w_trendline$Date), '%B %d, %Y')`:  
+
+* `r formatC(CDC_w_trendline %>% filter(Date == max(Date)) %>% ungroup() %>% summarize(sum(new_cases)) %>% pull(), format="f", big.mark=",", digits=0)` new cases  
+* `r formatC(CDC_w_trendline %>% filter(Date == max(Date)) %>% ungroup() %>% summarize(sum(new_deaths)) %>% pull(),, format="f", big.mark=",", digits=0)` new deaths  
+
+Consequently there are now:  
+
+* `r formatC(CDC_w_trendline %>% ungroup() %>% summarize(sum(new_cases)) %>% pull(), format="f", big.mark=",", digits=0)` total cases  
+* `r formatC(CDC_w_trendline %>% ungroup() %>% summarize(sum(new_deaths)) %>% pull(), format="f", big.mark=",", digits=0)` total deaths  
+
+## Overall Covid Cases In The USA
+
+Regions are defined as follows: Northeast (CT, ME, MA, NH, RI, VT, NJ, NY, PA), Midwest (IN, IL, MI, OH, WI, IA, KS, MN, MO, NE, ND, SD), South (AL, AR, DC, DE, FL, GA, KY, LA, MD, MS, NC, OK, SC, TN, TX, VA, WV) and West (AZ, CO, ID,  NM, MT, UT, NV, WY,AK,CA,HI,OR,WA).
+
+```{r cars, echo = F, warning = F,cache = F, message = F,fig.width = 11, fig.height = 8.5}
 
 New_Cases <- CDC_w_trendline %>%
   ungroup() %>% #filter(State %in% c("MA","NY") & Week > 20) %>%
