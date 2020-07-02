@@ -1,7 +1,7 @@
 ---
 title: "Covid Figures and Maps"
 author: "Steven Rashin"
-date: "June 30, 2020"
+date: "July 02, 2020"
 output: 
   html_document:
     keep_md: yes
@@ -22,15 +22,17 @@ Data for this report comes from:
 * Somerville City data <https://somerville-dashboardcovid.trial.opendatasoft.com/pages/citysdashboard/>
 
 ## Headline Numbers 
-As of June 29, 2020:  
+As of July 01, 2020:  
 
-* 39,131 new cases  
-* 349 new deaths  
+* 49,649 new cases.
+  + The record number of cases per day is 49,649 on July 01, 2020
+* 704 new deaths
+  +  The record number of deaths per day is 3,153 on April 14, 2020
 
 Consequently there are now:  
 
-* 2,572,466 total cases  
-* 125,352 total deaths  
+* 2,668,305 total cases  
+* 127,311 total deaths  
 
 ## Overall Covid Cases In The USA
 
@@ -52,30 +54,30 @@ Regions are defined as follows: Northeast (CT, ME, MA, NH, RI, VT, NJ, NY, PA), 
 
 Date         County Name         Cases   Deaths   New Cases   New Deaths
 -----------  -----------------  ------  -------  ----------  -----------
-2020-06-29   Middlesex County    23946     1862          31            7
-2020-06-28   Middlesex County    23915     1855          56            6
+2020-07-01   Middlesex County    23998     1858          36            7
+2020-06-30   Middlesex County    23962     1851          16            0
+2020-06-29   Middlesex County    23946     1851          31            0
+2020-06-28   Middlesex County    23915     1851          56            2
 2020-06-27   Middlesex County    23859     1849          73           10
 2020-06-26   Middlesex County    23786     1839          45           14
 2020-06-25   Middlesex County    23741     1825          44            5
 2020-06-24   Middlesex County    23697     1820          50            8
-2020-06-23   Middlesex County    23647     1812          38            3
-2020-06-22   Middlesex County    23609     1809          35            2
-2020-06-29   Norfolk County       9161      930          10            3
-2020-06-28   Norfolk County       9151      927          26            0
-2020-06-27   Norfolk County       9125      927          25            0
-2020-06-26   Norfolk County       9100      927          18            3
-2020-06-25   Norfolk County       9082      924          26            1
+2020-07-01   Norfolk County       9184      930          18            7
+2020-06-30   Norfolk County       9166      923           5            0
+2020-06-29   Norfolk County       9161      923          10            0
+2020-06-28   Norfolk County       9151      923          26            0
+2020-06-27   Norfolk County       9125      923          25            0
+2020-06-26   Norfolk County       9100      923          18            0
+2020-06-25   Norfolk County       9082      923          26            0
 2020-06-24   Norfolk County       9056      923          14            4
-2020-06-23   Norfolk County       9042      919          32            5
-2020-06-22   Norfolk County       9010      914          16            2
-2020-06-29   Suffolk County      19795     1007           0            3
-2020-06-28   Suffolk County      19795     1004          31            0
-2020-06-27   Suffolk County      19764     1004          57            7
+2020-07-01   Suffolk County      19853     1004          34            2
+2020-06-30   Suffolk County      19819     1002          24            0
+2020-06-29   Suffolk County      19795     1002           0            0
+2020-06-28   Suffolk County      19795     1002          31            0
+2020-06-27   Suffolk County      19764     1002          57            5
 2020-06-26   Suffolk County      19707      997          43            7
 2020-06-25   Suffolk County      19664      990          36            6
 2020-06-24   Suffolk County      19628      984          27            8
-2020-06-23   Suffolk County      19601      976          34            0
-2020-06-22   Suffolk County      19567      976          16            0
 
 ## New Covid Cases By State: Log Scale Cases
 
@@ -92,11 +94,11 @@ Date         County Name         Cases   Deaths   New Cases   New Deaths
 
 Date         State   County Name            Cases   Deaths
 -----------  ------  -------------------  -------  -------
-2020-06-29   CA      Los Angeles County    100772     3326
-2020-06-29   IL      Cook County            90122     4554
-2020-06-29   NY      Queens County          65325     6609
-2020-06-29   NY      Kings County           59576     7031
-2020-06-29   NY      Bronx County           47555     4680
+2020-07-01   CA      Los Angeles County    105507     3402
+2020-07-01   IL      Cook County            90911     4581
+2020-07-01   NY      Queens County          65455     7059
+2020-07-01   NY      Kings County           59742     7104
+2020-07-01   AZ      Maricopa County        52266      817
 2020-06-01   IL      Cook County            78495     3658
 2020-06-01   NY      Queens County          62094     6271
 2020-06-01   NY      Kings County           56053     6742

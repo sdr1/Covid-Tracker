@@ -137,10 +137,12 @@ Data for this report comes from:
 ## Headline Numbers 
 As of `r format(max(CDC_w_trendline$Date), '%B %d, %Y')`:  
 
-* `r formatC(CDC_w_trendline %>% filter(Date == max(Date)) %>% ungroup() %>% summarize(sum(new_cases)) %>% pull(), format="f", big.mark=",", digits=0)` new cases  
-* `r formatC(CDC_w_trendline %>% filter(Date == max(Date)) %>% ungroup() %>% summarize(sum(new_deaths)) %>% pull(),, format="f", big.mark=",", digits=0)` new deaths  
+* `r formatC(CDC_w_trendline %>% filter(Date == max(Date)) %>% ungroup() %>% summarize(sum(new_cases)) %>% pull(), format="f", big.mark=",", digits=0)` new cases.
+  + The record number of cases per day is `r formatC(CDC_w_trendline %>% group_by(Date) %>% summarize(new_cases = sum(new_cases)) %>% filter(new_cases == max(new_cases)) %>% select(new_cases) %>% pull(), format="f", big.mark=",", digits=0)` on `r format(CDC_w_trendline %>% group_by(Date) %>% summarize(new_cases = sum(new_cases)) %>% filter(new_cases == max(new_cases)) %>% select(Date) %>% pull(), '%B %d, %Y')`
+* `r formatC(CDC_w_trendline %>% filter(Date == max(Date)) %>% ungroup() %>% summarize(sum(new_deaths)) %>% pull(), format="f", big.mark=",", digits=0)` new deaths
+  +  The record number of deaths per day is `r formatC(CDC_w_trendline %>% group_by(Date) %>% summarize(new_deaths = sum(new_deaths)) %>% filter(new_deaths == max(new_deaths)) %>% select(new_deaths) %>% pull(), format="f", big.mark=",", digits=0)` on `r format(CDC_w_trendline %>% group_by(Date) %>% summarize(new_deaths = sum(new_deaths)) %>% filter(new_deaths == max(new_deaths)) %>% select(Date) %>% pull(), '%B %d, %Y')`
 
-Consequently there are now:  
+Consequently there are now:   
 
 * `r formatC(CDC_w_trendline %>% ungroup() %>% summarize(sum(new_cases)) %>% pull(), format="f", big.mark=",", digits=0)` total cases  
 * `r formatC(CDC_w_trendline %>% ungroup() %>% summarize(sum(new_deaths)) %>% pull(), format="f", big.mark=",", digits=0)` total deaths  
