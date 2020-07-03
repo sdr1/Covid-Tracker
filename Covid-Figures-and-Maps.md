@@ -1,7 +1,7 @@
 ---
 title: "Covid Figures and Maps"
 author: "Steven Rashin"
-date: "July 02, 2020"
+date: "July 03, 2020"
 output: 
   html_document:
     keep_md: yes
@@ -9,30 +9,27 @@ output:
 
 
 
-## Data Sources
-
-Data for this report comes from:
-
-* The CDC Homepage <https://www.cdc.gov/covid-data-tracker/index.html#county-map> and <https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/>, specifically:
-    + Confirmed COVID Cases <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_confirmed_usafacts.csv>
-    + Covid Deaths <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_deaths_usafacts.csv>
-    + County Population <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_county_population_usafacts.csv>
-* Covidtracker.com data (used by Johns Hopkins <https://coronavirus.jhu.edu/us-map>) <https://covidtracking.com/api/v1/states/daily.csv>
-* World Health Organization <https://covid19.who.int/>
-* Somerville City data <https://somerville-dashboardcovid.trial.opendatasoft.com/pages/citysdashboard/>
-
 ## Headline Numbers 
-As of July 01, 2020:  
+As of the latest CDC data release on July 02, 2020:  
 
-* 49,649 new cases.
-  + The record number of cases per day is 49,649 on July 01, 2020
-* 704 new deaths
+* 56,494 new cases.
+  + The record number of cases per day is 56,494 on July 02, 2020
+* 809 new deaths
   +  The record number of deaths per day is 3,153 on April 14, 2020
 
-Consequently there are now:  
+Consequently, in the United States, there are now:   
 
-* 2,668,305 total cases  
-* 127,311 total deaths  
+* 2,724,650 total cases  
+* 128,102 total deaths  
+
+
+Globally, as of the latest WHO data release on July 03, 2020, there are: 
+
+* 7,972,136 total cases
+  + 186,167 today
+* 318,932 total deaths
+  + 4,495 today
+
 
 ## Overall Covid Cases In The USA
 
@@ -49,35 +46,20 @@ Regions are defined as follows: Northeast (CT, ME, MA, NH, RI, VT, NJ, NY, PA), 
 ## Covid Cases in MA in the Last Two Weeks 
 ![](Covid-Figures-and-Maps_files/figure-html/MA Cases-1.png)<!-- -->
 
-## Latest Cases in Boston Area
+## Latest Cases in Boston Area (Today, One Week Ago, Two Weeks Ago)
 
 
-Date         County Name         Cases   Deaths   New Cases   New Deaths
------------  -----------------  ------  -------  ----------  -----------
-2020-07-01   Middlesex County    23998     1858          36            7
-2020-06-30   Middlesex County    23962     1851          16            0
-2020-06-29   Middlesex County    23946     1851          31            0
-2020-06-28   Middlesex County    23915     1851          56            2
-2020-06-27   Middlesex County    23859     1849          73           10
-2020-06-26   Middlesex County    23786     1839          45           14
-2020-06-25   Middlesex County    23741     1825          44            5
-2020-06-24   Middlesex County    23697     1820          50            8
-2020-07-01   Norfolk County       9184      930          18            7
-2020-06-30   Norfolk County       9166      923           5            0
-2020-06-29   Norfolk County       9161      923          10            0
-2020-06-28   Norfolk County       9151      923          26            0
-2020-06-27   Norfolk County       9125      923          25            0
-2020-06-26   Norfolk County       9100      923          18            0
-2020-06-25   Norfolk County       9082      923          26            0
-2020-06-24   Norfolk County       9056      923          14            4
-2020-07-01   Suffolk County      19853     1004          34            2
-2020-06-30   Suffolk County      19819     1002          24            0
-2020-06-29   Suffolk County      19795     1002           0            0
-2020-06-28   Suffolk County      19795     1002          31            0
-2020-06-27   Suffolk County      19764     1002          57            5
-2020-06-26   Suffolk County      19707      997          43            7
-2020-06-25   Suffolk County      19664      990          36            6
-2020-06-24   Suffolk County      19628      984          27            8
+Date            County Name         Cases   Deaths   New Cases   New Deaths
+--------------  -----------------  ------  -------  ----------  -----------
+July 02, 2020   Middlesex County    24039     1867          41            9
+June 25, 2020   Middlesex County    23741     1825          44            5
+June 18, 2020   Middlesex County    23407     1788          61            7
+July 02, 2020   Norfolk County       9200      933          16            3
+June 25, 2020   Norfolk County       9082      923          26            0
+June 18, 2020   Norfolk County       8935      905          27            2
+July 02, 2020   Suffolk County      19892     1008          39            4
+June 25, 2020   Suffolk County      19664      990          36            6
+June 18, 2020   Suffolk County      19477      963          43            4
 
 ## New Covid Cases By State: Log Scale Cases
 
@@ -94,6 +76,11 @@ Date         County Name         Cases   Deaths   New Cases   New Deaths
 
 Date         State   County Name            Cases   Deaths
 -----------  ------  -------------------  -------  -------
+2020-07-02   CA      Los Angeles County    107667     3454
+2020-07-02   IL      Cook County            91381     4609
+2020-07-02   NY      Queens County          65568     7063
+2020-07-02   NY      Kings County           59855     7111
+2020-07-02   AZ      Maricopa County        54757      843
 2020-07-01   CA      Los Angeles County    105507     3402
 2020-07-01   IL      Cook County            90911     4581
 2020-07-01   NY      Queens County          65455     7059
@@ -163,6 +150,19 @@ Date         State   County Name            Cases   Deaths
 ## Patients Currently on Ventilators 
 
 ![](Covid-Figures-and-Maps_files/figure-html/vent-1.png)<!-- -->
+
+## Data Sources
+
+Data for this report comes from:
+
+* The CDC Homepage <https://www.cdc.gov/covid-data-tracker/index.html#county-map> and <https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/>, specifically:
+    + Confirmed COVID Cases <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_confirmed_usafacts.csv>
+    + Covid Deaths <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_deaths_usafacts.csv>
+    + County Population <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_county_population_usafacts.csv>
+* Covidtracker.com data (used by Johns Hopkins <https://coronavirus.jhu.edu/us-map>) <https://covidtracking.com/api/v1/states/daily.csv>
+* World Health Organization <https://covid19.who.int/>
+* Somerville City data <https://somerville-dashboardcovid.trial.opendatasoft.com/pages/citysdashboard/>
+
 
 ## Different Counts from Different Data
 

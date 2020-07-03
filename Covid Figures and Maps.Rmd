@@ -120,32 +120,48 @@ region.list <- list(
 
 CDC_w_trendline$Region <- sapply(CDC_w_trendline$State, function(x) names(region.list)[grep(x,region.list)])
 
+### Get global cases for headlines 
+
+try_url <- function(url){
+      tryCatch(
+        expr = {
+          local <- fread(url)
+          return(local)
+        },
+        error = function(e){
+            message('"ERROR Out of Date Data / Using Last Saved DATA"')
+            global <- read.csv("/Users/stevenrashin/Documents/GitHub/Covid-Tracker/WHO-COVID-19-global-data.csv",stringsAsFactors = F)
+            return(local)
+        }
+    )
+}
+
+global <- try_url("https://covid19.who.int/WHO-COVID-19-global-data.csv")
+global$Date <- lubridate::ymd(gsub(pattern = "T.{1,}$", replacement = "", x = global$Date_reported))
+
 ```
 
-## Data Sources
-
-Data for this report comes from:
-
-* The CDC Homepage <https://www.cdc.gov/covid-data-tracker/index.html#county-map> and <https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/>, specifically:
-    + Confirmed COVID Cases <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_confirmed_usafacts.csv>
-    + Covid Deaths <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_deaths_usafacts.csv>
-    + County Population <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_county_population_usafacts.csv>
-* Covidtracker.com data (used by Johns Hopkins <https://coronavirus.jhu.edu/us-map>) <https://covidtracking.com/api/v1/states/daily.csv>
-* World Health Organization <https://covid19.who.int/>
-* Somerville City data <https://somerville-dashboardcovid.trial.opendatasoft.com/pages/citysdashboard/>
-
 ## Headline Numbers 
-As of `r format(max(CDC_w_trendline$Date), '%B %d, %Y')`:  
+As of the latest CDC data release on `r format(max(CDC_w_trendline$Date), '%B %d, %Y')`:  
 
 * `r formatC(CDC_w_trendline %>% filter(Date == max(Date)) %>% ungroup() %>% summarize(sum(new_cases)) %>% pull(), format="f", big.mark=",", digits=0)` new cases.
   + The record number of cases per day is `r formatC(CDC_w_trendline %>% group_by(Date) %>% summarize(new_cases = sum(new_cases)) %>% filter(new_cases == max(new_cases)) %>% select(new_cases) %>% pull(), format="f", big.mark=",", digits=0)` on `r format(CDC_w_trendline %>% group_by(Date) %>% summarize(new_cases = sum(new_cases)) %>% filter(new_cases == max(new_cases)) %>% select(Date) %>% pull(), '%B %d, %Y')`
 * `r formatC(CDC_w_trendline %>% filter(Date == max(Date)) %>% ungroup() %>% summarize(sum(new_deaths)) %>% pull(), format="f", big.mark=",", digits=0)` new deaths
   +  The record number of deaths per day is `r formatC(CDC_w_trendline %>% group_by(Date) %>% summarize(new_deaths = sum(new_deaths)) %>% filter(new_deaths == max(new_deaths)) %>% select(new_deaths) %>% pull(), format="f", big.mark=",", digits=0)` on `r format(CDC_w_trendline %>% group_by(Date) %>% summarize(new_deaths = sum(new_deaths)) %>% filter(new_deaths == max(new_deaths)) %>% select(Date) %>% pull(), '%B %d, %Y')`
 
-Consequently there are now:   
+Consequently, in the United States, there are now:   
 
 * `r formatC(CDC_w_trendline %>% ungroup() %>% summarize(sum(new_cases)) %>% pull(), format="f", big.mark=",", digits=0)` total cases  
 * `r formatC(CDC_w_trendline %>% ungroup() %>% summarize(sum(new_deaths)) %>% pull(), format="f", big.mark=",", digits=0)` total deaths  
+
+
+Globally, as of the latest WHO data release on `r format(max(global$Date), '%B %d, %Y')`, there are: 
+
+* `r formatC(global %>% group_by(Date_reported) %>% summarize(Total = sum(Cumulative_cases)) %>% ungroup() %>% filter(Date_reported == max(Date_reported)) %>% pull(), format="f", big.mark=",", digits=0)` total cases
+  + `r formatC(global %>% group_by(Date_reported) %>% summarize(Total = sum(New_cases)) %>% ungroup() %>% filter(Date_reported == max(Date_reported)) %>% pull(), format="f", big.mark=",", digits=0)` today
+* `r formatC(global %>% group_by(Date_reported) %>% summarize(Total = sum(Cumulative_deaths)) %>% ungroup() %>% filter(Date_reported == max(Date_reported)) %>% pull(), format="f", big.mark=",", digits=0)` total deaths
+  + `r formatC(global %>% group_by(Date_reported) %>% summarize(Total = sum(New_deaths)) %>% ungroup() %>% filter(Date_reported == max(Date_reported)) %>% pull(), format="f", big.mark=",", digits=0)` today
+
 
 ## Overall Covid Cases In The USA
 
@@ -160,9 +176,9 @@ New_Cases <- CDC_w_trendline %>%
   ggplot(aes(x = Date, y = new_cases, fill = Region)) +
   geom_area() +
   theme_minimal() +
-  scale_fill_brewer() +
+  scale_fill_brewer(direction=-1) +
   scale_y_continuous(label = scales::comma) +
-  xlab("Date") + ylab("Cases") + 
+  xlab("Date") + ylab("Daily Cases") + 
   ggtitle(c(paste("New Cases: CDC Data As Of", as.Date(max(CDC_w_trendline$Date))))) +
   theme(
     plot.title = element_text(size=14, face="bold",hjust = 0.5),
@@ -180,9 +196,9 @@ New_Deaths <- CDC_w_trendline %>%
   ggplot(aes(x = Date, y = new_deaths, fill = Region)) +
   geom_area() +
   theme_minimal() +
-  scale_fill_brewer() +
+  scale_fill_brewer(direction=-1) +
   scale_y_continuous(label = scales::comma) +
-  xlab("Date") + ylab("Deaths") + 
+  xlab("Date") + ylab("Daily Deaths") + 
   ggtitle(c(paste("Deaths Per Day"))) +
   theme(
     plot.title = element_text(size=14, face="bold",hjust = 0.5),
@@ -201,7 +217,7 @@ CDC_cases <- CDC_w_trendline %>%
   ggplot(aes(x = Date, y = `Cumulative Cases`, fill = Region)) +
   geom_area() +
   theme_minimal() +
-  scale_fill_brewer() +
+  scale_fill_brewer(direction=-1) +
   scale_y_continuous(label = scales::comma) +
   xlab("Date") + ylab("Total Cases") + 
   ggtitle(c(paste("Total Cases")))+ #, as.Date(max(CDC_w_trendline$Date))))) +
@@ -222,7 +238,7 @@ CDC_deaths <- CDC_w_trendline %>%
   ggplot(aes(x = Date, y = `Cumulative Deaths`, fill = Region)) +
   geom_area() +
   theme_minimal() +
-  scale_fill_brewer() +
+  scale_fill_brewer(direction=-1) +
   scale_y_continuous(label = scales::comma) +
   xlab("Date") + ylab("Total Deaths") + 
   ggtitle(c(paste("Total Deaths"))) +
@@ -269,23 +285,9 @@ grid.arrange(New_Cases, CDC_cases, New_Deaths, CDC_deaths, nrow = 2, ncol = 2)
 ## US Cases Compared to World Cases
 ```{r US v World, echo = F, warning = F,cache = F, message = F,fig.width = 11, fig.height = 8.5}
 
-try_url <- function(url){
-      tryCatch(
-        expr = {
-          local <- fread(url)
-          return(local)
-        },
-        error = function(e){
-            message('"ERROR Out of Date Data / Using Last Saved DATA"')
-            global <- read.csv("/Users/stevenrashin/Documents/GitHub/Covid-Tracker/WHO-COVID-19-global-data.csv",stringsAsFactors = F)
-            return(local)
-        }
-    )
-}
-
-global <- try_url("https://covid19.who.int/WHO-COVID-19-global-data.csv")
-
-global$Date <- lubridate::ymd(gsub(pattern = "T.{1,}$", replacement = "", x = global$Date_reported))
+# global <- try_url("https://covid19.who.int/WHO-COVID-19-global-data.csv")
+# 
+# global$Date <- lubridate::ymd(gsub(pattern = "T.{1,}$", replacement = "", x = global$Date_reported))
 global %>% 
     mutate(
          Day = lubridate::yday(Date),
@@ -391,7 +393,7 @@ CDC_w_trendline %>% filter(State == "MA" & Week %in% c(max(Week), max(Week)-1)) 
   )
 ```
 
-## Latest Cases in Boston Area
+## Latest Cases in Boston Area (Today, One Week Ago, Two Weeks Ago)
 
 ```{r MA Local,echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
 
@@ -403,8 +405,9 @@ CDC_total %>% filter(countyFIPS %in% c(25017,25021, 25025) &
   arrange(Date) %>%
   mutate(`New Cases` = Cases - dplyr::lag(Cases, default = 0),
          `New Deaths` = Deaths - dplyr::lag(Deaths, default = 0)) %>% 
-  filter(Date %in% c((max(Date)-7):max(Date) )) %>%
+  filter(Date %in% c((max(Date)-14),(max(Date)-7), max(Date) )) %>%
   arrange(`County Name`, desc(Date)) %>% 
+  mutate(Date = format(Date, '%B %d, %Y')) %>%
   ungroup() 
 
 knitr::kable(Latest_Near_Me %>% select(Date,`County Name`, Cases, Deaths, `New Cases`, `New Deaths`)) 
@@ -766,6 +769,19 @@ covid_tracking_data %>%
   )
 
 ```
+
+## Data Sources
+
+Data for this report comes from:
+
+* The CDC Homepage <https://www.cdc.gov/covid-data-tracker/index.html#county-map> and <https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/>, specifically:
+    + Confirmed COVID Cases <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_confirmed_usafacts.csv>
+    + Covid Deaths <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_deaths_usafacts.csv>
+    + County Population <https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_county_population_usafacts.csv>
+* Covidtracker.com data (used by Johns Hopkins <https://coronavirus.jhu.edu/us-map>) <https://covidtracking.com/api/v1/states/daily.csv>
+* World Health Organization <https://covid19.who.int/>
+* Somerville City data <https://somerville-dashboardcovid.trial.opendatasoft.com/pages/citysdashboard/>
+
 
 ## Different Counts from Different Data
 
