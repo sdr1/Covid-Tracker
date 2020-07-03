@@ -48,18 +48,92 @@ Regions are defined as follows: Northeast (CT, ME, MA, NH, RI, VT, NJ, NY, PA), 
 
 ## Latest Cases in Boston Area (Today, One Week Ago, Two Weeks Ago)
 
-
-Date            County Name         Cases   Deaths   New Cases   New Deaths
---------------  -----------------  ------  -------  ----------  -----------
-July 02, 2020   Middlesex County    24039     1867          41            9
-June 25, 2020   Middlesex County    23741     1825          44            5
-June 18, 2020   Middlesex County    23407     1788          61            7
-July 02, 2020   Norfolk County       9200      933          16            3
-June 25, 2020   Norfolk County       9082      923          26            0
-June 18, 2020   Norfolk County       8935      905          27            2
-July 02, 2020   Suffolk County      19892     1008          39            4
-June 25, 2020   Suffolk County      19664      990          36            6
-June 18, 2020   Suffolk County      19477      963          43            4
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Date </th>
+   <th style="text-align:left;"> County Name </th>
+   <th style="text-align:right;"> Cases </th>
+   <th style="text-align:right;"> Deaths </th>
+   <th style="text-align:right;"> New Cases </th>
+   <th style="text-align:right;"> New Deaths </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> July 02, 2020 </td>
+   <td style="text-align:left;"> Middlesex County </td>
+   <td style="text-align:right;"> 24039 </td>
+   <td style="text-align:right;"> 1867 </td>
+   <td style="text-align:right;"> 41 </td>
+   <td style="text-align:right;"> 9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> June 25, 2020 </td>
+   <td style="text-align:left;"> Middlesex County </td>
+   <td style="text-align:right;"> 23741 </td>
+   <td style="text-align:right;"> 1825 </td>
+   <td style="text-align:right;"> 44 </td>
+   <td style="text-align:right;"> 5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> June 18, 2020 </td>
+   <td style="text-align:left;"> Middlesex County </td>
+   <td style="text-align:right;"> 23407 </td>
+   <td style="text-align:right;"> 1788 </td>
+   <td style="text-align:right;"> 61 </td>
+   <td style="text-align:right;"> 7 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> July 02, 2020 </td>
+   <td style="text-align:left;"> Norfolk County </td>
+   <td style="text-align:right;"> 9200 </td>
+   <td style="text-align:right;"> 933 </td>
+   <td style="text-align:right;"> 16 </td>
+   <td style="text-align:right;"> 3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> June 25, 2020 </td>
+   <td style="text-align:left;"> Norfolk County </td>
+   <td style="text-align:right;"> 9082 </td>
+   <td style="text-align:right;"> 923 </td>
+   <td style="text-align:right;"> 26 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> June 18, 2020 </td>
+   <td style="text-align:left;"> Norfolk County </td>
+   <td style="text-align:right;"> 8935 </td>
+   <td style="text-align:right;"> 905 </td>
+   <td style="text-align:right;"> 27 </td>
+   <td style="text-align:right;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> July 02, 2020 </td>
+   <td style="text-align:left;"> Suffolk County </td>
+   <td style="text-align:right;"> 19892 </td>
+   <td style="text-align:right;"> 1008 </td>
+   <td style="text-align:right;"> 39 </td>
+   <td style="text-align:right;"> 4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> June 25, 2020 </td>
+   <td style="text-align:left;"> Suffolk County </td>
+   <td style="text-align:right;"> 19664 </td>
+   <td style="text-align:right;"> 990 </td>
+   <td style="text-align:right;"> 36 </td>
+   <td style="text-align:right;"> 6 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> June 18, 2020 </td>
+   <td style="text-align:left;"> Suffolk County </td>
+   <td style="text-align:right;"> 19477 </td>
+   <td style="text-align:right;"> 963 </td>
+   <td style="text-align:right;"> 43 </td>
+   <td style="text-align:right;"> 4 </td>
+  </tr>
+</tbody>
+</table>
 
 ## New Covid Cases By State: Log Scale Cases
 
@@ -73,44 +147,264 @@ June 18, 2020   Suffolk County      19477      963          43            4
 
 
 ## Top 5 Counties: Today and The First of Each Month
-
-Date         State   County Name            Cases   Deaths
------------  ------  -------------------  -------  -------
-2020-07-02   CA      Los Angeles County    107667     3454
-2020-07-02   IL      Cook County            91381     4609
-2020-07-02   NY      Queens County          65568     7063
-2020-07-02   NY      Kings County           59855     7111
-2020-07-02   AZ      Maricopa County        54757      843
-2020-07-01   CA      Los Angeles County    105507     3402
-2020-07-01   IL      Cook County            90911     4581
-2020-07-01   NY      Queens County          65455     7059
-2020-07-01   NY      Kings County           59742     7104
-2020-07-01   AZ      Maricopa County        52266      817
-2020-06-01   IL      Cook County            78495     3658
-2020-06-01   NY      Queens County          62094     6271
-2020-06-01   NY      Kings County           56053     6742
-2020-06-01   CA      Los Angeles County     55968     2362
-2020-06-01   NY      Bronx County           45359     4480
-2020-05-01   NY      Queens County          52274     5111
-2020-05-01   NY      Kings County           45519     5320
-2020-05-01   IL      Cook County            38668     1673
-2020-05-01   NY      Bronx County           37785     3527
-2020-05-01   NY      Nassau County          36161     1720
-2020-04-01   NY      Queens County          15217      447
-2020-04-01   NY      Kings County           12274      328
-2020-04-01   NY      Westchester County     10683       64
-2020-04-01   NY      Nassau County           9554       76
-2020-04-01   NY      Bronx County            8607      360
-2020-03-01   CA      Santa Clara County        13        2
-2020-03-01   WA      King County                9        1
-2020-03-01   IL      Cook County                3        0
-2020-03-01   WA      Snohomish County           2        0
-2020-03-01   CA      Sacramento County          2        0
-2020-02-01   IL      Cook County                2        0
-2020-02-01   CA      Santa Clara County         2        0
-2020-02-01   MA      Suffolk County             1        0
-2020-02-01   AZ      Maricopa County            1        0
-2020-02-01   WA      King County                1        0
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Date </th>
+   <th style="text-align:left;"> State </th>
+   <th style="text-align:left;"> County Name </th>
+   <th style="text-align:right;"> Cases </th>
+   <th style="text-align:right;"> Deaths </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 2020-07-02 </td>
+   <td style="text-align:left;"> CA </td>
+   <td style="text-align:left;"> Los Angeles County </td>
+   <td style="text-align:right;"> 107667 </td>
+   <td style="text-align:right;"> 3454 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-07-02 </td>
+   <td style="text-align:left;"> IL </td>
+   <td style="text-align:left;"> Cook County </td>
+   <td style="text-align:right;"> 91381 </td>
+   <td style="text-align:right;"> 4609 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-07-02 </td>
+   <td style="text-align:left;"> NY </td>
+   <td style="text-align:left;"> Queens County </td>
+   <td style="text-align:right;"> 65568 </td>
+   <td style="text-align:right;"> 7063 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-07-02 </td>
+   <td style="text-align:left;"> NY </td>
+   <td style="text-align:left;"> Kings County </td>
+   <td style="text-align:right;"> 59855 </td>
+   <td style="text-align:right;"> 7111 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-07-02 </td>
+   <td style="text-align:left;"> AZ </td>
+   <td style="text-align:left;"> Maricopa County </td>
+   <td style="text-align:right;"> 54757 </td>
+   <td style="text-align:right;"> 843 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-07-01 </td>
+   <td style="text-align:left;"> CA </td>
+   <td style="text-align:left;"> Los Angeles County </td>
+   <td style="text-align:right;"> 105507 </td>
+   <td style="text-align:right;"> 3402 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-07-01 </td>
+   <td style="text-align:left;"> IL </td>
+   <td style="text-align:left;"> Cook County </td>
+   <td style="text-align:right;"> 90911 </td>
+   <td style="text-align:right;"> 4581 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-07-01 </td>
+   <td style="text-align:left;"> NY </td>
+   <td style="text-align:left;"> Queens County </td>
+   <td style="text-align:right;"> 65455 </td>
+   <td style="text-align:right;"> 7059 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-07-01 </td>
+   <td style="text-align:left;"> NY </td>
+   <td style="text-align:left;"> Kings County </td>
+   <td style="text-align:right;"> 59742 </td>
+   <td style="text-align:right;"> 7104 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-07-01 </td>
+   <td style="text-align:left;"> AZ </td>
+   <td style="text-align:left;"> Maricopa County </td>
+   <td style="text-align:right;"> 52266 </td>
+   <td style="text-align:right;"> 817 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-06-01 </td>
+   <td style="text-align:left;"> IL </td>
+   <td style="text-align:left;"> Cook County </td>
+   <td style="text-align:right;"> 78495 </td>
+   <td style="text-align:right;"> 3658 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-06-01 </td>
+   <td style="text-align:left;"> NY </td>
+   <td style="text-align:left;"> Queens County </td>
+   <td style="text-align:right;"> 62094 </td>
+   <td style="text-align:right;"> 6271 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-06-01 </td>
+   <td style="text-align:left;"> NY </td>
+   <td style="text-align:left;"> Kings County </td>
+   <td style="text-align:right;"> 56053 </td>
+   <td style="text-align:right;"> 6742 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-06-01 </td>
+   <td style="text-align:left;"> CA </td>
+   <td style="text-align:left;"> Los Angeles County </td>
+   <td style="text-align:right;"> 55968 </td>
+   <td style="text-align:right;"> 2362 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-06-01 </td>
+   <td style="text-align:left;"> NY </td>
+   <td style="text-align:left;"> Bronx County </td>
+   <td style="text-align:right;"> 45359 </td>
+   <td style="text-align:right;"> 4480 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-05-01 </td>
+   <td style="text-align:left;"> NY </td>
+   <td style="text-align:left;"> Queens County </td>
+   <td style="text-align:right;"> 52274 </td>
+   <td style="text-align:right;"> 5111 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-05-01 </td>
+   <td style="text-align:left;"> NY </td>
+   <td style="text-align:left;"> Kings County </td>
+   <td style="text-align:right;"> 45519 </td>
+   <td style="text-align:right;"> 5320 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-05-01 </td>
+   <td style="text-align:left;"> IL </td>
+   <td style="text-align:left;"> Cook County </td>
+   <td style="text-align:right;"> 38668 </td>
+   <td style="text-align:right;"> 1673 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-05-01 </td>
+   <td style="text-align:left;"> NY </td>
+   <td style="text-align:left;"> Bronx County </td>
+   <td style="text-align:right;"> 37785 </td>
+   <td style="text-align:right;"> 3527 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-05-01 </td>
+   <td style="text-align:left;"> NY </td>
+   <td style="text-align:left;"> Nassau County </td>
+   <td style="text-align:right;"> 36161 </td>
+   <td style="text-align:right;"> 1720 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-04-01 </td>
+   <td style="text-align:left;"> NY </td>
+   <td style="text-align:left;"> Queens County </td>
+   <td style="text-align:right;"> 15217 </td>
+   <td style="text-align:right;"> 447 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-04-01 </td>
+   <td style="text-align:left;"> NY </td>
+   <td style="text-align:left;"> Kings County </td>
+   <td style="text-align:right;"> 12274 </td>
+   <td style="text-align:right;"> 328 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-04-01 </td>
+   <td style="text-align:left;"> NY </td>
+   <td style="text-align:left;"> Westchester County </td>
+   <td style="text-align:right;"> 10683 </td>
+   <td style="text-align:right;"> 64 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-04-01 </td>
+   <td style="text-align:left;"> NY </td>
+   <td style="text-align:left;"> Nassau County </td>
+   <td style="text-align:right;"> 9554 </td>
+   <td style="text-align:right;"> 76 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-04-01 </td>
+   <td style="text-align:left;"> NY </td>
+   <td style="text-align:left;"> Bronx County </td>
+   <td style="text-align:right;"> 8607 </td>
+   <td style="text-align:right;"> 360 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-03-01 </td>
+   <td style="text-align:left;"> CA </td>
+   <td style="text-align:left;"> Santa Clara County </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-03-01 </td>
+   <td style="text-align:left;"> WA </td>
+   <td style="text-align:left;"> King County </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-03-01 </td>
+   <td style="text-align:left;"> IL </td>
+   <td style="text-align:left;"> Cook County </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-03-01 </td>
+   <td style="text-align:left;"> WA </td>
+   <td style="text-align:left;"> Snohomish County </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-03-01 </td>
+   <td style="text-align:left;"> CA </td>
+   <td style="text-align:left;"> Sacramento County </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-02-01 </td>
+   <td style="text-align:left;"> IL </td>
+   <td style="text-align:left;"> Cook County </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-02-01 </td>
+   <td style="text-align:left;"> CA </td>
+   <td style="text-align:left;"> Santa Clara County </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-02-01 </td>
+   <td style="text-align:left;"> MA </td>
+   <td style="text-align:left;"> Suffolk County </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-02-01 </td>
+   <td style="text-align:left;"> AZ </td>
+   <td style="text-align:left;"> Maricopa County </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-02-01 </td>
+   <td style="text-align:left;"> WA </td>
+   <td style="text-align:left;"> King County </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+</tbody>
+</table>
 
 ## Total Covid Cases By State: Free Scale Cases
 ![](Covid-Figures-and-Maps_files/figure-html/unnamed-chunk-3-1.png)<!-- -->

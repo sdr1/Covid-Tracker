@@ -22,6 +22,7 @@ library(grid)
 library(gridExtra)
 library(cowplot)
 library(plotly)
+library(kableExtra)
 
 setwd("/Users/stevenrashin/Dropbox/covid data/")
 
@@ -410,7 +411,9 @@ CDC_total %>% filter(countyFIPS %in% c(25017,25021, 25025) &
   mutate(Date = format(Date, '%B %d, %Y')) %>%
   ungroup() 
 
-knitr::kable(Latest_Near_Me %>% select(Date,`County Name`, Cases, Deaths, `New Cases`, `New Deaths`)) 
+knitr::kable(Latest_Near_Me %>% select(Date,`County Name`, Cases, Deaths, `New Cases`, `New Deaths`)) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"))
+
 
 ```
 
