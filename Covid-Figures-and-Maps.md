@@ -147,7 +147,7 @@ Regions are defined as follows: Northeast (CT, ME, MA, NH, RI, VT, NJ, NY, PA), 
 
 
 ## Top 5 Counties: Today and The First of Each Month
-<table>
+<table class="table table-striped table-hover table-responsive" style="margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
    <th style="text-align:left;"> Date </th>
