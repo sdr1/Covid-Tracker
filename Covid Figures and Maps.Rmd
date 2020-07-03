@@ -503,7 +503,7 @@ Top5Counties <- CDC_total %>%
 # See top counties.  Mapping them doesn't make sense
 
 knitr::kable(Top5Counties %>% select(Date, abbr,`County Name`, Cases, Deaths) %>% dplyr::rename(State = abbr)) %>%
-  kable_styling(bootstrap_options = c("striped", "hover","responsive"))
+  kable_styling(bootstrap_options = c("striped", "hover"))
 
 ```
 
