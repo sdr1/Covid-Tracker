@@ -1,7 +1,7 @@
 ---
 title: "Covid Figures and Maps"
 author: "Steven Rashin"
-date: "July 03, 2020"
+date: "July 05, 2020"
 output: 
   html_document:
     keep_md: yes
@@ -10,25 +10,25 @@ output:
 
 
 ## Headline Numbers 
-As of the latest CDC data release on July 02, 2020:  
+As of the latest CDC data release on July 03, 2020:  
 
-* 56,494 new cases.
-  + The record number of cases per day is 56,494 on July 02, 2020
-* 809 new deaths
+* 54,917 new cases.
+  + The record number of cases per day is 54,917 on July 03, 2020
+* 703 new deaths
   +  The record number of deaths per day is 3,153 on April 14, 2020
 
 Consequently, in the United States, there are now:   
 
-* 2,724,650 total cases  
-* 128,102 total deaths  
+* 2,777,448 total cases  
+* 128,582 total deaths  
 
 
-Globally, as of the latest WHO data release on July 03, 2020, there are: 
+Globally, as of the latest WHO data release on July 05, 2020, there are: 
 
-* 7,972,136 total cases
-  + 186,167 today
-* 318,932 total deaths
-  + 4,495 today
+* 11,125,245 total cases
+  + 203,836 today
+* 528,204 total deaths
+  + 5,195 today
 
 
 ## Overall Covid Cases In The USA
@@ -61,76 +61,76 @@ Regions are defined as follows: Northeast (CT, ME, MA, NH, RI, VT, NJ, NY, PA), 
  </thead>
 <tbody>
   <tr>
-   <td style="text-align:left;"> July 02, 2020 </td>
+   <td style="text-align:left;"> July 03, 2020 </td>
    <td style="text-align:left;"> Middlesex County </td>
-   <td style="text-align:right;"> 24039 </td>
-   <td style="text-align:right;"> 1867 </td>
-   <td style="text-align:right;"> 41 </td>
-   <td style="text-align:right;"> 9 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> June 25, 2020 </td>
-   <td style="text-align:left;"> Middlesex County </td>
-   <td style="text-align:right;"> 23741 </td>
-   <td style="text-align:right;"> 1825 </td>
+   <td style="text-align:right;"> 24083 </td>
+   <td style="text-align:right;"> 1870 </td>
    <td style="text-align:right;"> 44 </td>
-   <td style="text-align:right;"> 5 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> June 18, 2020 </td>
-   <td style="text-align:left;"> Middlesex County </td>
-   <td style="text-align:right;"> 23407 </td>
-   <td style="text-align:right;"> 1788 </td>
-   <td style="text-align:right;"> 61 </td>
-   <td style="text-align:right;"> 7 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> July 02, 2020 </td>
-   <td style="text-align:left;"> Norfolk County </td>
-   <td style="text-align:right;"> 9200 </td>
-   <td style="text-align:right;"> 933 </td>
-   <td style="text-align:right;"> 16 </td>
    <td style="text-align:right;"> 3 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> June 25, 2020 </td>
+   <td style="text-align:left;"> June 26, 2020 </td>
+   <td style="text-align:left;"> Middlesex County </td>
+   <td style="text-align:right;"> 23786 </td>
+   <td style="text-align:right;"> 1839 </td>
+   <td style="text-align:right;"> 45 </td>
+   <td style="text-align:right;"> 14 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> June 19, 2020 </td>
+   <td style="text-align:left;"> Middlesex County </td>
+   <td style="text-align:right;"> 23464 </td>
+   <td style="text-align:right;"> 1791 </td>
+   <td style="text-align:right;"> 57 </td>
+   <td style="text-align:right;"> 3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> July 03, 2020 </td>
    <td style="text-align:left;"> Norfolk County </td>
-   <td style="text-align:right;"> 9082 </td>
+   <td style="text-align:right;"> 9242 </td>
+   <td style="text-align:right;"> 934 </td>
+   <td style="text-align:right;"> 42 </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> June 26, 2020 </td>
+   <td style="text-align:left;"> Norfolk County </td>
+   <td style="text-align:right;"> 9100 </td>
    <td style="text-align:right;"> 923 </td>
-   <td style="text-align:right;"> 26 </td>
+   <td style="text-align:right;"> 18 </td>
    <td style="text-align:right;"> 0 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> June 18, 2020 </td>
+   <td style="text-align:left;"> June 19, 2020 </td>
    <td style="text-align:left;"> Norfolk County </td>
-   <td style="text-align:right;"> 8935 </td>
-   <td style="text-align:right;"> 905 </td>
+   <td style="text-align:right;"> 8962 </td>
+   <td style="text-align:right;"> 907 </td>
    <td style="text-align:right;"> 27 </td>
    <td style="text-align:right;"> 2 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> July 02, 2020 </td>
+   <td style="text-align:left;"> July 03, 2020 </td>
    <td style="text-align:left;"> Suffolk County </td>
-   <td style="text-align:right;"> 19892 </td>
-   <td style="text-align:right;"> 1008 </td>
-   <td style="text-align:right;"> 39 </td>
-   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 19936 </td>
+   <td style="text-align:right;"> 1009 </td>
+   <td style="text-align:right;"> 44 </td>
+   <td style="text-align:right;"> 1 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> June 25, 2020 </td>
+   <td style="text-align:left;"> June 26, 2020 </td>
    <td style="text-align:left;"> Suffolk County </td>
-   <td style="text-align:right;"> 19664 </td>
-   <td style="text-align:right;"> 990 </td>
-   <td style="text-align:right;"> 36 </td>
-   <td style="text-align:right;"> 6 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> June 18, 2020 </td>
-   <td style="text-align:left;"> Suffolk County </td>
-   <td style="text-align:right;"> 19477 </td>
-   <td style="text-align:right;"> 963 </td>
+   <td style="text-align:right;"> 19707 </td>
+   <td style="text-align:right;"> 997 </td>
    <td style="text-align:right;"> 43 </td>
-   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 7 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> June 19, 2020 </td>
+   <td style="text-align:left;"> Suffolk County </td>
+   <td style="text-align:right;"> 19493 </td>
+   <td style="text-align:right;"> 971 </td>
+   <td style="text-align:right;"> 16 </td>
+   <td style="text-align:right;"> 8 </td>
   </tr>
 </tbody>
 </table>
@@ -159,39 +159,39 @@ Regions are defined as follows: Northeast (CT, ME, MA, NH, RI, VT, NJ, NY, PA), 
  </thead>
 <tbody>
   <tr>
-   <td style="text-align:left;"> 2020-07-02 </td>
+   <td style="text-align:left;"> 2020-07-03 </td>
    <td style="text-align:left;"> CA </td>
    <td style="text-align:left;"> Los Angeles County </td>
    <td style="text-align:right;"> 107667 </td>
    <td style="text-align:right;"> 3454 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> 2020-07-02 </td>
+   <td style="text-align:left;"> 2020-07-03 </td>
    <td style="text-align:left;"> IL </td>
    <td style="text-align:left;"> Cook County </td>
-   <td style="text-align:right;"> 91381 </td>
-   <td style="text-align:right;"> 4609 </td>
+   <td style="text-align:right;"> 91774 </td>
+   <td style="text-align:right;"> 4618 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> 2020-07-02 </td>
+   <td style="text-align:left;"> 2020-07-03 </td>
    <td style="text-align:left;"> NY </td>
    <td style="text-align:left;"> Queens County </td>
-   <td style="text-align:right;"> 65568 </td>
-   <td style="text-align:right;"> 7063 </td>
+   <td style="text-align:right;"> 65705 </td>
+   <td style="text-align:right;"> 7070 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> 2020-07-02 </td>
+   <td style="text-align:left;"> 2020-07-03 </td>
    <td style="text-align:left;"> NY </td>
    <td style="text-align:left;"> Kings County </td>
-   <td style="text-align:right;"> 59855 </td>
-   <td style="text-align:right;"> 7111 </td>
+   <td style="text-align:right;"> 59957 </td>
+   <td style="text-align:right;"> 7120 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> 2020-07-02 </td>
+   <td style="text-align:left;"> 2020-07-03 </td>
    <td style="text-align:left;"> AZ </td>
    <td style="text-align:left;"> Maricopa County </td>
-   <td style="text-align:right;"> 54757 </td>
-   <td style="text-align:right;"> 843 </td>
+   <td style="text-align:right;"> 57929 </td>
+   <td style="text-align:right;"> 865 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 2020-07-01 </td>
