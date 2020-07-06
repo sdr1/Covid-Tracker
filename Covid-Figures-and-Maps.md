@@ -1,7 +1,7 @@
 ---
 title: "Covid Figures and Maps"
 author: "Steven Rashin"
-date: "July 05, 2020"
+date: "July 06, 2020"
 output: 
   html_document:
     keep_md: yes
@@ -10,25 +10,35 @@ output:
 
 
 ## Headline Numbers 
-As of the latest CDC data release on July 03, 2020:  
+As of the latest CDC data release on July 05, 2020 there are:  
 
-* 54,917 new cases.
-  + The record number of cases per day is 54,917 on July 03, 2020
-* 703 new deaths
+* 41,552 new cases
+  + The state with the most cases is FL with 10,059
+    - The county with the most cases is Maricopa County in AZ with 2,467 new cases 
+  + The record number of national cases per day is 55,505 on July 02, 2020
+* 226 new deaths
   +  The record number of deaths per day is 3,153 on April 14, 2020
+  
+Where I live, in Somerville, MA, as of July 02, 2020 there are:  
+
+* 0 new cases  
+* 31 cases in the last two weeks  
+  + Out of 998 cases overall   
+    - 31 Fatalities and
+    - 923 Recoveries
 
 Consequently, in the United States, there are now:   
 
-* 2,777,448 total cases  
-* 128,582 total deaths  
+* 2,864,216 total cases  
+* 129,041 total deaths  
 
 
-Globally, as of the latest WHO data release on July 05, 2020, there are: 
+Globally, as of the latest WHO data release on July 06, 2020, there are: 
 
-* 11,125,245 total cases
-  + 203,836 today
-* 528,204 total deaths
-  + 5,195 today
+* 8,527,629 total cases
+  + 176,605 today
+* 331,927 total deaths
+  + 3,602 today
 
 
 ## Overall Covid Cases In The USA
@@ -40,11 +50,10 @@ Regions are defined as follows: Northeast (CT, ME, MA, NH, RI, VT, NJ, NY, PA), 
 ## US Cases Compared to World Cases
 ![](Covid-Figures-and-Maps_files/figure-html/US v World-1.png)<!-- -->
 
-## Covid Cases in Somerville, MA in the Last Two Weeks
+## Covid Cases in Somerville, MA and MA
 ![](Covid-Figures-and-Maps_files/figure-html/Somerville-1.png)<!-- -->
 
-## Covid Cases in MA in the Last Two Weeks 
-![](Covid-Figures-and-Maps_files/figure-html/MA Cases-1.png)<!-- -->
+
 
 ## Latest Cases in Boston Area (Today, One Week Ago, Two Weeks Ago)
 
@@ -61,92 +70,101 @@ Regions are defined as follows: Northeast (CT, ME, MA, NH, RI, VT, NJ, NY, PA), 
  </thead>
 <tbody>
   <tr>
-   <td style="text-align:left;"> July 03, 2020 </td>
+   <td style="text-align:left;"> July 05, 2020 </td>
    <td style="text-align:left;"> Middlesex County </td>
-   <td style="text-align:right;"> 24083 </td>
-   <td style="text-align:right;"> 1870 </td>
-   <td style="text-align:right;"> 44 </td>
-   <td style="text-align:right;"> 3 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> June 26, 2020 </td>
-   <td style="text-align:left;"> Middlesex County </td>
-   <td style="text-align:right;"> 23786 </td>
-   <td style="text-align:right;"> 1839 </td>
-   <td style="text-align:right;"> 45 </td>
-   <td style="text-align:right;"> 14 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> June 19, 2020 </td>
-   <td style="text-align:left;"> Middlesex County </td>
-   <td style="text-align:right;"> 23464 </td>
-   <td style="text-align:right;"> 1791 </td>
-   <td style="text-align:right;"> 57 </td>
-   <td style="text-align:right;"> 3 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> July 03, 2020 </td>
-   <td style="text-align:left;"> Norfolk County </td>
-   <td style="text-align:right;"> 9242 </td>
-   <td style="text-align:right;"> 934 </td>
-   <td style="text-align:right;"> 42 </td>
-   <td style="text-align:right;"> 1 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> June 26, 2020 </td>
-   <td style="text-align:left;"> Norfolk County </td>
-   <td style="text-align:right;"> 9100 </td>
-   <td style="text-align:right;"> 923 </td>
-   <td style="text-align:right;"> 18 </td>
-   <td style="text-align:right;"> 0 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> June 19, 2020 </td>
-   <td style="text-align:left;"> Norfolk County </td>
-   <td style="text-align:right;"> 8962 </td>
-   <td style="text-align:right;"> 907 </td>
-   <td style="text-align:right;"> 27 </td>
+   <td style="text-align:right;"> 24153 </td>
+   <td style="text-align:right;"> 1879 </td>
+   <td style="text-align:right;"> 38 </td>
    <td style="text-align:right;"> 2 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> July 03, 2020 </td>
-   <td style="text-align:left;"> Suffolk County </td>
-   <td style="text-align:right;"> 19936 </td>
-   <td style="text-align:right;"> 1009 </td>
-   <td style="text-align:right;"> 44 </td>
-   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:left;"> June 28, 2020 </td>
+   <td style="text-align:left;"> Middlesex County </td>
+   <td style="text-align:right;"> 23915 </td>
+   <td style="text-align:right;"> 1851 </td>
+   <td style="text-align:right;"> 56 </td>
+   <td style="text-align:right;"> 2 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> June 26, 2020 </td>
-   <td style="text-align:left;"> Suffolk County </td>
-   <td style="text-align:right;"> 19707 </td>
-   <td style="text-align:right;"> 997 </td>
-   <td style="text-align:right;"> 43 </td>
-   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:left;"> June 21, 2020 </td>
+   <td style="text-align:left;"> Middlesex County </td>
+   <td style="text-align:right;"> 23574 </td>
+   <td style="text-align:right;"> 1807 </td>
+   <td style="text-align:right;"> 30 </td>
+   <td style="text-align:right;"> 6 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> June 19, 2020 </td>
+   <td style="text-align:left;"> July 05, 2020 </td>
+   <td style="text-align:left;"> Norfolk County </td>
+   <td style="text-align:right;"> 9273 </td>
+   <td style="text-align:right;"> 940 </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> 3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> June 28, 2020 </td>
+   <td style="text-align:left;"> Norfolk County </td>
+   <td style="text-align:right;"> 9151 </td>
+   <td style="text-align:right;"> 923 </td>
+   <td style="text-align:right;"> 26 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> June 21, 2020 </td>
+   <td style="text-align:left;"> Norfolk County </td>
+   <td style="text-align:right;"> 8994 </td>
+   <td style="text-align:right;"> 912 </td>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> July 05, 2020 </td>
    <td style="text-align:left;"> Suffolk County </td>
-   <td style="text-align:right;"> 19493 </td>
-   <td style="text-align:right;"> 971 </td>
-   <td style="text-align:right;"> 16 </td>
-   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 19985 </td>
+   <td style="text-align:right;"> 1007 </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> June 28, 2020 </td>
+   <td style="text-align:left;"> Suffolk County </td>
+   <td style="text-align:right;"> 19795 </td>
+   <td style="text-align:right;"> 1002 </td>
+   <td style="text-align:right;"> 31 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> June 21, 2020 </td>
+   <td style="text-align:left;"> Suffolk County </td>
+   <td style="text-align:right;"> 19551 </td>
+   <td style="text-align:right;"> 976 </td>
+   <td style="text-align:right;"> 23 </td>
+   <td style="text-align:right;"> 3 </td>
   </tr>
 </tbody>
 </table>
 
-## New Covid Cases By State: Log Scale Cases
+## New Covid Cases By State
+
+The plot below shows the number of new COVID cases by state.  Note that each figure has its own y axis; this is done so that trends can be seen within each state.  Log scales can make the difference between 100 and 1000 cases hard to discern and a common y axis causes states like NY and CA to swamp states like NC.  Negative new cases can occur when States revise their total number of cases downwards, as Hawaii did between June 30, 2020 and July 1, 2020.
 
 ![](Covid-Figures-and-Maps_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
 
-## Latest County Case Map
+## COVID Cases per 1,000 Residents by State
+
+This figure shows the number of COVID cases per 1,000.
+
 ![](Covid-Figures-and-Maps_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+
+
+## Latest County Case Map
+![](Covid-Figures-and-Maps_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
 ## Latest County Death Map
 ![](Covid-Figures-and-Maps_files/figure-html/deaths_by_county-1.png)<!-- -->
 
 
-## Top 5 Counties: Today and The First of Each Month
+## Counties with the Most Cases Over Time
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -159,39 +177,39 @@ Regions are defined as follows: Northeast (CT, ME, MA, NH, RI, VT, NJ, NY, PA), 
  </thead>
 <tbody>
   <tr>
-   <td style="text-align:left;"> 2020-07-03 </td>
+   <td style="text-align:left;"> 2020-07-05 </td>
    <td style="text-align:left;"> CA </td>
    <td style="text-align:left;"> Los Angeles County </td>
    <td style="text-align:right;"> 107667 </td>
    <td style="text-align:right;"> 3454 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> 2020-07-03 </td>
+   <td style="text-align:left;"> 2020-07-05 </td>
    <td style="text-align:left;"> IL </td>
    <td style="text-align:left;"> Cook County </td>
-   <td style="text-align:right;"> 91774 </td>
-   <td style="text-align:right;"> 4618 </td>
+   <td style="text-align:right;"> 92532 </td>
+   <td style="text-align:right;"> 4627 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> 2020-07-03 </td>
+   <td style="text-align:left;"> 2020-07-05 </td>
    <td style="text-align:left;"> NY </td>
    <td style="text-align:left;"> Queens County </td>
-   <td style="text-align:right;"> 65705 </td>
-   <td style="text-align:right;"> 7070 </td>
+   <td style="text-align:right;"> 65876 </td>
+   <td style="text-align:right;"> 7082 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> 2020-07-03 </td>
-   <td style="text-align:left;"> NY </td>
-   <td style="text-align:left;"> Kings County </td>
-   <td style="text-align:right;"> 59957 </td>
-   <td style="text-align:right;"> 7120 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 2020-07-03 </td>
+   <td style="text-align:left;"> 2020-07-05 </td>
    <td style="text-align:left;"> AZ </td>
    <td style="text-align:left;"> Maricopa County </td>
-   <td style="text-align:right;"> 57929 </td>
-   <td style="text-align:right;"> 865 </td>
+   <td style="text-align:right;"> 62296 </td>
+   <td style="text-align:right;"> 883 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-07-05 </td>
+   <td style="text-align:left;"> NY </td>
+   <td style="text-align:left;"> Kings County </td>
+   <td style="text-align:right;"> 60149 </td>
+   <td style="text-align:right;"> 7132 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 2020-07-01 </td>
@@ -406,19 +424,10 @@ Regions are defined as follows: Northeast (CT, ME, MA, NH, RI, VT, NJ, NY, PA), 
 </tbody>
 </table>
 
-## Total Covid Cases By State: Free Scale Cases
-![](Covid-Figures-and-Maps_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
 ## Hospitalizations By State
 
 ![](Covid-Figures-and-Maps_files/figure-html/hospitalizations-1.png)<!-- -->
-
-## Week to Week Changes in COVID Cases
-
-![](Covid-Figures-and-Maps_files/figure-html/week-to-week-1.png)<!-- -->
-
-## Cases as a Percentage of State Population
-![](Covid-Figures-and-Maps_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 ## Northeast Cases By Month
 ![](Covid-Figures-and-Maps_files/figure-html/New Northeast-1.png)<!-- -->
@@ -426,7 +435,7 @@ Regions are defined as follows: Northeast (CT, ME, MA, NH, RI, VT, NJ, NY, PA), 
 
 ## Cases By State Over Time
 
-![](Covid-Figures-and-Maps_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](Covid-Figures-and-Maps_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 
 ## Deaths By State Over Time
@@ -444,6 +453,19 @@ Regions are defined as follows: Northeast (CT, ME, MA, NH, RI, VT, NJ, NY, PA), 
 ## Patients Currently on Ventilators 
 
 ![](Covid-Figures-and-Maps_files/figure-html/vent-1.png)<!-- -->
+
+# Variants of Select Figures
+
+## Week to Week Changes in COVID Cases
+
+![](Covid-Figures-and-Maps_files/figure-html/week-to-week-1.png)<!-- -->
+
+## Confirmed Cases as a Percentage of State Population
+
+The two sets of points are confirmed cases (black), and potential cases (grey) which are confirmed cases times ten.  For herd immunity, typically 70-90% of a population needs immunity.^[See <https://www.jhsph.edu/covid-19/articles/achieving-herd-immunity-with-covid19.html>]
+
+![](Covid-Figures-and-Maps_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+
 
 ## Data Sources
 

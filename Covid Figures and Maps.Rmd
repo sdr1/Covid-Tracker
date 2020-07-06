@@ -63,6 +63,7 @@ CDC_total <- CDC_total %>%
 
 rm(CDC_cases, CDC_deaths, long_cases, long_deaths)
 
+
 ### COVID tracking data from https://covidtracking.com/data/download ###
 #confirmed_cases_covid_tracker <- fread("https://covidtracking.com/api/v1/us/daily.csv")
 covid_tracking_data <- fread("https://covidtracking.com/api/v1/states/daily.csv")
@@ -93,6 +94,22 @@ CDC_w_trendline <- CDC_total %>%
           smooth_deaths = ksmooth(Day, new_deaths, kernel = "normal", bandwidth = 7)$y,
           smooth_total_deaths = ksmooth(Day, total_deaths_by_day, kernel = "normal", bandwidth = 7)$y)  %>%
   ungroup() 
+
+### County data for headline numbers below: 
+county_with_most <- CDC_total %>% 
+  arrange(State, Date, countyFIPS) %>%
+  group_by(countyFIPS) %>%
+  mutate(new_cases = Cases - dplyr::lag(Cases, default = 0),
+         new_deaths = Deaths - dplyr::lag(Deaths, default = 0)) %>%
+  ungroup() %>%
+  filter(Date == max(Date, na.rm = T)) %>% 
+  filter(new_cases == max(new_cases))
+
+state_with_most <- CDC_w_trendline %>%   
+  filter(Date == max(Date, na.rm = T)) %>% 
+  filter(new_cases == max(new_cases)) %>%
+  select(State, new_cases,Date)
+
 
 covid_tracking_data_w_trendline <- covid_tracking_data %>% filter(State %in% state.abb) %>%
   mutate(Week = lubridate::week(Date),
@@ -140,15 +157,54 @@ try_url <- function(url){
 global <- try_url("https://covid19.who.int/WHO-COVID-19-global-data.csv")
 global$Date <- lubridate::ymd(gsub(pattern = "T.{1,}$", replacement = "", x = global$Date_reported))
 
+
+
+try_url <- function(url){
+      tryCatch(
+        expr = {
+          local <- fread(url)
+          return(local)
+        },
+        error = function(e){
+            message('"ERROR Out of Date Data / Using Last Saved DATA"')
+            local <- read.csv("/Users/stevenrashin/Documents/GitHub/Covid-Tracker/daily-c19-case-counts.csv",stringsAsFactors = F)
+            return(local)
+        }
+    )
+}
+
+local <- try_url("https://somerville-dashboardcovid.trial.opendatasoft.com/explore/dataset/daily-c19-case-counts/download/?format=csv&timezone=America/New_York&lang=en&use_labels_for_header=true&csv_separator=%2C")
+
+local$Date <- lubridate::ymd(gsub(pattern = "T.{1,}$", replacement = "", x = local$Date))
+
+Somerville_MA <- local %>% 
+    mutate(new_cases = Positive - dplyr::lag(Positive, default = 0),
+         new_deaths = Fatalities - dplyr::lag(Fatalities, default = 0),
+         Day = lubridate::yday(Date),
+         Week = lubridate::week(Date)) %>%
+    mutate( smooth_new_cases = ksmooth(Day, new_cases, kernel = "normal", bandwidth = 7)$y) %>%
+  filter(Day %in% (max(Day)-14):max(Day))
+
+# in `r county_with_most %>% select(State) %>% pull()` with `r formatC(county_with_most %>% select(new_cases) %>% pull(), format="f", big.mark=",", digits=0)` new cases
 ```
 
 ## Headline Numbers 
-As of the latest CDC data release on `r format(max(CDC_w_trendline$Date), '%B %d, %Y')`:  
+As of the latest CDC data release on `r format(max(CDC_w_trendline$Date), '%B %d, %Y')` there are:  
 
-* `r formatC(CDC_w_trendline %>% filter(Date == max(Date)) %>% ungroup() %>% summarize(sum(new_cases)) %>% pull(), format="f", big.mark=",", digits=0)` new cases.
-  + The record number of cases per day is `r formatC(CDC_w_trendline %>% group_by(Date) %>% summarize(new_cases = sum(new_cases)) %>% filter(new_cases == max(new_cases)) %>% select(new_cases) %>% pull(), format="f", big.mark=",", digits=0)` on `r format(CDC_w_trendline %>% group_by(Date) %>% summarize(new_cases = sum(new_cases)) %>% filter(new_cases == max(new_cases)) %>% select(Date) %>% pull(), '%B %d, %Y')`
+* `r formatC(CDC_w_trendline %>% filter(Date == max(Date)) %>% ungroup() %>% summarize(sum(new_cases)) %>% pull(), format="f", big.mark=",", digits=0)` new cases
+  + The state with the most cases is `r state_with_most %>% select(State) %>% pull()` with `r formatC(state_with_most %>% select(new_cases) %>% pull(), format="f", big.mark=",", digits=0)`
+    - The county with the most cases is `r county_with_most[,5]` in `r county_with_most[,2]` with `r formatC(county_with_most %>% select(new_cases) %>% pull(), format="f", big.mark=",", digits=0)` new cases 
+  + The record number of national cases per day is `r formatC(CDC_w_trendline %>% group_by(Date) %>% summarize(new_cases = sum(new_cases)) %>% filter(new_cases == max(new_cases)) %>% select(new_cases) %>% pull(), format="f", big.mark=",", digits=0)` on `r format(CDC_w_trendline %>% group_by(Date) %>% summarize(new_cases = sum(new_cases)) %>% filter(new_cases == max(new_cases)) %>% select(Date) %>% pull(), '%B %d, %Y')`
 * `r formatC(CDC_w_trendline %>% filter(Date == max(Date)) %>% ungroup() %>% summarize(sum(new_deaths)) %>% pull(), format="f", big.mark=",", digits=0)` new deaths
   +  The record number of deaths per day is `r formatC(CDC_w_trendline %>% group_by(Date) %>% summarize(new_deaths = sum(new_deaths)) %>% filter(new_deaths == max(new_deaths)) %>% select(new_deaths) %>% pull(), format="f", big.mark=",", digits=0)` on `r format(CDC_w_trendline %>% group_by(Date) %>% summarize(new_deaths = sum(new_deaths)) %>% filter(new_deaths == max(new_deaths)) %>% select(Date) %>% pull(), '%B %d, %Y')`
+  
+Where I live, in Somerville, MA, as of `r format(max(Somerville_MA$Date), '%B %d, %Y')` there are:  
+
+* `r Somerville_MA %>% filter(Date == max(Date)) %>% select(new_cases) %>% pull()` new cases  
+* `r Somerville_MA %>% filter(Date %in% (max(Date)-14):max(Date)) %>% summarize(new_cases = sum(new_cases, na.rm = T)) %>% pull()` cases in the last two weeks  
+  + Out of `r Somerville_MA %>% filter(Date == max(Date)) %>% select(Positive) %>% pull()` cases overall   
+    - `r Somerville_MA %>% filter(Date == max(Date)) %>% select(Fatalities) %>% pull()` Fatalities and
+    - `r Somerville_MA %>% filter(Date == max(Date)) %>% select(Recovered) %>% pull()` Recoveries
 
 Consequently, in the United States, there are now:   
 
@@ -313,58 +369,21 @@ global %>%
     axis.text = element_text(size=14, face="bold")
   )
 
-  
-  # 
-  # 
-  # facet_wrap(~ Country) +
-  # #ggtitle(c(paste("New Cases Up To", max(global$Date)))) +
-  # xlab("Date") + ylab("New Cases Per Day") +
-  # theme(
-  #   plot.title = element_text(size=14, face="bold",hjust = 0.5),
-  #   axis.title.x = element_text(size=14, face="bold"),
-  #   axis.title.y = element_text(size=14, face="bold"),
-  #   strip.text.x = element_text(size=10, face="bold"),
-  #   axis.text = element_text(size=14, face="bold")
-  # )
-
-
 ```
 
-## Covid Cases in Somerville, MA in the Last Two Weeks
+## Covid Cases in Somerville, MA and MA
 ```{r Somerville, echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
 # from https://somerville-dashboardcovid.trial.opendatasoft.com/explore/dataset/daily-c19-case-counts/information/
 
-
-try_url <- function(url){
-      tryCatch(
-        expr = {
-          local <- fread(url)
-          return(local)
-        },
-        error = function(e){
-            message('"ERROR Out of Date Data / Using Last Saved DATA"')
-            local <- read.csv("/Users/stevenrashin/Documents/GitHub/Covid-Tracker/daily-c19-case-counts.csv",stringsAsFactors = F)
-            return(local)
-        }
-    )
-}
-
-local <- try_url("https://somerville-dashboardcovid.trial.opendatasoft.com/explore/dataset/daily-c19-case-counts/download/?format=csv&timezone=America/New_York&lang=en&use_labels_for_header=true&csv_separator=%2C")
-
-local$Date <- lubridate::ymd(gsub(pattern = "T.{1,}$", replacement = "", x = local$Date))
-local %>% 
-    mutate(new_cases = Positive - dplyr::lag(Positive, default = 0),
-         new_deaths = Fatalities - dplyr::lag(Fatalities, default = 0),
-         Day = lubridate::yday(Date),
-         Week = lubridate::week(Date)) %>%
-    mutate( smooth_new_cases = ksmooth(Day, new_cases, kernel = "normal", bandwidth = 7)$y) %>%
-  filter(Week %in% c(max(Week), max(Week)-1)) %>%
+MA_and_Somerville <- CDC_w_trendline %>% filter(State == "MA" & Day %in% (max(Day)-14):max(Day)) %>%
   ggplot(aes(x = Date, y = new_cases)) +
-  geom_point(size = 3, alpha = 1) + 
+  geom_point(size = 3, alpha = 1,col = "darkblue") + 
   geom_line(aes(Date, smooth_new_cases), color="darkblue") +
-  scale_y_continuous(label = scales::number_format(accuracy = 1)) +
-  theme_minimal() + ggtitle(c(paste("Cases Up To", max(local$Date)))) +
-  xlab("Date") + ylab("New Cases Per Day") +
+  geom_point(data = Somerville_MA, mapping = aes(x = Date,y = new_cases), col = 'darkred') +
+  geom_line(data = Somerville_MA, mapping = aes(Date, smooth_new_cases), color="darkred") +
+  scale_y_continuous(label = scales::number_format(accuracy = 1))  +
+  theme_minimal() +
+  xlab("Date") + ylab("New Cases") + ggtitle(c(paste("Cases in Somerville, MA (Red) Compared and MA (Blue) as of", max(CDC_w_trendline$Date)))) +
   theme(
     plot.title = element_text(size=14, face="bold",hjust = 0.5),
     axis.title.x = element_text(size=14, face="bold"),
@@ -372,26 +391,53 @@ local %>%
     strip.text.x = element_text(size=10, face="bold"),
     axis.text = element_text(size=14, face="bold")
   )
+
+MA_and_Somerville
+
+# home <- local %>% 
+#     mutate(new_cases = Positive - dplyr::lag(Positive, default = 0),
+#          new_deaths = Fatalities - dplyr::lag(Fatalities, default = 0),
+#          Day = lubridate::yday(Date),
+#          Week = lubridate::week(Date)) %>%
+#     mutate( smooth_new_cases = ksmooth(Day, new_cases, kernel = "normal", bandwidth = 7)$y) %>%
+#   filter(Day %in% c(max(Day), max(Day)-14)) %>%
+#   ggplot(aes(x = Date, y = new_cases)) +
+#   geom_point(size = 3, alpha = 1) + 
+#   geom_line(aes(Date, smooth_new_cases), color="darkblue") +
+#   scale_y_continuous(label = scales::number_format(accuracy = 1)) +
+#   theme_minimal() + ggtitle(c(paste("Cases Up To", max(local$Date)))) +
+#   xlab("Date") + ylab("New Cases Per Day") +
+#   theme(
+#     plot.title = element_text(size=14, face="bold",hjust = 0.5),
+#     axis.title.x = element_text(size=14, face="bold"),
+#     axis.title.y = element_text(size=14, face="bold"),
+#     strip.text.x = element_text(size=10, face="bold"),
+#     axis.text = element_text(size=14, face="bold")
+#   )
+# 
+# MA <- CDC_w_trendline %>% filter(State == "MA" & Week %in% c(max(Week), max(Week)-1)) %>%
+#   ggplot(aes(x = Date, y = new_cases)) +
+#   geom_point(size = 3, alpha = 1) + 
+#   geom_line(aes(Date, smooth_new_cases), color="darkblue") +
+#   scale_y_continuous(label = scales::number_format(accuracy = 1))  +
+#   theme_minimal() +
+#   xlab("Date") + ylab("New Cases Per Day") + ggtitle(c(paste("Cases Up To", max(CDC_w_trendline$Date)))) +
+#   theme(
+#     plot.title = element_text(size=14, face="bold",hjust = 0.5),
+#     axis.title.x = element_text(size=14, face="bold"),
+#     axis.title.y = element_text(size=14, face="bold"),
+#     strip.text.x = element_text(size=10, face="bold"),
+#     axis.text = element_text(size=14, face="bold")
+#   )
+# 
+# grid.arrange(home, MA, nrow = 2, ncol = 2)
+
 ```
 
-## Covid Cases in MA in the Last Two Weeks 
 ```{r MA Cases,echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
+## Covid Cases in MA in the Last Two Weeks 
 # New cases by state by day, log scale, with week long trend line
 # use log scale otherwhise NY and MA overwhelm other states
-CDC_w_trendline %>% filter(State == "MA" & Week %in% c(max(Week), max(Week)-1)) %>%
-  ggplot(aes(x = Date, y = new_cases)) +
-  geom_point(size = 3, alpha = 1) + 
-  geom_line(aes(Date, smooth_new_cases), color="darkblue") +
-  scale_y_continuous(label = scales::number_format(accuracy = 1)) +
-  theme_minimal() +
-  xlab("Date") + ylab("New Cases Per Day") + ggtitle(c(paste("Cases Up To", max(CDC_w_trendline$Date)))) +
-  theme(
-    plot.title = element_text(size=14, face="bold",hjust = 0.5),
-    axis.title.x = element_text(size=14, face="bold"),
-    axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=10, face="bold"),
-    axis.text = element_text(size=14, face="bold")
-  )
 ```
 
 ## Latest Cases in Boston Area (Today, One Week Ago, Two Weeks Ago)
@@ -417,17 +463,19 @@ knitr::kable(Latest_Near_Me %>% select(Date,`County Name`, Cases, Deaths, `New C
 
 ```
 
-## New Covid Cases By State: Log Scale Cases
+## New Covid Cases By State
 
-```{r,echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
+The plot below shows the number of new COVID cases by state.  Note that each figure has its own y axis; this is done so that trends can be seen within each state.  Log scales can make the difference between 100 and 1000 cases hard to discern and a common y axis causes states like NY and CA to swamp states like NC.  Negative new cases can occur when States revise their total number of cases downwards, as Hawaii did between June 30, 2020 and July 1, 2020.
+
+```{r,echo = F, warning = F,cache = F, message = F, fig.width = 11, fig.height = 17}
 # New cases by state by day, log scale, with week long trend line
 # use log scale otherwhise NY and MA overwhelm other states
 CDC_w_trendline %>% #filter(State == "OK") %>%
   ggplot(aes(x = Date, y = new_cases)) +
   geom_point(size = 1, alpha = .5) + 
   geom_line(aes(Date, smooth_new_cases), color="darkblue") +
-  scale_y_continuous(label = scales::number_format(accuracy = 1),trans='log10') +
-  facet_wrap(~ State) + #, scales = "free") + # free scales scales each state individually
+  scale_y_continuous(label = scales::number_format(accuracy = 1)) + #,trans='log10') +
+  facet_wrap(~ State, nrow = 20 , scales = "free") + # free scales scales each state individually
   theme_minimal() +
   xlab("Date") + ylab("New Cases Per Day") +
   theme(
@@ -435,10 +483,37 @@ CDC_w_trendline %>% #filter(State == "OK") %>%
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
     strip.text.x = element_text(size=10, face="bold"),
-    axis.text = element_text(size=10, face="bold")
+    axis.text = element_text(size=10)
 
   )
 ```
+
+## COVID Cases per 1,000 Residents by State
+
+This figure shows the number of COVID cases per 1,000.
+
+```{r,echo = F, warning = F,cache = F, message = F, fig.width = 11, fig.height = 17}
+# New cases by state by day, log scale, with week long trend line
+# use log scale otherwhise NY and MA overwhelm other states
+CDC_w_trendline %>% #filter(State == "OK") %>%
+  full_join(population_data_by_state, by = "State") %>%
+  mutate(cases_per_capita = total_cases_by_day/population * 1000) %>%
+  ggplot(aes(x = Date, y = cases_per_capita)) +
+  geom_point(size = 1, alpha = .5) + 
+  scale_y_continuous(label = scales::number_format(accuracy = 1)) +
+  facet_wrap(~ State, nrow = 10) + # free scales scales each state individually
+  theme_minimal() +
+  xlab("Date") + ylab("Cases per 1,000") +
+  theme(
+    plot.title = element_text(size=14, face="bold"),
+    axis.title.x = element_text(size=14, face="bold"),
+    axis.title.y = element_text(size=14, face="bold"),
+    strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=10)
+
+  )
+```
+
 
 ## Latest County Case Map
 ```{r,echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
@@ -484,14 +559,15 @@ usmap::plot_usmap("counties", labels = F, include = state.abb,
 ```
 
 
-## Top 5 Counties: Today and The First of Each Month
+## Counties with the Most Cases Over Time
 ```{r top counties,echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
 
 # Top 5 counties by first of the month
 Top5Counties <- CDC_total %>% 
   filter(countyFIPS > 10 & # & Date == max(Date),
            State %in% state.abb &
-           (grepl("-01$", Date))|Date == max(Date)) %>%
+           (grepl("-01$", Date))|Date == max(Date) & 
+           Month %in% c((max(Month)-2):max(Month))) %>%
   dplyr::rename(fips = countyFIPS, 
                 abbr = State) %>%
   group_by(fips, Date) %>%
@@ -507,26 +583,6 @@ knitr::kable(Top5Counties %>% select(Date, abbr,`County Name`, Cases, Deaths) %>
 
 ```
 
-## Total Covid Cases By State: Free Scale Cases
-```{r,echo = F, warning = F,cache = F, message = F, fig.width = 15, fig.height = 8.5}
-# New cases by state by day, log scale, with week long trend line
-# use log scale otherwhise NY and MA overwhelm other states
-CDC_w_trendline %>% #filter(State == "OK") %>%
-  ggplot(aes(x = Date, y = total_cases_by_day)) +
-  geom_point(size = 1, alpha = .5) + 
-  scale_y_continuous(label = scales::number_format(accuracy = 1)) +
-  facet_wrap(~ State, scales = "free") + # free scales scales each state individually
-  theme_minimal() +
-  xlab("Date") + ylab("Total Cases By Day") +
-  theme(
-    plot.title = element_text(size=14, face="bold"),
-    axis.title.x = element_text(size=14, face="bold"),
-    axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=10, face="bold"),
-    axis.text = element_text(size=10, face="bold")
-
-  )
-```
 
 ## Hospitalizations By State
 
@@ -553,72 +609,6 @@ covid_tracking_data %>%
     axis.text = element_text(size=10, face="bold")
 
   )
-
-```
-
-## Week to Week Changes in COVID Cases
-
-```{r week-to-week,echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
-# Week-to-week percentage change in cases: (new week - prior week) / prior week
-CDC_w_trendline  %>% 
-  group_by(State, Week) %>%
-  dplyr::summarise(new_cases_per_week = sum(new_cases, na.rm = T)) %>%
-  mutate(
-    last_week = lag(new_cases_per_week, 1),
-    pct_change = (new_cases_per_week - last_week)/last_week , 
-    week_to_date = lubridate::ymd( "2020-01-01" ) + lubridate::weeks(Week - 1 ),
-    moving_average = zoo::rollmean(new_cases_per_week,4,align='right',fill=NA),
-    pct_change_month = (new_cases_per_week - moving_average)/moving_average) %>%   
-  #replace(is.na(.), 0)  %>% 
-  group_by(State) %>%
-  filter(Week > 10) %>%
-  ggplot(aes(x = week_to_date, y = pct_change)) + 
-  geom_point(aes(colour = cut(pct_change, c(-Inf, 0, Inf))),
-             size = 1, alpha = 1) +
-  scale_color_manual(name = "Cases",
-                     values = c("(-Inf,0]" = "darkblue",
-                                "(0, Inf]" = "red"),
-                     labels = c("Falling","Rising")) +
-  #geom_line(alpha = 0.3) +
-  scale_y_continuous(label = scales::percent_format(accuracy = 1)) +
-  facet_wrap(~ State) + #, scales = "free") + # free scales scales each state individually
-  theme_minimal() +
-  xlab("Date") + ylab("Change in New Cases from Prior Week") +
-  theme(
-    plot.title = element_text(size=14, face="bold"),
-    axis.title.x = element_text(size=14, face="bold"),
-    axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=10, face="bold"),
-    axis.text = element_text(size=10, face="bold"),
-    legend.position = "none"
-  ) +
-  coord_cartesian(ylim = c(-0.25,0.25)) +
-  geom_hline(yintercept=0, color = "black", linetype = "dashed", size=1) 
-
-```
-
-## Cases as a Percentage of State Population
-```{r, echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
-# Total cases by state, as a percentage of state population
-CDC_w_trendline %>% #filter(State == "AK") %>%
-  left_join(population_data_by_state, by = "State") %>%
-  mutate(cases_as_pct_of_pop = total_cases_by_day/population) %>%
-  ggplot(aes(x = Date, y = cases_as_pct_of_pop)) +
-  geom_point(size = 1, alpha = .5) + #color = "grey"
-  #geom_line(aes(Date, smooth_total), color="darkblue") +
-  scale_y_continuous(label = scales::percent_format(accuracy = 0.1)) +
-  facet_wrap(~ State) + # free scales scales each state individually
-  theme_minimal() +
-  xlab("Date") + ylab("Cases as % of State Population") +
-  theme(
-    plot.title = element_text(size=14, face="bold"),
-    axis.title.x = element_text(size=14, face="bold"),
-    axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=10, face="bold"),
-    axis.text = element_text(size=10, face="bold")
-
-  )
-
 
 ```
 
@@ -773,6 +763,81 @@ covid_tracking_data %>%
   )
 
 ```
+
+# Variants of Select Figures
+
+## Week to Week Changes in COVID Cases
+
+```{r week-to-week,echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
+# Week-to-week percentage change in cases: (new week - prior week) / prior week
+good_or_bad_week <- CDC_w_trendline  %>% 
+  group_by(State, Week) %>%
+  dplyr::summarise(new_cases_per_week = sum(new_cases, na.rm = T)) %>%
+  mutate(
+    last_week = lag(new_cases_per_week, 1),
+    pct_change = (new_cases_per_week - last_week)/last_week , 
+    week_to_date = lubridate::ymd( "2020-01-01" ) + lubridate::weeks(Week - 1 ),
+    moving_average = zoo::rollmean(new_cases_per_week,4,align='right',fill=NA),
+    pct_change_month = (new_cases_per_week - moving_average)/moving_average) %>%   
+  #replace(is.na(.), 0)  %>% 
+  group_by(State) %>%
+  filter(Week > 10) 
+
+good_or_bad_week %>% mutate(alpha1 = 1/Week) %>%
+  ggplot(aes(x = week_to_date, y = pct_change)) + 
+  geom_point(aes(colour = cut(pct_change, c(-Inf, 0, Inf))),
+             size = 1) +
+  scale_color_manual(name = "Cases",
+                     values = c("(-Inf,0]" = "darkblue",
+                                "(0, Inf]" = "red"),
+                     labels = c("Falling","Rising")) +
+  scale_y_continuous(label = scales::percent_format(accuracy = 1)) +
+  facet_wrap(~ State) + #, scales = "free") + # free scales scales each state individually
+  theme_minimal() +  #geom_line(alpha = 0.3) +
+  xlab("Date") + ylab("Change in New Cases from Prior Week") +
+  theme(
+    plot.title = element_text(size=14, face="bold"),
+    axis.title.x = element_text(size=14, face="bold"),
+    axis.title.y = element_text(size=14, face="bold"),
+    strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=10, face="bold"),
+    legend.position = "none"
+  ) +
+  coord_cartesian(ylim = c(-0.50,0.50)) +
+  geom_hline(yintercept=0, color = "black", linetype = "dashed", size=0.5) +
+  scale_alpha_continuous(guide=FALSE)
+
+```
+
+## Confirmed Cases as a Percentage of State Population
+
+The two sets of points are confirmed cases (black), and potential cases (grey) which are confirmed cases times ten.  For herd immunity, typically 70-90% of a population needs immunity.^[See <https://www.jhsph.edu/covid-19/articles/achieving-herd-immunity-with-covid19.html>]
+
+```{r, echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
+# Total cases by state, as a percentage of state population
+CDC_w_trendline %>% #filter(State == "AK") %>%
+  left_join(population_data_by_state, by = "State") %>%
+  mutate(cases_as_pct_of_pop = total_cases_by_day/population) %>%
+  ggplot(aes(x = Date, y = cases_as_pct_of_pop)) +
+  geom_point(size = 1, alpha = .5) + #color = "grey"
+  geom_point(mapping = aes(x = Date, y = cases_as_pct_of_pop * 10), size = 1, alpha = .3, color = "grey") + #color = "grey"
+  #geom_line(aes(Date, smooth_total), color="darkblue") +
+  scale_y_continuous(label = scales::percent_format(accuracy = 0.1)) +
+  facet_wrap(~ State) + # free scales scales each state individually
+  theme_minimal() +
+  xlab("Date") + ylab("Cases as % of State Population") +
+  theme(
+    plot.title = element_text(size=14, face="bold"),
+    axis.title.x = element_text(size=14, face="bold"),
+    axis.title.y = element_text(size=14, face="bold"),
+    strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=10, face="bold")
+
+  )
+
+
+```
+
 
 ## Data Sources
 
