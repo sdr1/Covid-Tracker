@@ -35,10 +35,10 @@ Consequently, in the United States, there are now:
 
 Globally, as of the latest WHO data release on July 06, 2020, there are: 
 
-* 8,527,629 total cases
-  + 176,605 today
-* 331,927 total deaths
-  + 3,602 today
+* 11,327,790 total cases
+  + 202,545 today
+* 532,340 total deaths
+  + 4,134 today
 
 
 ## Overall Covid Cases In The USA
@@ -316,111 +316,6 @@ This figure shows the number of COVID cases per 1,000.
    <td style="text-align:right;"> 36161 </td>
    <td style="text-align:right;"> 1720 </td>
   </tr>
-  <tr>
-   <td style="text-align:left;"> 2020-04-01 </td>
-   <td style="text-align:left;"> NY </td>
-   <td style="text-align:left;"> Queens County </td>
-   <td style="text-align:right;"> 15217 </td>
-   <td style="text-align:right;"> 447 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 2020-04-01 </td>
-   <td style="text-align:left;"> NY </td>
-   <td style="text-align:left;"> Kings County </td>
-   <td style="text-align:right;"> 12274 </td>
-   <td style="text-align:right;"> 328 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 2020-04-01 </td>
-   <td style="text-align:left;"> NY </td>
-   <td style="text-align:left;"> Westchester County </td>
-   <td style="text-align:right;"> 10683 </td>
-   <td style="text-align:right;"> 64 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 2020-04-01 </td>
-   <td style="text-align:left;"> NY </td>
-   <td style="text-align:left;"> Nassau County </td>
-   <td style="text-align:right;"> 9554 </td>
-   <td style="text-align:right;"> 76 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 2020-04-01 </td>
-   <td style="text-align:left;"> NY </td>
-   <td style="text-align:left;"> Bronx County </td>
-   <td style="text-align:right;"> 8607 </td>
-   <td style="text-align:right;"> 360 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 2020-03-01 </td>
-   <td style="text-align:left;"> CA </td>
-   <td style="text-align:left;"> Santa Clara County </td>
-   <td style="text-align:right;"> 13 </td>
-   <td style="text-align:right;"> 2 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 2020-03-01 </td>
-   <td style="text-align:left;"> WA </td>
-   <td style="text-align:left;"> King County </td>
-   <td style="text-align:right;"> 9 </td>
-   <td style="text-align:right;"> 1 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 2020-03-01 </td>
-   <td style="text-align:left;"> IL </td>
-   <td style="text-align:left;"> Cook County </td>
-   <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 0 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 2020-03-01 </td>
-   <td style="text-align:left;"> WA </td>
-   <td style="text-align:left;"> Snohomish County </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 0 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 2020-03-01 </td>
-   <td style="text-align:left;"> CA </td>
-   <td style="text-align:left;"> Sacramento County </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 0 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 2020-02-01 </td>
-   <td style="text-align:left;"> IL </td>
-   <td style="text-align:left;"> Cook County </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 0 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 2020-02-01 </td>
-   <td style="text-align:left;"> CA </td>
-   <td style="text-align:left;"> Santa Clara County </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 0 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 2020-02-01 </td>
-   <td style="text-align:left;"> MA </td>
-   <td style="text-align:left;"> Suffolk County </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 0 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 2020-02-01 </td>
-   <td style="text-align:left;"> AZ </td>
-   <td style="text-align:left;"> Maricopa County </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 0 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 2020-02-01 </td>
-   <td style="text-align:left;"> WA </td>
-   <td style="text-align:left;"> King County </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 0 </td>
-  </tr>
 </tbody>
 </table>
 
@@ -429,16 +324,16 @@ This figure shows the number of COVID cases per 1,000.
 
 ![](Covid-Figures-and-Maps_files/figure-html/hospitalizations-1.png)<!-- -->
 
-## Northeast Cases By Month
+## Cumulative Northeast Cases By Month
 ![](Covid-Figures-and-Maps_files/figure-html/New Northeast-1.png)<!-- -->
 
 
-## Cases By State Over Time
+## Cumulative Cases By State Over Time
 
 ![](Covid-Figures-and-Maps_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 
-## Deaths By State Over Time
+## Cumulative Deaths By State Over Time
 
 ![](Covid-Figures-and-Maps_files/figure-html/deaths by state-1.png)<!-- -->
 
@@ -446,7 +341,7 @@ This figure shows the number of COVID cases per 1,000.
 
 ![](Covid-Figures-and-Maps_files/figure-html/ratio-1.png)<!-- -->
 
-## Currently Hospitalized Patients
+## Patients Currently in the ICU
 
 ![](Covid-Figures-and-Maps_files/figure-html/icu-1.png)<!-- -->
 

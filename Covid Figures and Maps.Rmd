@@ -564,17 +564,18 @@ usmap::plot_usmap("counties", labels = F, include = state.abb,
 
 # Top 5 counties by first of the month
 Top5Counties <- CDC_total %>% 
-  filter(countyFIPS > 10 & # & Date == max(Date),
+  filter(countyFIPS > 10 & 
            State %in% state.abb &
-           (grepl("-01$", Date))|Date == max(Date) & 
-           Month %in% c((max(Month)-2):max(Month))) %>%
+           (grepl("-01$", Date))|Date == max(Date)) %>%
   dplyr::rename(fips = countyFIPS, 
                 abbr = State) %>%
   group_by(fips, Date) %>%
   group_by(Date) %>%
   arrange( -Cases) %>%
   slice(1:5) %>% 
-  ungroup() %>% arrange(desc(Date))
+  ungroup() %>% 
+  filter(Month %in% c((max(Month)-2):max(Month))) %>%
+  arrange(desc(Date))
 
 # See top counties.  Mapping them doesn't make sense
 
@@ -612,7 +613,7 @@ covid_tracking_data %>%
 
 ```
 
-## Northeast Cases By Month
+## Cumulative Northeast Cases By Month
 ```{r New Northeast, echo = F, warning = F,cache = F, message = F, fig.width = 11, fig.height = 8.5}
 #Plot New England on the first of each month
 usmap::plot_usmap("counties", labels = F, include = c(.northeast_region), color = "black",
@@ -638,7 +639,7 @@ usmap::plot_usmap("counties", labels = F, include = c(.northeast_region), color 
 ```
 
 
-## Cases By State Over Time
+## Cumulative Cases By State Over Time
 
 ```{r,, echo = F, warning = F,cache = F, message = F, fig.width = 11, fig.height = 8.5}
 # Cases over time
@@ -661,7 +662,7 @@ plot_usmap(data = CDC_total %>%
 ```
 
 
-## Deaths By State Over Time
+## Cumulative Deaths By State Over Time
 
 ```{r deaths by state,  echo = F, warning = F,cache = F, message = F, fig.width = 11, fig.height = 8.5}
 plot_usmap(data = CDC_total %>% 
@@ -713,7 +714,7 @@ covid_tracking_data %>%
 
 ```
 
-## Currently Hospitalized Patients
+## Patients Currently in the ICU
 
 ```{r icu, echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 10}
 covid_tracking_data %>% 
