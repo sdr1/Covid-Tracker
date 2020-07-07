@@ -613,107 +613,6 @@ covid_tracking_data %>%
 
 ```
 
-## Cumulative Northeast Cases By Month
-```{r New Northeast, echo = F, warning = F,cache = F, message = F, fig.width = 11, fig.height = 8.5}
-#Plot New England on the first of each month
-usmap::plot_usmap("counties", labels = F, include = c(.northeast_region), color = "black",
-                  data = CDC_total %>%
-                    filter(Date > "2020-02-01" & 
-                    State %in% .northeast_region &
-                    (grepl("-01$", Date)) &
-                      countyFIPS > 10 ) %>%
-  dplyr::rename(fips = countyFIPS, 
-                abbr = State), 
-                  values = "Cases") + 
-  scale_fill_continuous(low = "blue", high = "red",name = "Covid Cases", label = scales::comma) + #trans = "log10",
-  theme(legend.position = "right") + 
-  facet_wrap(~ Date)  + 
-  theme_void() + xlab("") + ylab("") +
-  theme(
-    plot.title = element_text(size=14, face="bold"),
-    axis.title.x = element_text(size=14, face="bold"),
-    axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=14, face="bold")
-  )
-
-```
-
-
-## Cumulative Cases By State Over Time
-
-```{r,, echo = F, warning = F,cache = F, message = F, fig.width = 11, fig.height = 8.5}
-# Cases over time
-plot_usmap(data = CDC_total %>% 
-             dplyr::rename(state = State) %>%
-             filter(Date > "2020-02-01" & 
-                      grepl("-01$", Date)) %>%
-             group_by(state, Date) %>%
-             summarise(Cases = sum(Cases, na.rm = T)), values = "Cases", color = "black") + 
-  scale_fill_continuous(low = "blue", high = "red",name = "Covid Cases", label = scales::comma) +
-  theme(legend.position = "right") + 
-  facet_wrap(~ Date) + 
-  theme_void() + xlab("") + ylab("") +
-  theme(
-    plot.title = element_text(size=14, face="bold"),
-    axis.title.x = element_text(size=14, face="bold"),
-    axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=14, face="bold")
-  )
-```
-
-
-## Cumulative Deaths By State Over Time
-
-```{r deaths by state,  echo = F, warning = F,cache = F, message = F, fig.width = 11, fig.height = 8.5}
-plot_usmap(data = CDC_total %>% 
-             dplyr::rename(state = State) %>%
-             filter(Date > "2020-02-01" & 
-                      grepl("-01$", Date)) %>%
-             group_by(state, Date) %>%
-             summarise(Deaths = sum(Deaths, na.rm = T)), values = "Deaths", color = "black") + 
-  scale_fill_continuous(low = "blue", high = "red",name = "Covid Deaths", label = scales::comma) +
-  theme(legend.position = "right") + 
-  facet_wrap(~ Date) + 
-  theme_void() + xlab("") + ylab("") +
-  theme(
-    plot.title = element_text(size=14, face="bold"),
-    axis.title.x = element_text(size=14, face="bold"),
-    axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=14, face="bold")
-    )
-
-
-```
-
-## Positive Tests Over Negative Tests in the Last Two Weeks
-
-```{r ratio, echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 10}
-covid_tracking_data %>% 
-  filter(State %in% state.abb) %>%
-  mutate( Day = lubridate::yday(Date),
-          Week =  lubridate::week(Date),
-          ratio = positive/negative) %>%
-  arrange(Date) %>%
-  mutate(smooth_ratio = ksmooth(Day, ratio, kernel = "normal", bandwidth = 7)$y) %>%
-  filter(Week > max(Week) - 2) %>%
-  ggplot(aes(x = Date, y = ratio)) +
-  geom_point(size = 1, alpha = .5) + 
-  #geom_line(aes(Date, smooth_ratio), color="darkblue") +
-  scale_y_continuous(label = scales::percent_format(accuracy = 0.1)) +
-  facet_wrap(~ State) + # free scales scales each state individually
-  theme_minimal() +
-  xlab("Date") + ylab("Ratio of Positive to Negative Tests") +
-  theme(
-    plot.title = element_text(size=14, face="bold"),
-    axis.title.x = element_text(size=14, face="bold"),
-    axis.title.y = element_text(size=14, face="bold"),
-    strip.text.x = element_text(size=10, face="bold"),
-    axis.text = element_text(size=10, face="bold"),
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
-  )
-
-```
-
 ## Patients Currently in the ICU
 
 ```{r icu, echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 10}
@@ -764,6 +663,117 @@ covid_tracking_data %>%
   )
 
 ```
+
+
+## Cumulative Cases by County in the Northeast
+```{r New Northeast, echo = F, warning = F,cache = F, message = F, fig.width = 11, fig.height = 8.5}
+#Plot New England on the first of each month
+usmap::plot_usmap("counties", labels = F, include = c(.northeast_region), color = "black",
+                  data = CDC_total %>%
+                    filter(Date > "2020-02-01" & 
+                    State %in% .northeast_region &
+                    (grepl("-01$", Date)) &
+                      countyFIPS > 10 ) %>%
+  dplyr::rename(fips = countyFIPS, 
+                abbr = State), 
+                  values = "Cases") + 
+  scale_fill_continuous(low = "blue", high = "red",name = "Covid Cases", label = scales::comma) + #trans = "log10",
+  theme(legend.position = "right") + 
+  facet_wrap(~ Date)  + 
+  theme_void() + xlab("") + ylab("") +
+  theme(
+    plot.title = element_text(size=14, face="bold"),
+    axis.title.x = element_text(size=14, face="bold"),
+    axis.title.y = element_text(size=14, face="bold"),
+    strip.text.x = element_text(size=14, face="bold")
+  )
+
+```
+
+
+## Cumulative Cases by State Over Time
+
+```{r,, echo = F, warning = F,cache = F, message = F, fig.width = 11, fig.height = 8.5}
+# Cases over time
+plot_usmap(data = CDC_total %>% 
+             dplyr::rename(state = State) %>%
+             filter(Date > "2020-02-01" & 
+                      grepl("-01$", Date)) %>%
+             group_by(state, Date) %>%
+             summarise(Cases = sum(Cases, na.rm = T)), values = "Cases", color = "black") + 
+  scale_fill_continuous(low = "blue", high = "red",name = "Covid Cases", label = scales::comma) +
+  theme(legend.position = "right") + 
+  facet_wrap(~ Date) + 
+  theme_void() + xlab("") + ylab("") +
+  theme(
+    plot.title = element_text(size=14, face="bold"),
+    axis.title.x = element_text(size=14, face="bold"),
+    axis.title.y = element_text(size=14, face="bold"),
+    strip.text.x = element_text(size=14, face="bold")
+  )
+```
+
+
+## Cumulative Deaths by State Over Time
+
+```{r deaths by state,  echo = F, warning = F,cache = F, message = F, fig.width = 11, fig.height = 8.5}
+plot_usmap(data = CDC_total %>% 
+             dplyr::rename(state = State) %>%
+             filter(Date > "2020-02-01" & 
+                      grepl("-01$", Date)) %>%
+             group_by(state, Date) %>%
+             summarise(Deaths = sum(Deaths, na.rm = T)), values = "Deaths", color = "black") + 
+  scale_fill_continuous(low = "blue", high = "red",name = "Covid Deaths", label = scales::comma) +
+  theme(legend.position = "right") + 
+  facet_wrap(~ Date) + 
+  theme_void() + xlab("") + ylab("") +
+  theme(
+    plot.title = element_text(size=14, face="bold"),
+    axis.title.x = element_text(size=14, face="bold"),
+    axis.title.y = element_text(size=14, face="bold"),
+    strip.text.x = element_text(size=14, face="bold")
+    )
+
+
+```
+
+## Daily Percent Positive Cases 
+
+According to the WHO the positive rate should be below 5%.^[https://coronavirus.jhu.edu/testing/tracker/overview]  Days above the threshold are denoted in red, days below are in blue.
+
+```{r ratio, echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 10}
+covid_tracking_data %>% 
+  filter(State %in% state.abb) %>%
+  mutate( Day = lubridate::yday(Date),
+          Week =  lubridate::week(Date),
+          ratio = positive/(positive + negative)) %>%
+  arrange(Date) %>%
+  #mutate(smooth_ratio = ksmooth(Day, ratio, kernel = "normal", bandwidth = 7)$y) %>%
+  filter(Week > max(Week) - 2) %>%
+  ggplot(aes(x = Date, y = ratio)) +
+  geom_point(aes(colour = cut(ratio, c(-Inf, 0.05, Inf))),
+             size = 1) +
+    scale_color_manual(name = "ratio",
+                     values = c("(-Inf,0.05]" = "darkblue",
+                                "(0.05, Inf]" = "red"),
+                     labels = c("Falling","Rising")) +
+  #geom_line(aes(Date, smooth_ratio), color="darkblue") +
+  scale_y_continuous(label = scales::percent_format(accuracy = 0.1)) +
+  facet_wrap(~ State) + # free scales scales each state individually
+  theme_minimal() +
+  xlab("Date") + ylab("Ratio of Positive to Negative Tests") +
+  theme(
+    plot.title = element_text(size=14, face="bold"),
+    axis.title.x = element_text(size=14, face="bold"),
+    axis.title.y = element_text(size=14, face="bold"),
+    strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=10, face="bold"),
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+    legend.position = "none"
+  )
+
+```
+
 
 # Variants of Select Figures
 

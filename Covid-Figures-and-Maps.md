@@ -324,23 +324,6 @@ This figure shows the number of COVID cases per 1,000.
 
 ![](Covid-Figures-and-Maps_files/figure-html/hospitalizations-1.png)<!-- -->
 
-## Cumulative Northeast Cases By Month
-![](Covid-Figures-and-Maps_files/figure-html/New Northeast-1.png)<!-- -->
-
-
-## Cumulative Cases By State Over Time
-
-![](Covid-Figures-and-Maps_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
-
-
-## Cumulative Deaths By State Over Time
-
-![](Covid-Figures-and-Maps_files/figure-html/deaths by state-1.png)<!-- -->
-
-## Positive Tests Over Negative Tests in the Last Two Weeks
-
-![](Covid-Figures-and-Maps_files/figure-html/ratio-1.png)<!-- -->
-
 ## Patients Currently in the ICU
 
 ![](Covid-Figures-and-Maps_files/figure-html/icu-1.png)<!-- -->
@@ -348,6 +331,27 @@ This figure shows the number of COVID cases per 1,000.
 ## Patients Currently on Ventilators 
 
 ![](Covid-Figures-and-Maps_files/figure-html/vent-1.png)<!-- -->
+
+
+## Cumulative Cases by County in the Northeast
+![](Covid-Figures-and-Maps_files/figure-html/New Northeast-1.png)<!-- -->
+
+
+## Cumulative Cases by State Over Time
+
+![](Covid-Figures-and-Maps_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+
+
+## Cumulative Deaths by State Over Time
+
+![](Covid-Figures-and-Maps_files/figure-html/deaths by state-1.png)<!-- -->
+
+## Daily Percent Positive Cases 
+
+According to the WHO the positive rate should be below 5%.^[https://coronavirus.jhu.edu/testing/tracker/overview]  Days above the threshold are denoted in red, days below are in blue.
+
+![](Covid-Figures-and-Maps_files/figure-html/ratio-1.png)<!-- -->
+
 
 # Variants of Select Figures
 
