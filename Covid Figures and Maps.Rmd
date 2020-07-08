@@ -774,6 +774,80 @@ covid_tracking_data %>%
 
 ```
 
+## Partisanship and COVID Cases
+
+```{r partisan, echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 10}
+load("/Users/stevenrashin/Documents/GitHub/Covid-Tracker/MIT_elections_presidential_returns.rdata")
+
+election_2016 <- x %>% filter(year == 2016 & candidate %in% c("Hillary Clinton","Donald Trump")) %>%
+  rename(countyFIPS = FIPS)
+
+county_election_2016 <- election_2016 %>% as.tibble() %>%
+  group_by(countyFIPS) %>%
+  summarise(DemVotes = ifelse(party == "democrat",candidatevotes,0),
+            RepVotes = ifelse(party == "republican",candidatevotes,0)) %>%
+  summarise(DemVotes = sum(DemVotes),
+            RepVotes = sum(RepVotes)) %>% group_by(countyFIPS) %>%
+  summarise(Winner = ifelse(DemVotes > RepVotes,"Dem","Rep"))
+
+state_election_2016 <- election_2016 %>% group_by(state_po, candidate) %>% 
+  summarize(votes = sum(candidatevotes,na.rm = T)) %>%
+  spread(candidate, votes, fill = NA, convert = FALSE) %>%
+  mutate(Winner = ifelse(`Hillary Clinton`>`Donald Trump`,"Dem","Rep")) %>% 
+  rename(State = state_po) %>% select(State, Winner) %>%
+  ungroup()
+  
+state_level_potus <- CDC_w_trendline %>% 
+  full_join(state_election_2016, by = "State") %>%
+  ungroup() %>% #filter(State %in% c("MA","NY") & Week > 20) %>%
+  group_by(Date, Winner) %>%
+  summarize(new_cases = sum(new_cases)) %>%
+  ggplot(aes(x = Date, y = new_cases, fill = Winner)) +
+  geom_area() +
+  theme_minimal() +
+  scale_fill_manual(values = alpha(c("blue", "red"), .7)) +
+  scale_y_continuous(label = scales::comma) +
+  xlab("Date") + ylab("Daily Cases") + 
+  ggtitle(c(paste("Daily Cases by 2016 State Level Presidential Election Result"))) +
+  theme(
+    plot.title = element_text(size=14, face="bold",hjust = 0.5),
+    axis.title.x = element_text(size=14, face="bold"),
+    axis.title.y = element_text(size=14, face="bold"),
+    strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=14, face="bold"),
+    legend.position = "none"
+  )
+
+county_level_potus <- CDC_total %>% filter(countyFIPS > 10) %>%
+  full_join(county_election_2016, by = "countyFIPS") %>% 
+  ungroup() %>% #filter(State %in% c("MA","NY") & Week > 20) %>%
+  group_by(countyFIPS) %>%
+  mutate(new_cases = Cases - dplyr::lag(Cases, default = 0)) %>%
+  group_by(Date, Winner) %>%
+  summarise(new_cases = sum(new_cases)) %>%
+  ggplot(aes(x = Date, y = new_cases, fill = Winner)) +
+  geom_area() +
+  theme_minimal() +
+  scale_fill_manual(values = alpha(c("blue", "red"), .7)) +
+  scale_y_continuous(label = scales::comma) +
+  xlab("Date") + ylab("Daily Cases") + 
+  ggtitle(c(paste("By County"))) +
+  theme(
+    plot.title = element_text(size=14, face="bold",hjust = 0.5),
+    axis.title.x = element_text(size=14, face="bold"),
+    axis.title.y = element_text(size=14, face="bold"),
+    strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=14, face="bold"),
+    legend.position = "none"
+  )
+
+#### Show Data is Different ####
+grid.arrange(state_level_potus, county_level_potus, nrow = 1)
+
+
+
+
+```
 
 # Variants of Select Figures
 
@@ -845,7 +919,6 @@ CDC_w_trendline %>% #filter(State == "AK") %>%
     axis.text = element_text(size=10, face="bold")
 
   )
-
 
 ```
 
