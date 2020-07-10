@@ -158,7 +158,6 @@ global <- try_url("https://covid19.who.int/WHO-COVID-19-global-data.csv")
 global$Date <- lubridate::ymd(gsub(pattern = "T.{1,}$", replacement = "", x = global$Date_reported))
 
 
-
 try_url <- function(url){
       tryCatch(
         expr = {
@@ -370,6 +369,7 @@ global %>%
   )
 
 ```
+
 
 ## Covid Cases in Somerville, MA and MA
 ```{r Somerville, echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
