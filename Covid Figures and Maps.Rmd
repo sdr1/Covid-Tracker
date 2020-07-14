@@ -739,17 +739,16 @@ plot_usmap(data = CDC_total %>%
 
 ## Daily Percent Positive Cases 
 
-According to the WHO the positive rate should be below 5%.^[https://coronavirus.jhu.edu/testing/tracker/overview]  Days above the threshold are denoted in red, days below are in blue.
+According to the WHO the positive rate should be below 5%.^[https://coronavirus.jhu.edu/testing/tracker/overview]  Days above the threshold are denoted in red, days below are in blue.  Note that the variables currently used for these plots --positiveIncrease and negativeIncrease-- are being phased out and will be replaced by positiveCasesViral and negativeCasesViral.
 
 ```{r ratio, echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 10}
 covid_tracking_data %>% 
   filter(State %in% state.abb) %>%
   mutate( Day = lubridate::yday(Date),
           Week =  lubridate::week(Date),
-          ratio = positive/(positive + negative)) %>%
+          ratio = positiveIncrease/(positiveIncrease + negativeIncrease)) %>%
   arrange(Date) %>%
-  #mutate(smooth_ratio = ksmooth(Day, ratio, kernel = "normal", bandwidth = 7)$y) %>%
-  filter(Week > max(Week) - 2) %>%
+  filter(Week %in% c((max(Week)-3):max(Week))) %>%
   ggplot(aes(x = Date, y = ratio)) +
   geom_point(aes(colour = cut(ratio, c(-Inf, 0.05, Inf))),
              size = 1) +
