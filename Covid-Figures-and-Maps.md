@@ -1,7 +1,7 @@
 ---
 title: "Covid Figures and Maps"
 author: "Steven Rashin"
-date: "July 21, 2020"
+date: "July 22, 2020"
 output: 
   html_document:
     keep_md: yes
@@ -10,13 +10,13 @@ output:
 
 
 ## Headline Numbers 
-As of the latest CDC data release on July 20, 2020 there are:  
+As of the latest CDC data release on July 21, 2020 there are:  
 
-* 58,789 new cases
-  + The state with the most cases is CA with 11,599
-    - The county with the most cases is Los Angeles County in CA with 3,158 new cases 
-  + The record number of national cases per day is 80,514 on July 16, 2020
-* 453 new deaths
+* 67,117 new cases
+  + The state with the most cases is CA with 10,794
+    - The county with the most cases is Los Angeles County in CA with 2,628 new cases 
+  + The record number of national cases per day is 80,387 on July 16, 2020
+* 1,136 new deaths
   +  The record number of deaths per day is 3,153 on April 14, 2020
   
 Where I live, in Somerville, MA, as of July 20, 2020 there are:  
@@ -29,16 +29,16 @@ Where I live, in Somerville, MA, as of July 20, 2020 there are:
 
 Consequently, in the United States, there are now:   
 
-* 3,804,518 total cases  
-* 139,863 total deaths  
+* 3,871,366 total cases  
+* 140,985 total deaths  
 
 
-Globally, as of the latest WHO data release on July 21, 2020, there are: 
+Globally, as of the latest WHO data release on July 22, 2020, there are: 
 
-* 14,562,550 total cases
-  + 213,637 today
-* 607,781 total deaths
-  + 4,083 today
+* 14,765,256 total cases
+  + 202,726 today
+* 612,054 total deaths
+  + 4,286 today
 
 
 ## Overall Covid Cases In The USA
@@ -71,76 +71,76 @@ Regions are defined as follows: Northeast (CT, ME, MA, NH, RI, VT, NJ, NY, PA), 
  </thead>
 <tbody>
   <tr>
-   <td style="text-align:left;"> July 20, 2020 </td>
+   <td style="text-align:left;"> July 21, 2020 </td>
    <td style="text-align:left;"> Middlesex County </td>
-   <td style="text-align:right;"> 24958 </td>
-   <td style="text-align:right;"> 1948 </td>
-   <td style="text-align:right;"> 72 </td>
-   <td style="text-align:right;"> 1 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> July 13, 2020 </td>
-   <td style="text-align:left;"> Middlesex County </td>
-   <td style="text-align:right;"> 24536 </td>
-   <td style="text-align:right;"> 1921 </td>
+   <td style="text-align:right;"> 25011 </td>
+   <td style="text-align:right;"> 1946 </td>
    <td style="text-align:right;"> 53 </td>
-   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 0 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> July 06, 2020 </td>
+   <td style="text-align:left;"> July 14, 2020 </td>
    <td style="text-align:left;"> Middlesex County </td>
-   <td style="text-align:right;"> 24193 </td>
-   <td style="text-align:right;"> 1882 </td>
-   <td style="text-align:right;"> 40 </td>
-   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 24600 </td>
+   <td style="text-align:right;"> 1923 </td>
+   <td style="text-align:right;"> 64 </td>
+   <td style="text-align:right;"> 2 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> July 20, 2020 </td>
+   <td style="text-align:left;"> July 07, 2020 </td>
+   <td style="text-align:left;"> Middlesex County </td>
+   <td style="text-align:right;"> 24243 </td>
+   <td style="text-align:right;"> 1888 </td>
+   <td style="text-align:right;"> 50 </td>
+   <td style="text-align:right;"> 6 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> July 21, 2020 </td>
    <td style="text-align:left;"> Norfolk County </td>
-   <td style="text-align:right;"> 9737 </td>
-   <td style="text-align:right;"> 968 </td>
-   <td style="text-align:right;"> 38 </td>
+   <td style="text-align:right;"> 9779 </td>
+   <td style="text-align:right;"> 970 </td>
+   <td style="text-align:right;"> 42 </td>
+   <td style="text-align:right;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> July 14, 2020 </td>
+   <td style="text-align:left;"> Norfolk County </td>
+   <td style="text-align:right;"> 9530 </td>
+   <td style="text-align:right;"> 959 </td>
+   <td style="text-align:right;"> 45 </td>
    <td style="text-align:right;"> 1 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> July 13, 2020 </td>
+   <td style="text-align:left;"> July 07, 2020 </td>
    <td style="text-align:left;"> Norfolk County </td>
-   <td style="text-align:right;"> 9485 </td>
-   <td style="text-align:right;"> 958 </td>
-   <td style="text-align:right;"> 23 </td>
-   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 9306 </td>
+   <td style="text-align:right;"> 941 </td>
+   <td style="text-align:right;"> 22 </td>
+   <td style="text-align:right;"> 1 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> July 06, 2020 </td>
-   <td style="text-align:left;"> Norfolk County </td>
-   <td style="text-align:right;"> 9284 </td>
-   <td style="text-align:right;"> 940 </td>
-   <td style="text-align:right;"> 11 </td>
-   <td style="text-align:right;"> 0 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> July 20, 2020 </td>
+   <td style="text-align:left;"> July 21, 2020 </td>
    <td style="text-align:left;"> Suffolk County </td>
-   <td style="text-align:right;"> 20621 </td>
-   <td style="text-align:right;"> 1035 </td>
-   <td style="text-align:right;"> 20 </td>
-   <td style="text-align:right;"> 0 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> July 13, 2020 </td>
-   <td style="text-align:left;"> Suffolk County </td>
-   <td style="text-align:right;"> 20342 </td>
-   <td style="text-align:right;"> 1020 </td>
-   <td style="text-align:right;"> 41 </td>
-   <td style="text-align:right;"> 0 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> July 06, 2020 </td>
-   <td style="text-align:left;"> Suffolk County </td>
-   <td style="text-align:right;"> 20014 </td>
-   <td style="text-align:right;"> 1008 </td>
+   <td style="text-align:right;"> 20650 </td>
+   <td style="text-align:right;"> 1039 </td>
    <td style="text-align:right;"> 29 </td>
-   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> July 14, 2020 </td>
+   <td style="text-align:left;"> Suffolk County </td>
+   <td style="text-align:right;"> 20386 </td>
+   <td style="text-align:right;"> 1022 </td>
+   <td style="text-align:right;"> 44 </td>
+   <td style="text-align:right;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> July 07, 2020 </td>
+   <td style="text-align:left;"> Suffolk County </td>
+   <td style="text-align:right;"> 20048 </td>
+   <td style="text-align:right;"> 1008 </td>
+   <td style="text-align:right;"> 34 </td>
+   <td style="text-align:right;"> 0 </td>
   </tr>
 </tbody>
 </table>
@@ -178,39 +178,39 @@ This figure shows the number of COVID cases per 1,000.
  </thead>
 <tbody>
   <tr>
-   <td style="text-align:left;"> 2020-07-20 </td>
+   <td style="text-align:left;"> 2020-07-21 </td>
    <td style="text-align:left;"> CA </td>
    <td style="text-align:left;"> Los Angeles County </td>
-   <td style="text-align:right;"> 159045 </td>
-   <td style="text-align:right;"> 4104 </td>
+   <td style="text-align:right;"> 161673 </td>
+   <td style="text-align:right;"> 4154 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> 2020-07-20 </td>
+   <td style="text-align:left;"> 2020-07-21 </td>
    <td style="text-align:left;"> IL </td>
    <td style="text-align:left;"> Cook County </td>
-   <td style="text-align:right;"> 99052 </td>
-   <td style="text-align:right;"> 4777 </td>
+   <td style="text-align:right;"> 99464 </td>
+   <td style="text-align:right;"> 4788 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> 2020-07-20 </td>
+   <td style="text-align:left;"> 2020-07-21 </td>
    <td style="text-align:left;"> AZ </td>
    <td style="text-align:left;"> Maricopa County </td>
-   <td style="text-align:right;"> 96711 </td>
-   <td style="text-align:right;"> 1485 </td>
+   <td style="text-align:right;"> 98988 </td>
+   <td style="text-align:right;"> 1556 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> 2020-07-20 </td>
+   <td style="text-align:left;"> 2020-07-21 </td>
    <td style="text-align:left;"> FL </td>
    <td style="text-align:left;"> Miami-Dade County </td>
-   <td style="text-align:right;"> 87035 </td>
-   <td style="text-align:right;"> 1309 </td>
+   <td style="text-align:right;"> 89557 </td>
+   <td style="text-align:right;"> 1325 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> 2020-07-20 </td>
+   <td style="text-align:left;"> 2020-07-21 </td>
    <td style="text-align:left;"> NY </td>
    <td style="text-align:left;"> Queens County </td>
-   <td style="text-align:right;"> 67079 </td>
-   <td style="text-align:right;"> 7137 </td>
+   <td style="text-align:right;"> 67194 </td>
+   <td style="text-align:right;"> 7148 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 2020-07-01 </td>
