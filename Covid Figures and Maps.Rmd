@@ -23,6 +23,7 @@ library(gridExtra)
 library(cowplot)
 library(plotly)
 library(kableExtra)
+library(zoo)
 
 setwd("/Users/stevenrashin/Dropbox/covid data/")
 
@@ -221,7 +222,27 @@ Globally, as of the latest WHO data release on `r format(max(global$Date), '%B %
 
 ## Overall Covid Cases In The USA
 
-Regions are defined as follows: Northeast (CT, ME, MA, NH, RI, VT, NJ, NY, PA), Midwest (IN, IL, MI, OH, WI, IA, KS, MN, MO, NE, ND, SD), South (AL, AR, DC, DE, FL, GA, KY, LA, MD, MS, NC, OK, SC, TN, TX, VA, WV) and West (AZ, CO, ID,  NM, MT, UT, NV, WY, AK, CA, HI, OR, WA).
+Regions are defined as follows: Northeast (CT, ME, MA, NH, RI, VT, NJ, NY, PA), Midwest (IN, IL, MI, OH, WI, IA, KS, MN, MO, NE, ND, SD), South (AL, AR, DC, DE, FL, GA, KY, LA, MD, MS, NC, OK, SC, TN, TX, VA, WV) and West (AZ, CO, ID,  NM, MT, UT, NV, WY, AK, CA, HI, OR, WA).  The red line denotes the date that Health and Human Services (HHS) took over the production of data from the Center for Disease Control (CDC).^[See e.g., https://www.cnbc.com/2020/07/20/hhs-unveils-new-coronavirus-hospitalization-database-says-its-more-complete-than-cdcs.html]
+
+
+```{r chow test, echo=F, eval = F}
+## Chow structural break test 
+## https://cran.r-project.org/web/packages/strucchange/vignettes/strucchange-intro.pdf
+
+library(tseries)
+library(strucchange)
+
+## load the data from a CSV or Excel file. This example is done with an Excel sheet.
+cases_per_day <- CDC_w_trendline %>%
+  ungroup() %>% group_by(Date) %>%
+  summarize(total_new_cases = sum(new_cases))
+
+break_test <- ts(cases_per_day$total_new_cases, start = CDC_w_trendline$Day, frequency = 365)
+
+
+
+```
+
 
 ```{r cars, echo = F, warning = F,cache = F, message = F,fig.width = 11, fig.height = 8.5}
 
@@ -233,6 +254,8 @@ New_Cases <- CDC_w_trendline %>%
   geom_area() +
   theme_minimal() +
   scale_fill_brewer(direction=-1) +
+    geom_vline(xintercept = as.numeric(as.Date("2020-07-20")),
+                linetype=4, colour="red") +
   scale_y_continuous(label = scales::comma) +
   xlab("Date") + ylab("Daily Cases") + 
   ggtitle(c(paste("New Cases: CDC Data As Of", as.Date(max(CDC_w_trendline$Date))))) +
@@ -253,6 +276,8 @@ New_Deaths <- CDC_w_trendline %>%
   geom_area() +
   theme_minimal() +
   scale_fill_brewer(direction=-1) +
+      geom_vline(xintercept = as.numeric(as.Date("2020-07-20")),
+                linetype=4, colour="red") +
   scale_y_continuous(label = scales::comma) +
   xlab("Date") + ylab("Daily Deaths") + 
   ggtitle(c(paste("Deaths Per Day"))) +
@@ -274,6 +299,8 @@ CDC_cases <- CDC_w_trendline %>%
   geom_area() +
   theme_minimal() +
   scale_fill_brewer(direction=-1) +
+      geom_vline(xintercept = as.numeric(as.Date("2020-07-20")),
+                linetype=4, colour="red") +
   scale_y_continuous(label = scales::comma) +
   xlab("Date") + ylab("Total Cases") + 
   ggtitle(c(paste("Total Cases")))+ #, as.Date(max(CDC_w_trendline$Date))))) +
@@ -295,6 +322,8 @@ CDC_deaths <- CDC_w_trendline %>%
   geom_area() +
   theme_minimal() +
   scale_fill_brewer(direction=-1) +
+      geom_vline(xintercept = as.numeric(as.Date("2020-07-20")),
+                linetype=4, colour="red") +
   scale_y_continuous(label = scales::comma) +
   xlab("Date") + ylab("Total Deaths") + 
   ggtitle(c(paste("Total Deaths"))) +
@@ -739,14 +768,16 @@ plot_usmap(data = CDC_total %>%
 
 ## Daily Percent Positive Cases 
 
-According to the WHO the positive rate should be below 5%.^[https://coronavirus.jhu.edu/testing/tracker/overview]  Days above the threshold are denoted in red, days below are in blue.  Note that the variables currently used for these plots --positiveIncrease and negativeIncrease-- are being phased out and will be replaced by positiveCasesViral and negativeCasesViral.
+According to the WHO the positive rate should be below 5%.^[https://coronavirus.jhu.edu/testing/tracker/overview]  Days above the threshold are denoted in red, days below are in blue.  Note that the variables currently used for these plots --positiveIncrease and negativeIncrease-- are being phased out and will be replaced by positiveCasesViral and negativeCasesViral.  Each dot represents the rolling average of tests within the previous week (this approach smoothes out trends such as fewer cases being reported on weekends).
 
 ```{r ratio, echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 10}
 covid_tracking_data %>% 
   filter(State %in% state.abb) %>%
   mutate( Day = lubridate::yday(Date),
           Week =  lubridate::week(Date),
-          ratio = positiveIncrease/(positiveIncrease + negativeIncrease)) %>%
+          Pos_roll_avg = zoo::rollmean(positiveIncrease, k = 7, fill = NA),
+          Neg_roll_avg = zoo::rollmean(negativeIncrease, k = 7, fill = NA),
+          ratio = Pos_roll_avg/(Pos_roll_avg + Neg_roll_avg)) %>%
   arrange(Date) %>%
   filter(Week %in% c((max(Week)-3):max(Week))) %>%
   ggplot(aes(x = Date, y = ratio)) +
@@ -840,8 +871,33 @@ county_level_potus <- CDC_total %>% filter(countyFIPS > 10) %>%
     legend.position = "none"
   )
 
+State_Parties <- read.csv("/Users/stevenrashin/Documents/GitHub/Covid-Tracker/state_parties.csv", skip = 3, stringsAsFactors = F)
+State_Parties$State <- state.abb[match(State_Parties$Location,state.name)]
+State_Parties <- State_Parties %>% filter(State %in% state.abb)
+
+state_level_gov <- CDC_w_trendline %>% 
+  full_join(State_Parties, by = "State") %>%
+  ungroup() %>% #filter(State %in% c("MA","NY") & Week > 20) %>%
+  group_by(Date, Governor.Political.Affiliation) %>%
+  summarize(new_cases = sum(new_cases)) %>%
+  ggplot(aes(x = Date, y = new_cases, fill = Governor.Political.Affiliation)) +
+  geom_area() +
+  theme_minimal() +
+  scale_fill_manual(values = alpha(c("blue", "red"), .7)) +
+  scale_y_continuous(label = scales::comma) +
+  xlab("Date") + ylab("Daily Cases") + 
+  ggtitle(c(paste("Daily Cases by Partisanship of Current Governor"))) +
+  theme(
+    plot.title = element_text(size=14, face="bold",hjust = 0.5),
+    axis.title.x = element_text(size=14, face="bold"),
+    axis.title.y = element_text(size=14, face="bold"),
+    strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=14, face="bold"),
+    legend.position = "none"
+  )
+
 #### Show Data is Different ####
-grid.arrange(state_level_potus, county_level_potus, nrow = 1)
+grid.arrange(state_level_potus, county_level_potus, state_level_gov, nrow = 1)
 
 
 
