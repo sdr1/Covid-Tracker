@@ -222,7 +222,7 @@ Globally, as of the latest WHO data release on `r format(max(global$Date), '%B %
 
 ## Overall Covid Cases In The USA
 
-Regions are defined as follows: Northeast (CT, ME, MA, NH, RI, VT, NJ, NY, PA), Midwest (IN, IL, MI, OH, WI, IA, KS, MN, MO, NE, ND, SD), South (AL, AR, DC, DE, FL, GA, KY, LA, MD, MS, NC, OK, SC, TN, TX, VA, WV) and West (AZ, CO, ID,  NM, MT, UT, NV, WY, AK, CA, HI, OR, WA).  The red line denotes the date that Health and Human Services (HHS) took over the production of data from the Center for Disease Control (CDC).^[See e.g., https://www.cnbc.com/2020/07/20/hhs-unveils-new-coronavirus-hospitalization-database-says-its-more-complete-than-cdcs.html]
+Regions are defined as follows: Northeast (CT, ME, MA, NH, RI, VT, NJ, NY, PA), Midwest (IN, IL, MI, OH, WI, IA, KS, MN, MO, NE, ND, SD), South (AL, AR, DC, DE, FL, GA, KY, LA, MD, MS, NC, OK, SC, TN, TX, VA, WV) and West (AZ, CO, ID,  NM, MT, UT, NV, WY, AK, CA, HI, OR, WA).  The red line denotes the date that Health and Human Services (HHS) took over the production of data from the Center for Disease Control (CDC) on July 20, 2020.^[See e.g., https://www.cnbc.com/2020/07/20/hhs-unveils-new-coronavirus-hospitalization-database-says-its-more-complete-than-cdcs.html]
 
 
 ```{r chow test, echo=F, eval = F}
@@ -332,11 +332,62 @@ CDC_deaths <- CDC_w_trendline %>%
     axis.title.x = element_text(size=14, face="bold"),
     axis.title.y = element_text(size=14, face="bold"),
     strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=14, face="bold"),
+    legend.position = "none"
+  )
+
+
+covid_tracking_data_w_trendline$Region <- as.character(sapply(covid_tracking_data_w_trendline$State, function(x) names(region.list)[grep(x,region.list)]))
+
+tests_per_day <- covid_tracking_data_w_trendline%>%
+  ungroup() %>% #filter(state %in% c("MA","NY") & Date > "2020-07-01") %>%
+  group_by(Date, Region) %>%
+  filter(state %in% state.abb) %>%
+  summarise(tests_by_region = sum(totalTestResults)) %>%
+  ungroup() %>% group_by(Region) %>%
+  mutate(`New Tests` = tests_by_region -  dplyr::lag(tests_by_region, default = 0)) %>%
+  ggplot(aes(x = Date, y = `New Tests`, fill = Region)) +
+  geom_area() +
+  theme_minimal() +
+  scale_fill_brewer(direction=-1) +
+      geom_vline(xintercept = as.numeric(as.Date("2020-07-20")),
+                linetype=4, colour="red") +
+  scale_y_continuous(label = scales::comma) +
+  xlab("Date") + ylab("New Tests") + 
+  ggtitle(c(paste("New Tests: Covidtracker Data as of",max(covid_tracking_data$Date)))) +
+  theme(
+    plot.title = element_text(size=14, face="bold",hjust = 0.5),
+    axis.title.x = element_text(size=14, face="bold"),
+    axis.title.y = element_text(size=14, face="bold"),
+    strip.text.x = element_text(size=10, face="bold"),
+    axis.text = element_text(size=14, face="bold"),
+    legend.position = "none"
+  )
+
+total_tests <- covid_tracking_data_w_trendline %>%
+  ungroup() %>% #filter(State %in% c("MA","NY") & Week > 20) %>%
+  group_by(Date, Region) %>%
+  filter(state %in% state.abb) %>%
+  summarise(`Cumulative Tests` = sum(totalTestResults)) %>%
+  ggplot(aes(x = Date, y = `Cumulative Tests`, fill = Region)) +
+  geom_area() +
+  theme_minimal() +
+  scale_fill_brewer(direction=-1) +
+      geom_vline(xintercept = as.numeric(as.Date("2020-07-20")),
+                linetype=4, colour="red") +
+  scale_y_continuous(label = scales::comma) +
+  xlab("Date") + ylab("Total Tests") + 
+  ggtitle(c(paste("Total Tests"))) +
+  theme(
+    plot.title = element_text(size=14, face="bold",hjust = 0.5),
+    axis.title.x = element_text(size=14, face="bold"),
+    axis.title.y = element_text(size=14, face="bold"),
+    strip.text.x = element_text(size=10, face="bold"),
     axis.text = element_text(size=14, face="bold")
   )
 
 #CDC
-grid.arrange(New_Cases, CDC_cases, New_Deaths, CDC_deaths, nrow = 2, ncol = 2)
+grid.arrange(New_Cases, CDC_cases, New_Deaths, CDC_deaths, tests_per_day, total_tests, nrow = 3, ncol = 2)
 
 # a <- list(
 #   text = c(paste("Total Cases To", as.Date(max(CDC_w_trendline$Date)))),
@@ -377,8 +428,9 @@ global %>%
     mutate(
          Day = lubridate::yday(Date),
          Week = lubridate::week(Date),
-         Country = ifelse(Country_code == "US", "USA", "Non-US"),
-         Country = ifelse(is.na(Country), "Non-US", Country)) %>%
+         Country = ifelse(Country_code == "US", "USA", "Rest of World"),
+         Country = ifelse(WHO_region == "EURO","Europe", Country), #          Country = ifelse(WHO_region == "EURO","Europe", Country),
+         Country = ifelse(is.na(Country), "Rest of World", Country)) %>%
   group_by(Country, Date, Day, Week) %>%
    summarise(Cumulative_cases = sum(Cumulative_cases, na.rm = T),
              New_cases = sum(New_cases, na.rm = T)) %>%
