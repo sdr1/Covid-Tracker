@@ -202,7 +202,7 @@ Where I live, in Somerville, MA, as of `r format(max(Somerville_MA$Date), '%B %d
 
 * `r Somerville_MA %>% filter(Date == max(Date)) %>% select(new_cases) %>% pull()` new cases  
 * `r Somerville_MA %>% filter(Date %in% (max(Date)-14):max(Date)) %>% summarize(new_cases = sum(new_cases, na.rm = T)) %>% pull()` cases in the last two weeks  
-  + Out of `r Somerville_MA %>% filter(Date == max(Date)) %>% select(Positive) %>% pull()` cases overall   
+  + Out of `r formatC(Somerville_MA %>% filter(Date == max(Date)) %>% select(Positive) %>% pull(), format="f", big.mark=",", digits=0)` cases overall   
     - `r Somerville_MA %>% filter(Date == max(Date)) %>% select(Fatalities) %>% pull()` Fatalities and
     - `r Somerville_MA %>% filter(Date == max(Date)) %>% select(Recovered) %>% pull()` Recoveries
 
@@ -353,7 +353,7 @@ tests_per_day <- covid_tracking_data_w_trendline%>%
       geom_vline(xintercept = as.numeric(as.Date("2020-07-20")),
                 linetype=4, colour="red") +
   scale_y_continuous(label = scales::comma) +
-  xlab("Date") + ylab("New Tests") + 
+  xlab("Date") + ylab("Daily Tests") + 
   ggtitle(c(paste("New Tests: Covidtracker Data as of",max(covid_tracking_data$Date)))) +
   theme(
     plot.title = element_text(size=14, face="bold",hjust = 0.5),
@@ -388,7 +388,7 @@ total_tests <- covid_tracking_data_w_trendline %>%
 
 #CDC
 grid.arrange(New_Cases, CDC_cases, New_Deaths, CDC_deaths, tests_per_day, total_tests, nrow = 3, ncol = 2)
-
+# https://rt.live/ add R number
 # a <- list(
 #   text = c(paste("Total Cases To", as.Date(max(CDC_w_trendline$Date)))),
 #   xref = "paper",
@@ -448,7 +448,61 @@ global %>%
     strip.text.x = element_text(size=10, face="bold"),
     axis.text = element_text(size=14, face="bold")
   )
+```
 
+```{r world map, eval=F, echo=F}
+# Fix map, scale is bad
+#https://stackoverflow.com/questions/24197631/rworldmap-color-scale-not-continuous
+#https://slcladal.github.io/maps.html
+library(maps)
+library(rworldmap)
+library(countrycode)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(RColorBrewer)
+# extract world data
+library("rnaturalearth")
+library("rnaturalearthdata")
+library(ggplot2)
+library(tibble)
+library(sf)
+library(maps)
+
+worldmap <- getMap(resolution = "coarse")
+
+#subset to get code 
+small_translate <- countrycode::codelist
+
+small_translate <- small_translate %>% select(country.name.en, iso3c)
+
+names(small_translate)[1] <- "Country"
+
+global_map <- global %>%
+  left_join(small_translate, by = "Country") %>%
+  rename(country = Country) %>% filter(Date == max(Date))
+
+visitedMap <- joinCountryData2Map(global_map , 
+                                  joinCode = "NAME",
+                                  nameJoinColumn = "country")
+
+qtiles <- quantile(global_map$Cumulative_cases)
+
+mapParams <- mapCountryData( visitedMap, 
+                            nameColumnToPlot="Cumulative_cases",
+                            oceanCol = "azure2",
+                            catMethod=c(0,500,5000,50000,500000,5000000),
+                            missingCountryCol = gray(.8),
+                            addLegend = F,
+                            mapTitle = "",
+                            border = NA)
+
+do.call(addMapLegendBoxes, c(mapParams,
+                             x = 'bottom',
+                             title = "No. of Cases",
+                             horiz = TRUE,
+                             bg = "transparent",
+                             bty = "n"))
+  
 ```
 
 
