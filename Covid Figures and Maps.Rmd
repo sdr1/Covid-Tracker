@@ -109,7 +109,7 @@ county_with_most <- CDC_total %>%
 state_with_most <- CDC_w_trendline %>%   
   filter(Date == max(Date, na.rm = T)) %>% 
   filter(new_cases == max(new_cases)) %>%
-  select(State, new_cases,Date)
+  dplyr::select(State, new_cases,Date)
 
 
 covid_tracking_data_w_trendline <- covid_tracking_data %>% filter(State %in% state.abb) %>%
@@ -450,59 +450,66 @@ global %>%
   )
 ```
 
-```{r world map, eval=F, echo=F}
-# Fix map, scale is bad
-#https://stackoverflow.com/questions/24197631/rworldmap-color-scale-not-continuous
-#https://slcladal.github.io/maps.html
-library(maps)
-library(rworldmap)
-library(countrycode)
-library(rnaturalearth)
-library(rnaturalearthdata)
-library(RColorBrewer)
-# extract world data
-library("rnaturalearth")
-library("rnaturalearthdata")
-library(ggplot2)
-library(tibble)
+## World Case Maps: Total Cases and Cases per Capita
+
+```{r World Map, echo = F, warning = F,cache = F, message = F, fig.width = 13, fig.height = 8.5}
+#https://cran.r-project.org/web/packages/tmap/vignettes/tmap-getstarted.html
+#https://geocompr.github.io/post/2019/tmap-color-scales/
 library(sf)
-library(maps)
+library(raster)
+library(spData)
+library(tmap)    # for static and interactive maps
+#library(leaflet) # for interactive maps
+library(countrycode)
 
-worldmap <- getMap(resolution = "coarse")
+data("World")
 
-#subset to get code 
 small_translate <- countrycode::codelist
 
-small_translate <- small_translate %>% select(country.name.en, iso3c)
-
-names(small_translate)[1] <- "Country"
-
 global_map <- global %>%
-  left_join(small_translate, by = "Country") %>%
-  rename(country = Country) %>% filter(Date == max(Date))
+  rename(ecb = Country_code) %>%
+  left_join(small_translate, by = "ecb") %>%
+  rename(country = Country) %>% filter(Date == max(Date)) %>%
+  rename(iso_a3 = iso3c)
 
-visitedMap <- joinCountryData2Map(global_map , 
-                                  joinCode = "NAME",
-                                  nameJoinColumn = "country")
+World <- World %>% 
+  left_join(global_map, by = "iso_a3") %>%
+  mutate(Cases_per_capita = Cumulative_cases / pop_est * 1000)
 
-qtiles <- quantile(global_map$Cumulative_cases)
 
-mapParams <- mapCountryData( visitedMap, 
-                            nameColumnToPlot="Cumulative_cases",
-                            oceanCol = "azure2",
-                            catMethod=c(0,500,5000,50000,500000,5000000),
-                            missingCountryCol = gray(.8),
-                            addLegend = F,
-                            mapTitle = "",
-                            border = NA)
+#qtm(World, fill = "Cumulative_cases", fill.pallete = "RdYlGn") + tmap_style("natural")
+## tmap style set to "classic"
+## other available styles are: "white", "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "watercolor"
+#https://www.rdocumentation.org/packages/tmap/versions/3.0/topics/tm_layout
+raw_cases <- tm_shape(World) +
+  tm_polygons(col = "Cumulative_cases", 
+              #style = "order",
+              legend.hist = F,
+              palette = "YlOrRd",
+              title="Total Cases by Country",
+              main.title.position = "center",
+              main.title.size = 14,
+              main.title.fontface = "bold") +
+  tm_layout(legend.outside = T) +
+  tmap_style("natural")
 
-do.call(addMapLegendBoxes, c(mapParams,
-                             x = 'bottom',
-                             title = "No. of Cases",
-                             horiz = TRUE,
-                             bg = "transparent",
-                             bty = "n"))
-  
+# https://www.jla-data.net/eng/adjusting-bounding-box-of-a-tmap-map/
+# to make maps better
+cases_per_capita <- tm_shape(World) +
+  tm_polygons(col = "Cases_per_capita", 
+              style = "log10_pretty",
+              legend.hist = F,
+              palette = "YlOrRd",
+              title="Cases per Captia",
+              main.title.position = "center",
+              main.title.size = 14,
+              main.title.fontface = "bold") +
+  tm_layout(legend.outside = T) +
+  tmap_style("natural") 
+
+raw_cases
+
+cases_per_capita
 ```
 
 
@@ -592,7 +599,7 @@ CDC_total %>% filter(countyFIPS %in% c(25017,25021, 25025) &
   mutate(Date = format(Date, '%B %d, %Y')) %>%
   ungroup() 
 
-knitr::kable(Latest_Near_Me %>% select(Date,`County Name`, Cases, Deaths, `New Cases`, `New Deaths`)) %>%
+knitr::kable(Latest_Near_Me %>% dplyr::select(Date,`County Name`, Cases, Deaths, `New Cases`, `New Deaths`)) %>%
   kable_styling(bootstrap_options = c("striped", "hover"))
 
 
@@ -660,7 +667,7 @@ usmap::plot_usmap("counties", labels = F, include = state.abb,
                            Date == max(Date)) %>%
                     dplyr::rename(fips = countyFIPS, 
                                   abbr = State) %>%
-                    select(fips, Date, Cases), 
+                    dplyr::select(fips, Date, Cases), 
                   values = "Cases") + 
   scale_fill_continuous(low = "blue", high = "red",name = "Covid Cases", label = scales::comma) + #trans = "log10",
   theme(legend.position = "right") + 
@@ -686,7 +693,7 @@ usmap::plot_usmap("counties", labels = F, include = state.abb,
                              Date == max(Date)) %>%
                     dplyr::rename(fips = countyFIPS, 
                                   abbr = State) %>%
-                    select(fips, Date, Deaths), 
+                    dplyr::select(fips, Date, Deaths), 
                   values = "Deaths") + 
   scale_fill_continuous(low = "blue", high = "red",name = "COVID Deaths", label = scales::comma) + #trans = "log10",
   theme(legend.position = "right") + 
@@ -714,7 +721,7 @@ Top5Counties <- CDC_total %>%
 
 # See top counties.  Mapping them doesn't make sense
 
-knitr::kable(Top5Counties %>% select(Date, abbr,`County Name`, Cases, Deaths) %>% dplyr::rename(State = abbr)) %>%
+knitr::kable(Top5Counties %>% dplyr::select(Date, abbr,`County Name`, Cases, Deaths) %>% dplyr::rename(State = abbr)) %>%
   kable_styling(bootstrap_options = c("striped", "hover"))
 
 ```
@@ -930,7 +937,7 @@ state_election_2016 <- election_2016 %>% group_by(state_po, candidate) %>%
   summarize(votes = sum(candidatevotes,na.rm = T)) %>%
   spread(candidate, votes, fill = NA, convert = FALSE) %>%
   mutate(Winner = ifelse(`Hillary Clinton`>`Donald Trump`,"Dem","Rep")) %>% 
-  rename(State = state_po) %>% select(State, Winner) %>%
+  rename(State = state_po) %>% dplyr::select(State, Winner) %>%
   ungroup()
   
 state_level_potus <- CDC_w_trendline %>% 
@@ -1165,7 +1172,7 @@ merge_CDC <- CDC_w_trendline  %>%
 difference_in_counts <- merge(merge_CDC, merge_covid_tracker, by = c("Date"))
 
 difference_in_counts <- difference_in_counts %>% 
-  select(Date, CDC_total_cases_by_day, CT_total_cases_by_day, 
+  dplyr::select(Date, CDC_total_cases_by_day, CT_total_cases_by_day, 
          CDC_total_deaths_by_day, CT_total_deaths_by_day) %>%
   mutate(case_difference = CDC_total_cases_by_day - CT_total_cases_by_day, 
          death_difference = CDC_total_deaths_by_day - CT_total_deaths_by_day)
