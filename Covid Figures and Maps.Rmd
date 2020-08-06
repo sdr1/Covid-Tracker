@@ -206,6 +206,12 @@ Where I live, in Somerville, MA, as of `r format(max(Somerville_MA$Date), '%B %d
     - `r Somerville_MA %>% filter(Date == max(Date)) %>% select(Fatalities) %>% pull()` Fatalities and
     - `r Somerville_MA %>% filter(Date == max(Date)) %>% select(Recovered) %>% pull()` Recoveries
 
+Where my grandparents live, in Collier County, FL, as of `r format(max(CDC_total$Date), '%B %d, %Y')` there are:
+
+* `r formatC(CDC_total %>% filter(countyFIPS == 12021) %>% mutate(new_cases = Cases - dplyr::lag(Cases)) %>% filter(Date == max(Date)) %>% pull(), format="f", big.mark=",", digits=0)` new cases
+* `r formatC(CDC_total %>% filter(countyFIPS == 12021 & Date %in% (max(Date)-15):max(Date)) %>% mutate(new_cases = Cases - dplyr::lag(Cases))  %>% filter(Date %in% (max(Date)-14):max(Date))  %>% summarize(new_cases = sum(new_cases, na.rm = T)) %>% pull(), format="f", big.mark=",", digits=0)` cases in the last two weeks
+  + For a more detailed report, see <http://ww11.doh.state.fl.us/comm/_partners/covid19_report_archive/state_reports_latest.pdf>
+
 Consequently, in the United States, there are now:   
 
 * `r formatC(CDC_w_trendline %>% ungroup() %>% summarize(sum(new_cases)) %>% pull(), format="f", big.mark=",", digits=0)` total cases  

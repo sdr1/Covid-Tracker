@@ -27,6 +27,12 @@ Where I live, in Somerville, MA, as of August 03, 2020 there are:
     - 37 Fatalities and
     - 1021 Recoveries
 
+Where my grandparents live, in Collier County, FL, as of August 04, 2020 there are:
+
+* 86 new cases
+* 1,963 cases in the last two weeks
+  + For a more detailed report, see <http://ww11.doh.state.fl.us/comm/_partners/covid19_report_archive/state_reports_latest.pdf>
+
 Consequently, in the United States, there are now:   
 
 * 4,732,988 total cases  
