@@ -1,7 +1,7 @@
 ---
 title: "Covid Figures and Maps"
 author: "Steven Rashin"
-date: "August 10, 2020"
+date: "August 26, 2020"
 output: 
   html_document:
     keep_md: yes
@@ -10,41 +10,41 @@ output:
 
 
 ## Headline Numbers 
-As of the latest CDC data release on August 08, 2020 there are:  
+As of the latest CDC data release on August 24, 2020 there are:  
 
-* 53,691 new cases
-  + The state with the most cases is FL with 8,517
-    - The county with the most cases is Los Angeles County in CA with 2,594 new cases 
+* 37,446 new cases
+  + The state with the most cases is CA with 7,825
+    - The county with the most cases is Riverside County in CA with 1,262 new cases 
   + The record number of national cases per day is 80,444 on July 16, 2020
-* 1,003 new deaths
+* 445 new deaths
   +  The record number of deaths per day is 3,153 on April 14, 2020
   
-Where I live, in Somerville, MA, as of August 05, 2020 there are:  
+Where I live, in Somerville, MA, as of August 24, 2020 there are:  
 
-* 5 new cases  
-* 96 cases in the last two weeks  
-  + Out of 1,122 cases overall   
+* 4 new cases  
+* 55 cases in the last two weeks  
+  + Out of 1,193 cases overall   
     - 37 Fatalities and
-    - 1030 Recoveries
+    - 1091 Recoveries
 
-Where my grandparents live, in Collier County, FL, as of August 08, 2020 there are:
+Where my grandparents live, in Collier County, FL, as of August 24, 2020 there are:
 
-* 63 new cases
-* 1,664 cases in the last two weeks
+* 23 new cases
+* 934 cases in the last two weeks
   + For a more detailed report, see <http://ww11.doh.state.fl.us/comm/_partners/covid19_report_archive/state_reports_latest.pdf>
 
 Consequently, in the United States, there are now:   
 
-* 4,957,906 total cases  
-* 160,374 total deaths  
+* 5,690,346 total cases  
+* 175,624 total deaths  
 
 
-Globally, as of the latest WHO data release on August 10, 2020, there are: 
+Globally, as of the latest WHO data release on August 26, 2020, there are: 
 
-* 19,718,030 total cases
-  + 253,409 today
-* 728,013 total deaths
-  + 5,719 today
+* 18,667,145 total cases
+  + 178,930 today
+* 576,609 total deaths
+  + 3,946 today
 
 
 ## Overall Covid Cases In The USA
@@ -85,75 +85,75 @@ Regions are defined as follows: Northeast (CT, ME, MA, NH, RI, VT, NJ, NY, PA), 
  </thead>
 <tbody>
   <tr>
-   <td style="text-align:left;"> August 08, 2020 </td>
+   <td style="text-align:left;"> August 24, 2020 </td>
    <td style="text-align:left;"> Middlesex County </td>
-   <td style="text-align:right;"> 26345 </td>
-   <td style="text-align:right;"> 2002 </td>
-   <td style="text-align:right;"> 91 </td>
-   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 27158 </td>
+   <td style="text-align:right;"> 2053 </td>
+   <td style="text-align:right;"> 102 </td>
+   <td style="text-align:right;"> 10 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> August 01, 2020 </td>
+   <td style="text-align:left;"> August 17, 2020 </td>
    <td style="text-align:left;"> Middlesex County </td>
-   <td style="text-align:right;"> 25801 </td>
-   <td style="text-align:right;"> 1983 </td>
-   <td style="text-align:right;"> 95 </td>
-   <td style="text-align:right;"> 5 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> July 25, 2020 </td>
-   <td style="text-align:left;"> Middlesex County </td>
-   <td style="text-align:right;"> 25250 </td>
-   <td style="text-align:right;"> 1955 </td>
-   <td style="text-align:right;"> 60 </td>
+   <td style="text-align:right;"> 26565 </td>
+   <td style="text-align:right;"> 2006 </td>
+   <td style="text-align:right;"> 0 </td>
    <td style="text-align:right;"> 0 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> August 08, 2020 </td>
+   <td style="text-align:left;"> August 10, 2020 </td>
+   <td style="text-align:left;"> Middlesex County </td>
+   <td style="text-align:right;"> 26470 </td>
+   <td style="text-align:right;"> 2005 </td>
+   <td style="text-align:right;"> 50 </td>
+   <td style="text-align:right;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> August 24, 2020 </td>
    <td style="text-align:left;"> Norfolk County </td>
-   <td style="text-align:right;"> 10601 </td>
-   <td style="text-align:right;"> 997 </td>
-   <td style="text-align:right;"> 47 </td>
+   <td style="text-align:right;"> 10885 </td>
+   <td style="text-align:right;"> 1005 </td>
+   <td style="text-align:right;"> 40 </td>
    <td style="text-align:right;"> 1 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> August 01, 2020 </td>
+   <td style="text-align:left;"> August 17, 2020 </td>
    <td style="text-align:left;"> Norfolk County </td>
-   <td style="text-align:right;"> 10305 </td>
-   <td style="text-align:right;"> 986 </td>
-   <td style="text-align:right;"> 69 </td>
-   <td style="text-align:right;"> 2 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> July 25, 2020 </td>
-   <td style="text-align:left;"> Norfolk County </td>
-   <td style="text-align:right;"> 9934 </td>
-   <td style="text-align:right;"> 976 </td>
-   <td style="text-align:right;"> 39 </td>
+   <td style="text-align:right;"> 10682 </td>
+   <td style="text-align:right;"> 997 </td>
+   <td style="text-align:right;"> 0 </td>
    <td style="text-align:right;"> 0 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> August 08, 2020 </td>
+   <td style="text-align:left;"> August 10, 2020 </td>
+   <td style="text-align:left;"> Norfolk County </td>
+   <td style="text-align:right;"> 10639 </td>
+   <td style="text-align:right;"> 997 </td>
+   <td style="text-align:right;"> 25 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> August 24, 2020 </td>
    <td style="text-align:left;"> Suffolk County </td>
-   <td style="text-align:right;"> 21778 </td>
-   <td style="text-align:right;"> 1073 </td>
-   <td style="text-align:right;"> 61 </td>
+   <td style="text-align:right;"> 22904 </td>
+   <td style="text-align:right;"> 1095 </td>
+   <td style="text-align:right;"> 198 </td>
    <td style="text-align:right;"> 2 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> August 01, 2020 </td>
+   <td style="text-align:left;"> August 17, 2020 </td>
    <td style="text-align:left;"> Suffolk County </td>
-   <td style="text-align:right;"> 21279 </td>
-   <td style="text-align:right;"> 1057 </td>
-   <td style="text-align:right;"> 57 </td>
-   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 22017 </td>
+   <td style="text-align:right;"> 1076 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> July 25, 2020 </td>
+   <td style="text-align:left;"> August 10, 2020 </td>
    <td style="text-align:left;"> Suffolk County </td>
-   <td style="text-align:right;"> 20827 </td>
-   <td style="text-align:right;"> 1046 </td>
-   <td style="text-align:right;"> 34 </td>
+   <td style="text-align:right;"> 21929 </td>
+   <td style="text-align:right;"> 1074 </td>
+   <td style="text-align:right;"> 80 </td>
    <td style="text-align:right;"> 0 </td>
   </tr>
 </tbody>
@@ -192,39 +192,39 @@ This figure shows the number of COVID cases per 1,000.
  </thead>
 <tbody>
   <tr>
-   <td style="text-align:left;"> 2020-08-08 </td>
+   <td style="text-align:left;"> 2020-08-24 </td>
    <td style="text-align:left;"> CA </td>
    <td style="text-align:left;"> Los Angeles County </td>
-   <td style="text-align:right;"> 206761 </td>
-   <td style="text-align:right;"> 4967 </td>
+   <td style="text-align:right;"> 232893 </td>
+   <td style="text-align:right;"> 5558 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> 2020-08-08 </td>
+   <td style="text-align:left;"> 2020-08-24 </td>
    <td style="text-align:left;"> FL </td>
    <td style="text-align:left;"> Miami-Dade County </td>
-   <td style="text-align:right;"> 131217 </td>
-   <td style="text-align:right;"> 1838 </td>
+   <td style="text-align:right;"> 152612 </td>
+   <td style="text-align:right;"> 2253 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> 2020-08-08 </td>
+   <td style="text-align:left;"> 2020-08-24 </td>
    <td style="text-align:left;"> AZ </td>
    <td style="text-align:left;"> Maricopa County </td>
-   <td style="text-align:right;"> 125545 </td>
-   <td style="text-align:right;"> 2347 </td>
+   <td style="text-align:right;"> 131962 </td>
+   <td style="text-align:right;"> 2790 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> 2020-08-08 </td>
+   <td style="text-align:left;"> 2020-08-24 </td>
    <td style="text-align:left;"> IL </td>
    <td style="text-align:left;"> Cook County </td>
-   <td style="text-align:right;"> 110865 </td>
-   <td style="text-align:right;"> 4924 </td>
+   <td style="text-align:right;"> 121877 </td>
+   <td style="text-align:right;"> 5015 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> 2020-08-08 </td>
+   <td style="text-align:left;"> 2020-08-24 </td>
    <td style="text-align:left;"> TX </td>
    <td style="text-align:left;"> Harris County </td>
-   <td style="text-align:right;"> 83183 </td>
-   <td style="text-align:right;"> 1562 </td>
+   <td style="text-align:right;"> 98506 </td>
+   <td style="text-align:right;"> 2030 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 2020-08-01 </td>
